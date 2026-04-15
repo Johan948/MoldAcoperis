@@ -500,6 +500,14 @@ img {
     pointer-events: none;
 }
 
+.hero__picture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+}
+
 .hero__image {
     position: absolute;
     inset: 0;
@@ -4447,10 +4455,15 @@ img {
     }
 
     .homepage .hero {
-        display: block;
-        background:
-            radial-gradient(circle at 76% 0%, rgba(232, 97, 26, 0.26), transparent 36%),
-            linear-gradient(180deg, #121827 0%, #1a2030 42%, #0f1420 100%);
+        min-height: 100svh;
+        display: flex;
+        background: linear-gradient(180deg, #121827 0%, #1a2030 44%, #0f1420 100%);
+    }
+
+    @supports not (height: 100svh) {
+        .homepage .hero {
+            min-height: 100vh;
+        }
     }
 
     .hero__video {
@@ -4466,12 +4479,12 @@ img {
     }
 
     .homepage .hero__image {
-        position: relative;
-        inset: auto;
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
-        height: auto;
-        object-fit: contain;
+        height: 100%;
+        object-fit: cover;
         object-position: center top;
         transform: none;
         z-index: 0;
