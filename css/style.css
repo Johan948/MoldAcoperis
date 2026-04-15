@@ -1640,12 +1640,13 @@ img {
 }
 
 .homepage .hero__brand-block {
-    min-width: min(100%, 520px);
-    gap: 22px;
-    padding: 16px 32px 16px 18px;
-    background: linear-gradient(135deg, rgba(10, 14, 25, 0.66), rgba(10, 14, 25, 0.5));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3);
+    min-width: min(100%, 590px);
+    gap: 26px;
+    padding: 18px 36px 18px 18px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, rgba(8, 12, 22, 0.76), rgba(19, 24, 38, 0.56));
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.34);
 }
 
 .homepage .hero__brand-copy {
@@ -1654,9 +1655,9 @@ img {
 }
 
 .homepage .hero__brand-mark {
-    flex: 0 0 96px;
-    width: 96px;
-    height: 96px;
+    flex: 0 0 128px;
+    width: 128px;
+    height: 92px;
     border-radius: 28px;
 }
 
@@ -1665,11 +1666,19 @@ img {
 }
 
 .homepage .hero__brand-logo {
-    height: 64px;
+    width: 106px;
+    height: auto;
+    max-height: 72px;
 }
 
 .homepage .hero__brand-label {
     color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.11em;
+    line-height: 1.35;
+}
+
+.homepage .hero__brand-label::before {
+    width: 30px;
 }
 
 .homepage .hero__brand-name {
