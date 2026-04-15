@@ -4458,6 +4458,19 @@ img {
         transform-origin: center;
     }
 
+    .homepage .hero__image {
+        inset: 0 auto auto 0;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        object-position: center top;
+        transform: none;
+    }
+
+    .homepage .hero__overlay {
+        background: linear-gradient(180deg, rgba(10, 14, 25, 0.18) 0%, rgba(10, 14, 25, 0.3) 34%, rgba(10, 14, 25, 0.58) 100%);
+    }
+
     .hero__brand-block {
         width: 100%;
         gap: 14px;
