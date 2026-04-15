@@ -714,15 +714,27 @@
         return window.innerWidth <= 768;
     }
 
+    function isRussianPage() {
+        return (document.documentElement.getAttribute('lang') || '').toLowerCase().startsWith('ru');
+    }
+
     function getPanelLabel(section) {
         const panelKey = section?.dataset?.panelKey || '';
-        const labelMap = {
-            shape: 'Forma',
-            dims: 'Volumetrie',
-            material: 'Material',
-            drainage: 'Scurgere',
-            cost: 'Cost'
-        };
+        const labelMap = isRussianPage()
+            ? {
+                shape: 'Форма',
+                dims: 'Размеры',
+                material: 'Материал',
+                drainage: 'Водосток',
+                cost: 'Смета'
+            }
+            : {
+                shape: 'Forma',
+                dims: 'Dimensiuni',
+                material: 'Material',
+                drainage: 'Scurgere',
+                cost: 'Cost'
+            };
 
         return labelMap[panelKey] || panelKey;
     }
@@ -749,14 +761,20 @@
             return;
         }
 
-        // On mobile keep the full configurator visible to avoid hidden/truncated sections.
+        const activeSection = getPanelSection(activeMobilePanelKey) || panelSections[0];
+        activeMobilePanelKey = activeSection?.dataset.panelKey || activeMobilePanelKey;
+
         panelSections.forEach((section) => {
-            section.classList.remove('is-mobile-hidden');
-            setPanelExpanded(section, true);
+            const isActiveSection = section === activeSection;
+            section.classList.toggle('is-mobile-hidden', !isActiveSection);
+            if (isActiveSection) {
+                setPanelExpanded(section, true);
+            }
         });
 
         if (mobileStepperEl) {
-            mobileStepperEl.hidden = true;
+            mobileStepperEl.hidden = false;
+            updateMobileStepperUI();
         }
     }
 
@@ -765,7 +783,7 @@
 
         mobileStepperEl = document.createElement('div');
         mobileStepperEl.className = 'cfg__mobile-steps';
-        mobileStepperEl.setAttribute('aria-label', 'Pași configurator');
+        mobileStepperEl.setAttribute('aria-label', isRussianPage() ? 'Шаги конфигуратора' : 'Pași configurator');
 
         panelSections.forEach((section) => {
             const key = section.dataset.panelKey;

@@ -2290,13 +2290,16 @@ img {
     }
 
     .homepage .cfg__mobile-steps {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        display: flex;
         gap: 8px;
         position: sticky;
         top: 10px;
         z-index: 4;
         padding: 10px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
         border-radius: 18px;
         background: rgba(255, 253, 250, 0.94);
         border: 1px solid rgba(197, 110, 45, 0.12);
@@ -2305,7 +2308,13 @@ img {
         box-shadow: 0 14px 28px rgba(17, 24, 39, 0.08);
     }
 
+    .homepage .cfg__mobile-steps::-webkit-scrollbar {
+        display: none;
+    }
+
     .homepage .cfg__mobile-step {
+        flex: 0 0 auto;
+        min-width: 104px;
         min-height: 42px;
         padding: 9px 10px;
         border-radius: 12px;
@@ -2315,7 +2324,9 @@ img {
         font-size: 0.74rem;
         font-weight: 800;
         letter-spacing: 0.01em;
+        white-space: nowrap;
         text-align: center;
+        scroll-snap-align: start;
         cursor: pointer;
         transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
     }
@@ -2441,7 +2452,7 @@ img {
     }
 
     .homepage .cfg__mobile-steps {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 8px;
     }
 
     .homepage .cfg__intro-card {
