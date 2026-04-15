@@ -726,14 +726,14 @@
                 dims: 'Размеры',
                 material: 'Материал',
                 drainage: 'Водосток',
-                cost: 'Смета'
+                cost: 'Цена'
             }
             : {
-                shape: 'Forma',
+                shape: 'Formă',
                 dims: 'Dimensiuni',
                 material: 'Material',
                 drainage: 'Scurgere',
-                cost: 'Cost'
+                cost: 'Preț'
             };
 
         return labelMap[panelKey] || panelKey;

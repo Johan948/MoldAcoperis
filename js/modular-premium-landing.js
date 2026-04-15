@@ -111,21 +111,10 @@
             if (!modalSummary) return;
 
             const localitate = String(formData.get('localitate') || '').trim();
-            const tipAcoperis = String(formData.get('tip-acoperis') || '').trim();
-            const roofLabelMap = {
-                'doua-pante': 'Casa cu 2 pante',
-                'patru-pante': 'Casa cu 4 pante',
-                'in-l': 'Casa in L',
-                'complex': 'Acoperis complex',
-                'renovare': 'Renovare acoperis vechi'
-            };
 
             const rows = [];
             if (localitate) {
                 rows.push('<span>Localitate: <strong>' + localitate + '</strong></span>');
-            }
-            if (tipAcoperis) {
-                rows.push('<span>Tip acoperis: <strong>' + (roofLabelMap[tipAcoperis] || tipAcoperis) + '</strong></span>');
             }
             rows.push('<span>Interes: <strong>Tigla metalica modulara premium</strong></span>');
 
@@ -146,6 +135,7 @@
 
                 injectLeadSummary(formData);
                 resetModalState();
+                root.classList.add('is-lead-complete');
 
                 if (modal) {
                     openOfferModal();

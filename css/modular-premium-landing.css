@@ -342,8 +342,9 @@ body.product-modular-launch-page {
 .modular-models__media img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 4.2;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+    object-position: center;
 }
 
 .modular-models__eyebrow {
@@ -1023,6 +1024,10 @@ html[lang="ru"] .modular-sticky-cta {
 
     .modular-sticky-cta {
         display: none;
+    }
+
+    .product-modular-launch-page.is-lead-complete .modular-sticky-cta {
+        display: grid;
     }
 }
 
