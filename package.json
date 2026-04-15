@@ -1,0 +1,13 @@
+{
+  "name": "moldacoperis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "audit": "node scripts/site-audit.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

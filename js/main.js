@@ -2363,6 +2363,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatLeadStorageKey = `ma-chat-lead-${isRussianPage ? 'ru' : 'ro'}`;
     const chatGreetingSeenKey = `ma-chat-greeting-${isRussianPage ? 'ru' : 'ro'}`;
     const chatApiEndpoint = String(window.MA_CHAT_API || '/api/chat').trim();
+    const chatHistoryLimit = 16;
+    const chatHistoryTtlMs = 1000 * 60 * 60 * 24 * 14;
+    const chatHistoryMaxStorageChars = 50000;
+    const chatMessageMaxChars = 1200;
 
     function buildFloatingMessengers() {
         if (!document.body || document.querySelector('.floating-messengers')) {
@@ -2618,19 +2622,93 @@ document.addEventListener('DOMContentLoaded', () => {
         function loadMessageHistory() {
             try {
                 const rawHistory = window.localStorage.getItem(chatStorageKey);
-                const parsedHistory = rawHistory ? JSON.parse(rawHistory) : [];
-                return Array.isArray(parsedHistory) ? parsedHistory : [];
+                if (!rawHistory) {
+                    return [];
+                }
+
+                if (rawHistory.length > chatHistoryMaxStorageChars) {
+                    window.localStorage.removeItem(chatStorageKey);
+                    return [];
+                }
+
+                const parsedHistory = JSON.parse(rawHistory);
+                const compactHistory = compactStoredChatHistory(parsedHistory);
+                if (JSON.stringify(compactHistory) !== rawHistory) {
+                    window.localStorage.setItem(chatStorageKey, JSON.stringify(compactHistory));
+                }
+
+                return compactHistory;
             } catch (error) {
+                try {
+                    window.localStorage.removeItem(chatStorageKey);
+                } catch (storageError) {}
                 return [];
             }
         }
 
         function saveMessageHistory() {
             try {
-                window.localStorage.setItem(chatStorageKey, JSON.stringify(messageHistory.slice(-16)));
+                messageHistory = compactStoredChatHistory(messageHistory);
+                window.localStorage.setItem(chatStorageKey, JSON.stringify(messageHistory));
             } catch (error) {
                 // Ignore storage errors.
             }
+        }
+
+        function normalizeStoredChatAction(actionItem) {
+            if (!actionItem) {
+                return null;
+            }
+
+            if (typeof actionItem === 'string') {
+                return actionItem.slice(0, 80);
+            }
+
+            return {
+                label: String(actionItem.label || '').slice(0, 80),
+                action: String(actionItem.action || '').slice(0, 80)
+            };
+        }
+
+        function normalizeStoredChatMessage(message) {
+            if (!message || typeof message !== 'object') {
+                return null;
+            }
+
+            const role = message.role === 'user' ? 'user' : 'bot';
+            const text = String(message.text || '').trim().slice(0, chatMessageMaxChars);
+            if (!text) {
+                return null;
+            }
+
+            const actions = Array.isArray(message.actions)
+                ? message.actions
+                    .slice(0, 4)
+                    .map(normalizeStoredChatAction)
+                    .filter(Boolean)
+                : [];
+
+            return {
+                role,
+                text,
+                actions,
+                savedAt: Number(message.savedAt) || Date.now()
+            };
+        }
+
+        function compactStoredChatHistory(history) {
+            if (!Array.isArray(history)) {
+                return [];
+            }
+
+            const now = Date.now();
+            const cutoff = now - chatHistoryTtlMs;
+
+            return history
+                .map(normalizeStoredChatMessage)
+                .filter(Boolean)
+                .filter((message) => message.savedAt >= cutoff)
+                .slice(-chatHistoryLimit);
         }
 
         function saveLeadFlow() {
