@@ -4459,11 +4459,11 @@ img {
     }
 
     .homepage .hero__image {
-        inset: 0 auto auto 0;
+        inset: 0;
         width: 100%;
-        height: auto;
-        object-fit: contain;
-        object-position: center top;
+        height: 100%;
+        object-fit: cover;
+        object-position: 52% top;
         transform: none;
     }
 
