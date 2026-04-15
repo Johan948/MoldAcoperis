@@ -4447,9 +4447,10 @@ img {
     }
 
     .homepage .hero {
+        display: block;
         background:
-            linear-gradient(180deg, rgba(10, 14, 25, 0.08) 0%, rgba(10, 14, 25, 0.48) 44%, rgba(10, 14, 25, 0.74) 100%),
-            url("../images/tigla-metalica-modulara.png") center top / cover no-repeat;
+            radial-gradient(circle at 76% 0%, rgba(232, 97, 26, 0.26), transparent 36%),
+            linear-gradient(180deg, #121827 0%, #1a2030 42%, #0f1420 100%);
     }
 
     .hero__video {
@@ -4465,16 +4466,19 @@ img {
     }
 
     .homepage .hero__image {
-        inset: 0 auto auto 0;
+        position: relative;
+        inset: auto;
+        display: block;
         width: 100%;
         height: auto;
         object-fit: contain;
         object-position: center top;
         transform: none;
+        z-index: 0;
     }
 
     .homepage .hero__overlay {
-        background: linear-gradient(180deg, rgba(10, 14, 25, 0.18) 0%, rgba(10, 14, 25, 0.3) 34%, rgba(10, 14, 25, 0.58) 100%);
+        background: linear-gradient(180deg, rgba(10, 14, 25, 0.04) 0%, rgba(10, 14, 25, 0.32) 30%, rgba(10, 14, 25, 0.78) 100%);
     }
 
     .hero__brand-block {
