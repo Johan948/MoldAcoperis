@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Pagină tehnică internă pentru simulatorul de referință MoldAcoperis. Nu este destinată indexării în motoarele de căutare.">
+  <title>Configurator 3D pentru case compuse</title>
+  <link rel="canonical" href="https://moldacoperis.md/Simulator_de_referinta/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="panel">
+      <div class="panel__header">
+        <p class="eyebrow">Demo standalone</p>
+        <h1>Configurator 3D pentru case dreptunghiulare, tip L, T si compuse</h1>
+        <p class="lead">
+          Varianta aceasta este gandita sa fie mutata ulterior in website-ul principal.
+          Geometria este parametrizabila, iar camera permite rotire, zoom si pan.
+        </p>
+      </div>
+
+      <div class="control-group">
+        <h2>Tip casa</h2>
+        <label>
+          <span>Configuratie volumetrica</span>
+          <select id="houseType">
+            <option value="rect-gable">Casa dreptunghiulara 2 pante</option>
+            <option value="rect-hip">Casa dreptunghiulara 4 pante</option>
+            <option value="l-shape">Casa tip L</option>
+            <option value="t-shape">Casa tip T</option>
+            <option value="compound">Casa compusa</option>
+          </select>
+        </label>
+        <p class="control-note">
+          Modul compus permite atasarea a pana la doua corpuri secundare pe laturile corpului principal, fara sa desenam manual planul casei.
+        </p>
+      </div>
+
+      <div class="control-group">
+        <h2>Corp principal</h2>
+        <label>
+          <span>Latime corp A</span>
+          <input type="range" id="widthA" min="6" max="20" step="0.5" value="14">
+          <output for="widthA" id="widthAValue">14 m</output>
+        </label>
+        <label>
+          <span>Adancime corp A</span>
+          <input type="range" id="depthA" min="5" max="14" step="0.5" value="8">
+          <output for="depthA" id="depthAValue">8 m</output>
+        </label>
+      </div>
+
+      <div class="control-group" id="secondaryWingGroup">
+        <h2>Corp secundar B</h2>
+        <div id="bodyBCompoundSettings" class="is-hidden">
+          <label class="toggle-field" for="bodyBEnabled">
+            <span>Activeaza corp B</span>
+            <input type="checkbox" id="bodyBEnabled" checked>
+          </label>
+          <label>
+            <span>Pozitie fata de corp principal</span>
+            <select id="bodyBSide">
+              <option value="left">Stanga</option>
+              <option value="right">Dreapta</option>
+              <option value="front">Fata</option>
+              <option value="back">Spate</option>
+            </select>
+          </label>
+          <label>
+            <span>Aliniere pe latura</span>
+            <select id="bodyBAlign">
+              <option value="start">La inceput</option>
+              <option value="center">Centru</option>
+              <option value="end">La capat</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          <span>Latime corp B</span>
+          <input type="range" id="widthB" min="4" max="12" step="0.5" value="7">
+          <output for="widthB" id="widthBValue">7 m</output>
+        </label>
+        <label>
+          <span>Adancime corp B</span>
+          <input type="range" id="depthB" min="9" max="22" step="0.5" value="14">
+          <output for="depthB" id="depthBValue">14 m</output>
+        </label>
+      </div>
+
+      <div class="control-group is-hidden" id="thirdWingGroup">
+        <h2>Corp secundar C</h2>
+        <label class="toggle-field" for="bodyCEnabled">
+          <span>Activeaza corp C</span>
+          <input type="checkbox" id="bodyCEnabled">
+        </label>
+        <label>
+          <span>Pozitie fata de corp principal</span>
+          <select id="bodyCSide">
+            <option value="left">Stanga</option>
+            <option value="right">Dreapta</option>
+            <option value="front">Fata</option>
+            <option value="back">Spate</option>
+          </select>
+        </label>
+        <label>
+          <span>Aliniere pe latura</span>
+          <select id="bodyCAlign">
+            <option value="start">La inceput</option>
+            <option value="center">Centru</option>
+            <option value="end">La capat</option>
+          </select>
+        </label>
+        <label>
+          <span>Latime corp C</span>
+          <input type="range" id="widthC" min="4" max="12" step="0.5" value="6">
+          <output for="widthC" id="widthCValue">6 m</output>
+        </label>
+        <label>
+          <span>Adancime corp C</span>
+          <input type="range" id="depthC" min="4" max="18" step="0.5" value="8">
+          <output for="depthC" id="depthCValue">8 m</output>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <h2>Inaltime si acoperis</h2>
+        <label>
+          <span>Inaltime pereti</span>
+          <input type="range" id="wallHeight" min="2.4" max="4.2" step="0.1" value="3">
+          <output for="wallHeight" id="wallHeightValue">3 m</output>
+        </label>
+        <label>
+          <span>Inaltime coama</span>
+          <input type="range" id="roofHeight" min="1" max="4" step="0.1" value="2">
+          <output for="roofHeight" id="roofHeightValue">2 m</output>
+        </label>
+        <label>
+          <span>Streasina</span>
+          <input type="range" id="eave" min="0.2" max="1.2" step="0.05" value="0.45">
+          <output for="eave" id="eaveValue">0.45 m</output>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <h2>Finisaje</h2>
+        <label>
+          <span>Calitate</span>
+          <select id="roofQuality">
+            <option value="Standart">Standart</option>
+            <option value="Premium">Premium</option>
+            <option value="VIP">VIP</option>
+          </select>
+        </label>
+        <label>
+          <span>Material acoperis</span>
+          <select id="roofMaterial">
+            <option value="bitumen">Sindrila Bituminoasa</option>
+            <option value="metal-tile">Tigla modulara</option>
+            <option value="modular-tile">Tigla metalica</option>
+          </select>
+        </label>
+        <label class="color-field">
+          <span>Culoare pereti</span>
+          <input type="color" id="wallColor" value="#efe1d2">
+        </label>
+        <label class="color-field">
+          <span>Culoare acoperis</span>
+          <input type="color" id="roofColor" value="#8f3d2e">
+        </label>
+        <label class="color-field">
+          <span>Culoare soclu</span>
+          <input type="color" id="baseColor" value="#c2b7ab">
+        </label>
+      </div>
+
+      <div class="control-group">
+        <h2>Sistem de scurgere</h2>
+        <label class="toggle-field" for="drainageEnabled">
+          <span>Include in costul final</span>
+          <input type="checkbox" id="drainageEnabled">
+        </label>
+        <p class="control-note">
+          Optiunea este optionala. Cand este activa, sistemul de scurgere este calculat automat si adaugat in costul total al configuratiei.
+        </p>
+      </div>
+
+      <div class="control-group">
+        <h2>Lucarne</h2>
+        <label>
+          <span>Numar lucarne</span>
+          <select id="lucarneCount">
+            <option value="0">Fara lucarne</option>
+            <option value="1">1 lucarna</option>
+            <option value="2">2 lucarne</option>
+          </select>
+        </label>
+        <p class="control-note">
+          Lucarnele sunt optionale si se adauga direct in geometria acoperisului pentru o lectura mai apropiata de un proiect real.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div>
+          <span>Tip selectat</span>
+          <strong id="houseTypeValue">Casa tip L</strong>
+        </div>
+        <div>
+          <span>Invelitoare selectata</span>
+          <strong id="roofMaterialValue">Sindrila Bituminoasa</strong>
+        </div>
+        <div>
+          <span>Calitate selectata</span>
+          <strong id="roofQualityValue">Standart</strong>
+        </div>
+        <div>
+          <span>Produs asociat</span>
+          <strong id="roofProductValue">Katepal</strong>
+        </div>
+        <div>
+          <span>Suprafata utila simulata</span>
+          <strong id="footprintValue">0 mp</strong>
+        </div>
+        <div>
+          <span>Volum aproximativ</span>
+          <strong id="volumeValue">0 mc</strong>
+        </div>
+        <div>
+          <span>Suprafata acoperis calculata</span>
+          <strong id="roofAreaValue">0 mp</strong>
+        </div>
+      </div>
+
+      <section class="estimate-card" aria-label="Calculator pret acoperis">
+        <div class="estimate-card__header">
+          <p class="eyebrow">Calculator</p>
+          <h2>Pret Estimat Acoperis</h2>
+          <p class="estimate-note">
+            Estimarea calculeaza automat materialul principal, coama si streasina.
+            Liniile fara tarif afiseaza consumurile tehnice deduse din geometrie, iar banda de streasina este calculata la latimea totala de 1.21 m.
+          </p>
+        </div>
+
+        <div class="estimate-card__total">
+          <span>Total estimat</span>
+          <strong id="estimateTotalValue">0.00 lei</strong>
+        </div>
+
+        <div class="estimate-grid">
+          <div>
+            <span>Produs asociat</span>
+            <strong id="estimateProductValue">Katepal</strong>
+          </div>
+          <div>
+            <span>Tarif material</span>
+            <strong id="estimateMaterialRateValue">0.00 lei/mp</strong>
+          </div>
+          <div>
+            <span>Cost material</span>
+            <strong id="estimateMaterialCostValue">0.00 lei</strong>
+          </div>
+          <div>
+            <span>Lungime coama</span>
+            <strong id="estimateRidgeLengthValue">0.00 ml</strong>
+          </div>
+          <div>
+            <span>Cost coama</span>
+            <strong id="estimateRidgeCostValue">0.00 lei</strong>
+          </div>
+          <div>
+            <span>Lungime streasina</span>
+            <strong id="estimateEaveLengthValue">0.00 ml</strong>
+          </div>
+          <div>
+            <span>Suprafata streasina</span>
+            <strong id="estimateEaveAreaValue">0.00 mp</strong>
+          </div>
+          <div>
+            <span>Cost streasina</span>
+            <strong id="estimateEaveCostValue">0.00 lei</strong>
+          </div>
+          <div>
+            <span>Cost accesorii</span>
+            <strong id="estimateAccessoriesCostValue">0.00 lei</strong>
+          </div>
+          <div>
+            <span>Reducere totala</span>
+            <strong id="estimateDiscountValue">0.00 lei</strong>
+          </div>
+        </div>
+
+        <div class="estimate-lines">
+          <h3>Detaliere deviz</h3>
+          <div class="estimate-lines__head">
+            <span>Articol</span>
+            <span>Cantitate</span>
+            <span>P.U.</span>
+            <span>Total</span>
+          </div>
+          <div id="estimateLineItems" class="estimate-lines__body"></div>
+        </div>
+      </section>
+
+      <section class="estimate-card estimate-card--secondary is-inactive" id="drainageCard" aria-label="Calculator sistem scurgere">
+        <div class="estimate-card__header">
+          <p class="eyebrow">Optional</p>
+          <h2>Sistem de Scurgere</h2>
+          <p class="estimate-note" id="drainageNote">
+            Estimarea foloseste reguli standard de montaj si poate fi calibrata ulterior dupa contractele reale.
+          </p>
+        </div>
+
+        <div class="estimate-card__total">
+          <span>Total sistem scurgere</span>
+          <strong id="drainageTotalValue">0.00 lei</strong>
+        </div>
+
+        <div class="estimate-grid">
+          <div>
+            <span>Lungime jgheab</span>
+            <strong id="drainageGutterLengthValue">0.00 ml</strong>
+          </div>
+          <div>
+            <span>Burlane estimate</span>
+            <strong id="drainageDownspoutsValue">0 buc</strong>
+          </div>
+          <div>
+            <span>Colturi exterioare</span>
+            <strong id="drainageExteriorCornersValue">0 buc</strong>
+          </div>
+          <div>
+            <span>Colturi interioare</span>
+            <strong id="drainageInteriorCornersValue">0 buc</strong>
+          </div>
+          <div>
+            <span>Reducere sistem</span>
+            <strong id="drainageDiscountValue">0.00 lei</strong>
+          </div>
+          <div>
+            <span>Total configuratie</span>
+            <strong id="drainageGrandTotalValue">0.00 lei</strong>
+          </div>
+        </div>
+
+        <div class="estimate-lines">
+          <h3>Detaliere scurgere</h3>
+          <div class="estimate-lines__head">
+            <span>Articol</span>
+            <span>Cantitate</span>
+            <span>P.U.</span>
+            <span>Total</span>
+          </div>
+          <div id="drainageLineItems" class="estimate-lines__body"></div>
+        </div>
+      </section>
+    </aside>
+
+    <main class="viewer-wrap">
+      <div class="viewer" id="viewer">
+        <svg id="houseSvg" class="house-svg" viewBox="0 0 880 620" aria-label="Casa 3D in forma de L"></svg>
+      </div>
+      <div class="viewer-hint">
+        Drag / touch: rotire - Pinch / scroll: zoom
+      </div>
+    </main>
+  </div>
+
+  <script src="./roof-calculator.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
