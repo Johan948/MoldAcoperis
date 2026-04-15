@@ -4,6 +4,22 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const ensureViewportFitCover = () => {
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (!viewportMeta) return;
+
+        const rawContent = String(viewportMeta.getAttribute('content') || '').trim();
+        if (/viewport-fit\s*=\s*cover/i.test(rawContent)) return;
+
+        const baseContent = rawContent
+            ? rawContent.replace(/\s*,\s*$/, '')
+            : 'width=device-width, initial-scale=1.0';
+
+        viewportMeta.setAttribute('content', `${baseContent}, viewport-fit=cover`);
+    };
+
+    ensureViewportFitCover();
+
     // Keep the homepage hero background video smooth, but prefer a static hero when the device
     // or connection is likely to struggle with a 67 MB looping background video.
     const setupHeroBackgroundVideo = () => {
@@ -1132,6 +1148,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeMobileMenu();
             }
         });
+
+        window.addEventListener('pageshow', (event) => {
+            if (!event.persisted) return;
+
+            closeMobileMenu();
+            document.body.style.overflow = '';
+
+            document.querySelectorAll('.modal-overlay.active').forEach((overlay) => {
+                overlay.classList.remove('active');
+            });
+        });
     };
 
     initMobileMenuFeature();
@@ -1223,7 +1250,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!target) return;
 
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const isHeaderMenuInteraction = Boolean(anchor.closest('.header__menu, .header__nav, .header__dropdown-menu'));
+        target.scrollIntoView({ behavior: isHeaderMenuInteraction ? 'auto' : 'smooth', block: 'start' });
     });
 
     const scheduleIdleInit = (initFn, timeout = 1200) => {
@@ -1357,12 +1385,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const buildReviewSourceMarkup = (source) => {
         const normalized = String(source || '').toLowerCase();
         if (normalized.includes('facebook')) {
-            return '<i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook Reviews';
+            return '<span class="testimonials__summary-platform"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook Reviews</span></span>';
         }
-        return '<i class="fab fa-google" aria-hidden="true"></i> Google Reviews';
+        return '<span class="testimonials__summary-platform"><i class="fab fa-google" aria-hidden="true"></i><span>Google Reviews</span></span>';
     };
 
-    const mixedReviewsLabelMarkup = '<i class="fab fa-google" aria-hidden="true"></i> Google + <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook Reviews';
+    const mixedReviewsLabelMarkup = '<span class="testimonials__summary-platform"><i class="fab fa-google" aria-hidden="true"></i><span>Google Reviews</span></span><span class="testimonials__summary-separator">+</span><span class="testimonials__summary-platform"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook Reviews</span></span>';
 
     let googleReviewsInitialized = false;
     const initGoogleReviewsSection = () => {
@@ -2251,7 +2279,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const chatText = isRussianPage
         ? {
-            title: 'AI ассистент MoldAcoperis',
+            title: 'Ассистент MoldAcoperis',
             subtitle: 'Отвечает на общие вопросы и помогает быстро отправить заявку.',
             status: 'Сейчас онлайн',
             statusAi: 'AI активен',
@@ -2304,7 +2332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         : {
-            title: 'Asistent AI MoldAcoperis',
+            title: 'Asistent MoldAcoperis',
             subtitle: 'Raspunde instant la intrebari generale si te ajuta sa trimiti o cerere.',
             status: 'Online acum',
             statusAi: 'AI activ',
@@ -2552,7 +2580,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="chat-widget__panel" role="dialog" aria-label="${chatText.title}">
                 <div class="chat-widget__header">
                     <div class="chat-widget__head">
-                        <h3 class="chat-widget__title">${chatText.title}</h3>
+                        <div class="chat-widget__brand">
+                            <span class="chat-widget__brand-icon" aria-hidden="true"><img src="/images/logo-light.png" alt="" loading="lazy" decoding="async"></span>
+                            <h3 class="chat-widget__title">${chatText.title}</h3>
+                        </div>
                         <button type="button" class="chat-widget__close" aria-label="${chatText.closeAria}">
                             <i class="fas fa-times"></i>
                         </button>
@@ -2855,11 +2886,35 @@ document.addEventListener('DOMContentLoaded', () => {
             renderQuickReplies(chatText.quickActions);
         }
 
+        function shouldAutoFocusChatInput() {
+            if (!inputEl) {
+                return false;
+            }
+
+            if (window.innerWidth <= 768) {
+                return false;
+            }
+
+            if (typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches) {
+                return false;
+            }
+
+            return true;
+        }
+
         function openChat() {
             isOpen = true;
             chatRoot.classList.add('is-open');
             document.body.classList.add('chat-open');
-            inputEl.focus();
+
+            if (shouldAutoFocusChatInput()) {
+                try {
+                    inputEl.focus({ preventScroll: true });
+                } catch (error) {
+                    inputEl.focus();
+                }
+            }
+
             scrollMessagesToEnd();
         }
 
@@ -2867,6 +2922,10 @@ document.addEventListener('DOMContentLoaded', () => {
             isOpen = false;
             chatRoot.classList.remove('is-open');
             document.body.classList.remove('chat-open');
+
+            if (document.activeElement === inputEl) {
+                inputEl.blur();
+            }
         }
 
         function markGreetingSeen() {

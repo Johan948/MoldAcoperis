@@ -132,7 +132,8 @@
     let currentShapeComplexity = 1;
     let currentRoofComplexity = 1;
     let currentEaveOverhang = eaveOverhangInput ? (parseFloat(eaveOverhangInput.value) || 0.48) : 0.48;
-    let guidedPanelFlowActive = true;
+    // Keep panel navigation manual to avoid auto-jumps between sections after option clicks.
+    let guidedPanelFlowActive = false;
     let activeMobilePanelKey = 'shape';
     let mobileStepperEl = null;
     const DRAINAGE_PREVIEW_DURATION = 5000;
@@ -395,17 +396,8 @@
         return Math.min(max, Math.max(min, value));
     }
 
-    function replayClass(el, className) {
-        if (!el) return;
-        el.classList.remove(className);
-        void el.offsetWidth;
-        el.classList.add(className);
-    }
-
     function triggerConfiguratorFeedback() {
-        replayClass(wrapEl, 'is-updating');
-        replayClass(costEl, 'is-updating');
-        panelSections.forEach((section) => replayClass(section, 'is-updating'));
+        // Transition feedback disabled per UX request.
     }
 
     function disposeTextureSafe(texture) {
@@ -823,9 +815,7 @@
         collapseSiblingPanels(section);
         setPanelExpanded(section, true);
         updateMobilePanelLayout();
-        if (shouldScroll) {
-            section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        void shouldScroll;
     }
 
     function advanceGuidedPanelFlow(key) {

@@ -1188,17 +1188,8 @@
         queueRender();
     }
 
-    function replayClass(el, className) {
-        if (!el) return;
-        el.classList.remove(className);
-        void el.offsetWidth;
-        el.classList.add(className);
-    }
-
     function triggerConfiguratorFeedback() {
-        replayClass(wrapEl, 'is-updating');
-        replayClass(costEl, 'is-updating');
-        panelSections.forEach((section) => replayClass(section, 'is-updating'));
+        // Transition feedback disabled per UX request.
     }
 
     // ========== COST CALCULATOR ==========
@@ -1219,8 +1210,6 @@
         if (el('cManopera')) el('cManopera').textContent = fmt(pMan) + ' lei';
         if (el('cTotal')) {
             el('cTotal').textContent = fmt(total) + ' lei';
-            el('cTotal').style.transform = 'scale(1.05)';
-            setTimeout(() => { el('cTotal').style.transform = 'scale(1)'; }, 200);
         }
     }
 

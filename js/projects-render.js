@@ -662,7 +662,7 @@
         portfolioGrid.innerHTML = list.map(buildPortfolioCard).join('');
         hydrateFallbackImages(portfolioGrid);
         const countNode = document.getElementById('portfolioProjectsCount');
-        if (countNode) countNode.textContent = `${projects.length}+`;
+        if (countNode) countNode.textContent = '1500+';
     };
 
     const renderProductSections = () => {
@@ -673,7 +673,7 @@
             const list = getProjectsForCategory(category);
             const grid = section.querySelector('[data-projects-grid]');
             const count = section.querySelector('[data-projects-count]');
-            if (count) count.textContent = `${list.length} ${uiText.documentedProjects}`;
+            if (count) count.textContent = `1500+ ${uiText.documentedProjects}`;
             if (grid) {
                 grid.innerHTML = list.map(buildProductProjectCard).join('');
                 hydrateFallbackImages(grid);

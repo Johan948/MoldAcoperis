@@ -1268,7 +1268,9 @@ img {
 .testimonials__summary-badge {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    row-gap: 6px;
     margin-bottom: 16px;
     padding: 8px 14px;
     border-radius: 999px;
@@ -1279,11 +1281,24 @@ img {
     text-transform: uppercase;
 }
 
-.testimonials__summary-badge i {
+.testimonials__summary-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+}
+
+.testimonials__summary-separator {
+    line-height: 1;
+    font-weight: 700;
+    opacity: 0.75;
+}
+
+.testimonials__summary-platform i {
     color: #F5A623;
 }
 
-.testimonials__summary-badge .fa-facebook-f {
+.testimonials__summary-platform .fa-facebook-f {
     color: #8cb4ff;
 }
 
@@ -1623,6 +1638,12 @@ img {
     background: linear-gradient(130deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 248, 242, 0.1) 46%, rgba(255, 216, 195, 0.2) 100%);
 }
 
+.homepage .hero__overlay {
+    background:
+        linear-gradient(110deg, rgba(10, 14, 25, 0.3) 0%, rgba(10, 14, 25, 0.12) 48%, rgba(10, 14, 25, 0.04) 100%),
+        linear-gradient(180deg, rgba(10, 14, 25, 0.02) 0%, rgba(10, 14, 25, 0.52) 100%);
+}
+
 .homepage .hero::before {
     top: -32%;
     right: -10%;
@@ -1871,7 +1892,7 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: none;
 }
 
 .homepage .cfg__panel-toggle:hover {
@@ -1880,7 +1901,7 @@ img {
 }
 
 .homepage .cfg__panel-toggle i {
-    transition: transform 0.2s ease;
+    transition: none;
 }
 
 .homepage .cfg__panel-body {
@@ -2437,7 +2458,7 @@ img {
 
 @media (max-width: 480px) {
     .header__menu {
-        width: 100vw;
+        width: auto;
         border-left: none;
         padding-bottom: max(24px, env(safe-area-inset-bottom));
     }
@@ -4308,6 +4329,30 @@ img {
 }
 
 @media (max-width: 768px) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .cfg__canvas-wrap.is-updating,
+    .cfg__panel-section.is-updating,
+    .cfg__cost.is-updating {
+        animation: none !important;
+    }
+
+    .homepage .cfg__panel-toggle,
+    .homepage .cfg__panel-toggle i,
+    .homepage .cfg__house-type-btn,
+    .homepage .cfg__color-btn,
+    .homepage .cfg-test-reset,
+    .cfg__house-type-btn,
+    .cfg__color-btn,
+    .cfg__area-wrap,
+    .cfg__cost-total strong,
+    .header__menu,
+    .header__menu-backdrop {
+        transition: none !important;
+    }
+
     .header__top-bar {
         display: none;
     }
@@ -4350,6 +4395,7 @@ img {
         right: 12px;
         left: 12px;
         width: auto;
+        max-height: calc(100svh - 94px);
         max-height: calc(100dvh - 94px);
         height: auto;
         background:
@@ -4369,7 +4415,7 @@ img {
         overscroll-behavior: contain;
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
-        transition: transform 0.24s ease, opacity 0.24s ease, visibility 0.24s ease;
+        transition: none;
         z-index: 1710;
     }
 
@@ -4392,7 +4438,7 @@ img {
         pointer-events: none;
         backdrop-filter: blur(3px);
         -webkit-backdrop-filter: blur(3px);
-        transition: opacity 0.22s ease, visibility 0.22s ease;
+        transition: none;
         z-index: 1700;
     }
 
@@ -4660,6 +4706,10 @@ img {
         pointer-events: none;
     }
 
+    .homepage .hero__overlay::after {
+        content: none;
+    }
+
     .hero__qualities {
         gap: 10px;
     }
@@ -4866,6 +4916,46 @@ img {
 
     .project-gallery__grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+    @media (max-width: 480px) {
+        .homepage .hero__brand-block {
+            width: 100%;
+            gap: 12px;
+            padding: 12px 14px 12px 12px;
+            overflow: visible;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        .homepage .hero__brand-mark {
+            flex: 0 0 88px;
+            width: 88px;
+            height: 66px;
+        }
+
+        .homepage .hero__brand-logo {
+            width: 74px;
+            max-height: 50px;
+        }
+
+        .homepage .hero__brand-copy {
+            min-width: 0;
+            overflow: visible;
+        }
+
+        .homepage .hero__brand-name {
+            font-size: clamp(1.36rem, 6vw, 1.58rem);
+            letter-spacing: 0.012em;
+            white-space: nowrap;
+        }
+
+        .homepage .hero__brand-label {
+            font-size: 0.64rem;
+            letter-spacing: 0.055em;
+        }
     }
 }
 
@@ -5133,7 +5223,7 @@ img {
     border: 2px solid transparent;
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: none;
     font-family: var(--font-primary);
     text-align: left;
 }
@@ -5231,7 +5321,7 @@ img {
     border: 2px solid transparent;
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: none;
     font-family: var(--font-primary);
     text-align: left;
 }
@@ -11982,21 +12072,22 @@ body.portfolio-page .portfolio-filters__btn {
     box-shadow: none;
 }
 
-body.portfolio-page .portfolio-filters__btn:hover {
-    border-color: rgba(197, 110, 45, 0.3);
-    color: var(--portfolio-premium-accent-deep);
-    background: rgba(197, 110, 45, 0.1);
+@media (hover: hover) {
+    body.portfolio-page .portfolio-filters__btn:hover {
+        border-color: rgba(197, 110, 45, 0.3);
+        color: var(--portfolio-premium-accent-deep);
+        background: rgba(197, 110, 45, 0.1);
+    }
 }
 
-body.portfolio-page .portfolio-filters__btn--active {
+body.portfolio-page .portfolio-filters__btn.portfolio-filters__btn--active,
+body.portfolio-page .portfolio-filters__btn.portfolio-filters__btn--active:hover,
+body.portfolio-page .portfolio-filters__btn.portfolio-filters__btn--active:focus-visible,
+body.portfolio-page .portfolio-filters__btn.portfolio-filters__btn--active:active {
     background: linear-gradient(145deg, #c56e2d, #df9b62);
     border-color: #c56e2d;
     color: #fffaf5;
     box-shadow: 0 12px 24px rgba(151, 74, 25, 0.18);
-}
-
-body.portfolio-page .portfolio-filters__btn--active:hover {
-    color: #fffaf5;
 }
 
 body.portfolio-page .portfolio-grid {
@@ -13091,6 +13182,34 @@ body.contact-page .cta-banner {
     gap: 12px;
 }
 
+.chat-widget__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.chat-widget__brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: #fffaf5;
+    color: #fffaf5;
+    overflow: hidden;
+}
+
+.chat-widget__brand-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
 .chat-widget__title {
     margin: 0;
     font-size: 0.96rem;
@@ -13151,12 +13270,31 @@ body.contact-page .cta-banner {
 }
 
 .chat-widget__message--bot {
+    position: relative;
+    margin-left: 34px;
+    padding-left: 14px;
     align-self: flex-start;
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(23, 29, 40, 0.08);
     color: #1b2230;
     border-top-left-radius: 8px;
     box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+.chat-widget__message--bot::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fffaf5 url('/images/logo-light.png') center/78% no-repeat;
+    border: 1px solid rgba(197, 110, 45, 0.22);
+    box-shadow: 0 6px 14px rgba(151, 74, 25, 0.12);
 }
 
 .chat-widget__message--typing::after {
@@ -13507,7 +13645,17 @@ body.contact-page .cta-banner {
     .chat-widget__panel {
         width: min(420px, calc(100vw - 28px));
         height: min(76vh, 620px);
+        height: min(76svh, 620px);
         border-radius: 24px;
+    }
+
+    body.chat-open .chat-widget {
+        bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    body.chat-open .chat-widget .chat-widget__panel {
+        height: min(560px, calc(100vh - 108px - env(safe-area-inset-top)));
+        height: min(560px, calc(100svh - 108px - env(safe-area-inset-top)));
     }
 
     .chat-widget__header {
