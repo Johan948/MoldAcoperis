@@ -560,6 +560,36 @@ body.product-modular-launch-page {
     gap: 18px;
 }
 
+.modular-gallery__projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.modular-gallery__project {
+    overflow: hidden;
+    border: 1px solid var(--modular-line);
+    border-radius: 30px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 250, 245, 0.94));
+    box-shadow: 0 22px 58px rgba(17, 24, 39, 0.1);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.modular-gallery__project:hover {
+    transform: translateY(-6px);
+    border-color: rgba(197, 110, 45, 0.24);
+    box-shadow: 0 30px 72px rgba(17, 24, 39, 0.14);
+}
+
+.modular-gallery__project-media {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+    gap: 12px;
+    padding: 12px;
+    min-height: 360px;
+}
+
 .modular-gallery__item {
     overflow: hidden;
     border-radius: 24px;
@@ -578,6 +608,50 @@ body.product-modular-launch-page {
 
 .modular-gallery__item:hover img {
     transform: scale(1.04);
+}
+
+.modular-gallery__project .modular-gallery__item {
+    margin: 0;
+    height: 100%;
+    border-radius: 22px;
+}
+
+.modular-gallery__project .modular-gallery__item img {
+    height: 100%;
+    min-height: 336px;
+    aspect-ratio: auto;
+    object-position: center center;
+}
+
+.modular-gallery__item--main img {
+    object-position: center center;
+}
+
+.modular-gallery__project-copy {
+    padding: 8px 26px 28px;
+}
+
+.modular-gallery__project-copy span {
+    display: inline-flex;
+    margin-bottom: 10px;
+    color: var(--modular-accent-deep);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.modular-gallery__project-copy h3 {
+    margin-bottom: 10px;
+    color: var(--modular-ink);
+    font-size: 1.22rem;
+    line-height: 1.25;
+}
+
+.modular-gallery__project-copy p {
+    color: var(--modular-ink-soft);
+    font-size: 0.94rem;
+    line-height: 1.75;
 }
 
 .modular-faq {
@@ -929,6 +1003,10 @@ html[lang="ru"] .modular-sticky-cta {
     .product-links {
         padding: 80px 0;
     }
+
+    .modular-gallery__projects {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
@@ -970,6 +1048,20 @@ html[lang="ru"] .modular-sticky-cta {
     .product-links__grid,
     .modular-gallery__grid {
         grid-template-columns: 1fr;
+    }
+
+    .modular-gallery__project-media {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .modular-gallery__project .modular-gallery__item img {
+        min-height: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    .modular-gallery__project-copy {
+        padding: 4px 20px 24px;
     }
 
     .modular-benefits__card p,

@@ -175,6 +175,8 @@ function extractReply(data) {
     const text = parts
         .map((part) => typeof part.text === 'string' ? part.text : '')
         .join('\n')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/^\s*[*]\s+/gm, '- ')
         .trim();
 
     return {

@@ -26,7 +26,12 @@ GEMINI_API_KEY=cheia_reala_gemini
 GEMINI_MODEL=gemini-2.5-flash
 MAKE_OFFER_WEBHOOK_URL=https://hook....
 MAKE_API_KEY=optional_daca_webhookul_il_cere
+TELEGRAM_BOT_TOKEN=optional_pentru_trimitere_directa
+TELEGRAM_CHAT_ID=optional_pentru_trimitere_directa
+OFFER_DELIVERY_MODE=make
 ```
+
+Pentru trimitere directa in Telegram, fara Make, seteaza `OFFER_DELIVERY_MODE=telegram` si completeaza `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`.
 
 ## Test rapid dupa deploy
 
@@ -34,6 +39,7 @@ MAKE_API_KEY=optional_daca_webhookul_il_cere
 - Deschide homepage RU.
 - Trimite un mesaj simplu in chat.
 - Trimite o cerere de oferta din configurator sau chat.
+- Verifica raspunsul `/api/offer`: daca `deliveredTo.make=true`, site-ul a predat cererea catre Make; daca mesajul nu apare in Telegram, trebuie verificata maparea din Make.
 - Verifica in consola browserului sa nu existe erori `404` sau `500`.
 
 ## Daca alegem alt hosting

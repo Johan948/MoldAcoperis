@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="color-scheme" content="light only">
     <title>MoldAcoperiș | Acoperișuri, țiglă metalică și montaj</title>
     <meta name="description" content="Acoperiș la cheie, țiglă metalică, țiglă modulară, șindrilă bituminoasă și sisteme de scurgere. Calculator și ofertă orientativă MoldAcoperiș.">
@@ -20,9 +20,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="images/tigla-metalica-modulara.png">
+    <link rel="preload" as="image" href="images/hero-mobile-regime.png" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="images/tigla-metalica-modulara.png" media="(min-width: 769px)">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260423-no-parma-banner">
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -98,39 +99,43 @@
                         <strong class="hero__brand-name">MoldAcoperis</strong>
                     </div>
                 </div>
-                <h1 class="hero__title">Acoperișuri în toată Moldova, <span class="text-accent">de la material la montaj</span></h1>
-                <p class="hero__subtitle">Compară țiglă metalică, țiglă metalică modulară, șindrilă bituminoasă și sisteme de scurgere a apei de pe acoperiș, apoi cere o ofertă pentru acoperiș la cheie.</p>
-                <div class="hero__qualities" aria-label="Calitati brand">
-                    <span class="hero__quality"><i class="fas fa-check"></i> Sigur</span>
-                    <span class="hero__quality"><i class="fas fa-check"></i> Competent</span>
-                    <span class="hero__quality"><i class="fas fa-check"></i> Prompt</span>
-                </div>
-                <div class="hero__actions">
-                    <button type="button" class="btn btn--primary btn--lg js-open-modal">Solicită Ofertă Gratuită</button>
-                    <a href="/#configurator" class="btn btn--outline btn--lg">
-                        <i class="fas fa-calculator"></i> Calculator Preț
-                    </a>
-                    <a href="tel:+37379360360" class="btn btn--outline btn--lg">
-                        <i class="fas fa-phone"></i> Sună Acum
-                    </a>
-                </div>
-                <div class="hero__stats">
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="1500">0</span>+
-                        <span class="hero__stat-label">Proiecte Finalizate</span>
+                <div class="hero__copy">
+                    <h1 class="hero__title">Acoperișuri în toată Moldova, <span class="text-accent">de la material la montaj</span></h1>
+                    <p class="hero__subtitle">Compară țiglă metalică, țiglă metalică modulară, șindrilă bituminoasă și sisteme de scurgere a apei de pe acoperiș, apoi cere o ofertă pentru acoperiș la cheie.</p>
+                    <div class="hero__qualities" aria-label="Calitati brand">
+                        <span class="hero__quality"><i class="fas fa-check"></i> Sigur</span>
+                        <span class="hero__quality"><i class="fas fa-check"></i> Competent</span>
+                        <span class="hero__quality"><i class="fas fa-check"></i> Prompt</span>
                     </div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="14">0</span>+
-                        <span class="hero__stat-label">Ani Experiență</span>
+                </div>
+                <div class="hero__engage">
+                    <div class="hero__actions">
+                        <button type="button" class="btn btn--primary btn--lg js-open-modal">Solicită Ofertă Gratuită</button>
+                        <a href="/#configurator" class="btn btn--outline btn--lg">
+                            <i class="fas fa-calculator"></i> Calculator Preț
+                        </a>
+                        <a href="tel:+37379360360" class="btn btn--outline btn--lg">
+                            <i class="fas fa-phone"></i> Sună Acum
+                        </a>
                     </div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="98">0</span>%
-                        <span class="hero__stat-label">Clienți Mulțumiți</span>
+                    <div class="hero__stats">
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="1500">0</span>+
+                            <span class="hero__stat-label">Proiecte Finalizate</span>
+                        </div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="14">0</span>+
+                            <span class="hero__stat-label">Ani Experiență</span>
+                        </div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="98">0</span>%
+                            <span class="hero__stat-label">Clienți Mulțumiți</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+</section>
 <section class="cfg" id="configurator">
         <div class="container">
             <div class="section-header reveal reveal--scale">
@@ -233,7 +238,7 @@
                                         <span>Latime corp principal</span>
                                         <strong class="cfg-test-dim-value" id="cfgMainWidthValue">8.6 m</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgMainWidth" type="range" min="6" max="12" step="0.1" value="8.6" data-dim-key="mainWidth">
+                                    <input class="cfg-test-dim-range" id="cfgMainWidth" type="range" min="6" max="16" step="0.1" value="8.6" data-dim-key="mainWidth">
                                     <small>Controleaza corpul principal pe axa frontala.</small>
                                 </label>
                                 <label class="cfg-test-dim-field">
@@ -241,7 +246,7 @@
                                         <span>Adancime corp principal</span>
                                         <strong class="cfg-test-dim-value" id="cfgMainDepthValue">5.0 m</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgMainDepth" type="range" min="4" max="8" step="0.1" value="5" data-dim-key="mainDepth">
+                                    <input class="cfg-test-dim-range" id="cfgMainDepth" type="range" min="4" max="12" step="0.1" value="5" data-dim-key="mainDepth">
                                     <small>Defineste cat de compact sau alungit este volumul principal.</small>
                                 </label>
                                 <label class="cfg-test-dim-field" data-wing-field>
@@ -249,7 +254,7 @@
                                         <span>Latime aripa secundara</span>
                                         <strong class="cfg-test-dim-value" id="cfgWingWidthValue">4.2 m</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgWingWidth" type="range" min="2.8" max="6" step="0.1" value="4.2" data-dim-key="wingWidth">
+                                    <input class="cfg-test-dim-range" id="cfgWingWidth" type="range" min="2.8" max="8" step="0.1" value="4.2" data-dim-key="wingWidth">
                                     <small>Disponibil doar pentru formele in L si T.</small>
                                 </label>
                                 <label class="cfg-test-dim-field" data-wing-field>
@@ -257,7 +262,7 @@
                                         <span>Lungime aripa secundara</span>
                                         <strong class="cfg-test-dim-value" id="cfgWingDepthValue">8.2 m</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgWingDepth" type="range" min="5.5" max="11" step="0.1" value="8.2" data-dim-key="wingDepth">
+                                    <input class="cfg-test-dim-range" id="cfgWingDepth" type="range" min="5.5" max="15" step="0.1" value="8.2" data-dim-key="wingDepth">
                                     <small>Controleaza cat de mult se prelungeste volumul secundar.</small>
                                 </label>
                                 <label class="cfg-test-dim-field">
@@ -265,11 +270,14 @@
                                         <span>Streasina acoperisului</span>
                                         <strong class="cfg-test-dim-value" id="cfgEaveOverhangValue">0.48 m</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgEaveOverhang" type="range" min="0.2" max="0.9" step="0.02" value="0.48">
+                                    <input class="cfg-test-dim-range" id="cfgEaveOverhang" type="range" min="0.2" max="1.2" step="0.02" value="0.48">
                                     <small>Controleaza cat depaseste acoperisul peretele exterior.</small>
                                 </label>
                             </div>
                             <p class="cfg-test-dim-note" id="cfgDimsNote">Forma simpla foloseste doar corpul principal. Pentru L si T activam automat aripa secundara si recalculam geometria acoperisului.</p>
+                            <div class="cfg-test-next-wrap">
+                                <button class="cfg-test-next cfg-test-next--footer" id="cfgDimsContinue" type="button">Continuă la material</button>
+                            </div>
                         </div>
                     </div>
 
@@ -384,14 +392,6 @@
             <div class="services__grid">
                 <div class="service-card">
                     <div class="service-card__media">
-                        <img src="/images/products/tigla-metalica.jpg" alt="Țiglă metalică pentru acoperiș" loading="lazy" decoding="async">
-                    </div>
-                    <h3 class="service-card__title">Țiglă Metalică</h3>
-                    <p class="service-card__desc">Țiglă metalică de înaltă calitate, rezistentă la intemperii și cu durată de viață de peste 50 de ani. Disponibilă în diverse culori.</p>
-                    <a href="/produse/tigla-metalica" class="service-card__link">Află mai mult <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-card__media">
                         <img src="/images/products/tigla-metalica-modulara.png" alt="Țiglă metalică modulară" loading="lazy" decoding="async">
                     </div>
                     <h3 class="service-card__title">Țiglă Metalică Modulară</h3>
@@ -405,6 +405,14 @@
                     <h3 class="service-card__title">Șindrilă Bituminoasă</h3>
                     <p class="service-card__desc">Șindrilă bituminoasă flexibilă și rezistentă, perfectă pentru acoperișuri cu pante variate. Izolare fonică excelentă.</p>
                     <a href="/produse/sindrila-bituminoasa" class="service-card__link">Află mai mult <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__media">
+                        <img src="/images/products/tigla-metalica.jpg" alt="Țiglă metalică pentru acoperiș" loading="lazy" decoding="async">
+                    </div>
+                    <h3 class="service-card__title">Țiglă Metalică</h3>
+                    <p class="service-card__desc">Țiglă metalică de înaltă calitate, rezistentă la intemperii și cu durată de viață de peste 50 de ani. Disponibilă în diverse culori.</p>
+                    <a href="/produse/tigla-metalica" class="service-card__link">Află mai mult <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-card__media">
@@ -495,8 +503,7 @@
                 </div>
                 <div class="why-us__image reveal reveal--right">
                     <div class="why-us__image-placeholder">
-                        <i class="fas fa-hard-hat"></i>
-                        <span>Imagine Echipă la Lucru</span>
+                        <img src="images/echipa-moldacoperis-web.jpg" alt="Echipa MoldAcoperiș pregătită pentru proiecte de acoperișuri" class="why-us__photo" width="1800" height="1200" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -685,7 +692,7 @@
 
     <script src="js/projects-data.js" defer></script>
     <script src="js/projects-render.js" defer></script>
-    <script src="js/main.js" defer></script>
+<script src="js/main.js?v=20260419-mobile-hero-safe" defer></script>
     <script
         src="js/configurator-loader.js"
         defer

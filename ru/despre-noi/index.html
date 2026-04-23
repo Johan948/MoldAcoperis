@@ -83,6 +83,7 @@
                 <div class="about-story__content">
                     <span class="section-header__tag">Наша история</span>
                     <h2 class="section-header__title section-header__title--left">Фундамент, построенный на <span class="text-accent">доверии</span></h2>
+                    <div class="about-story__mobile-photo" aria-hidden="true"></div>
                     <p class="about-story__text">Компания MoldAcoperis была основана в 2010 году с ясной целью: предложить жителям Молдовы кровельные услуги высокого уровня по честной цене и с реальной гарантией на каждую работу.</p>
                     <p class="about-story__text">Мы начинали как небольшая команда мастеров, объединённых желанием поднять стандарты в кровельной отрасли. За более чем <strong>15 лет работы</strong> мы последовательно росли, инвестировали в людей, современное оборудование и качественные материалы от ведущих европейских производителей.</p>
                     <p class="about-story__text">Сегодня MoldAcoperis знает вся Молдова: мы реализовали более 1500 проектов в Кишинёве, Бельцах, Оргееве, Кагуле и других городах. Наша миссия осталась неизменной: <strong>защищать дом каждого клиента долговечной, эстетичной и грамотно выполненной кровлей.</strong></p>
@@ -103,8 +104,10 @@
                 </div>
                 <div class="about-story__image">
                     <div class="about-story__image-placeholder">
-                        <i class="fas fa-building"></i>
-                        <span>Команда MoldAcoperis</span>
+                        <picture class="about-story__picture">
+                            <source media="(max-width: 768px)" srcset="../../images/sediul-moldacoperis-web.jpg">
+                            <img src="../../images/sediul-moldacoperis-desktop-web.jpg" alt="Офис MoldAcoperis в Кишиневе" class="about-story__photo" width="1024" height="1536" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 </div>
             </div>
@@ -128,9 +131,9 @@
                 </div>
                 <div class="about-stats__item">
                     <div class="about-stats__icon"><i class="fas fa-users"></i></div>
-                    <span class="about-stats__number" data-count="50">0</span>
+                    <span class="about-stats__number" data-count="17">0</span>
                     <span class="about-stats__suffix">+</span>
-                    <span class="about-stats__label">Профессиональных сотрудников</span>
+                    <span class="about-stats__label">Сотрудников</span>
                 </div>
                 <div class="about-stats__item">
                     <div class="about-stats__icon"><i class="fas fa-smile"></i></div>
@@ -171,6 +174,72 @@
                     <p class="about-values__card-desc">Мы следим за новыми технологиями, чтобы предлагать более эффективные, долговечные и удобные решения для кровли.</p>
                 </article>
             </div>
+        </div>
+    </section>
+
+    <section class="about-team" id="komanda">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-header__tag">Наша команда</span>
+                <h2 class="section-header__title">Структура, которая ведет проект</h2>
+                <p class="section-header__desc">Мы показываем команду через роли и ответственность, которые сопровождают клиента от первой консультации до контроля качества, сохраняя конфиденциальность сотрудников.</p>
+            </div>
+            <div class="about-team__directory" aria-label="Контакты команды MoldAcoperis">
+                <article class="about-team__group about-team__group--wide">
+                    <div class="about-team__group-head">
+                        <span class="about-team__group-icon"><i class="fas fa-clipboard-list"></i></span>
+                        <div>
+                            <h3 class="about-team__group-title">Менеджеры проектов</h3>
+                            <p class="about-team__group-desc">Первый контакт для консультации, предложения и координации проекта.</p>
+                        </div>
+                    </div>
+                    <ul class="about-team__contact-list about-team__contact-list--columns">
+                        <li class="about-team__contact"><span>Petru Delejan</span><a href="tel:079373635">079 373 635</a></li>
+                        <li class="about-team__contact"><span>Țurcan Liviu</span><a href="tel:079363436">079 363 436</a></li>
+                        <li class="about-team__contact"><span>Coroleac Denis</span><a href="tel:079393539">079 393 539</a></li>
+                        <li class="about-team__contact"><span>Bolgari Constantin</span><a href="tel:078383438">078 383 438</a></li>
+                        <li class="about-team__contact"><span>Adrian Ogor</span><a href="tel:079383538">079 383 538</a></li>
+                    </ul>
+                </article>
+                <article class="about-team__group">
+                    <div class="about-team__group-head">
+                        <span class="about-team__group-icon"><i class="fas fa-chart-line"></i></span>
+                        <div>
+                            <h3 class="about-team__group-title">Коммерческий директор</h3>
+                            <p class="about-team__group-desc">Координирует коммерческую политику и работу с предложениями.</p>
+                        </div>
+                    </div>
+                    <ul class="about-team__contact-list">
+                        <li class="about-team__contact"><span>Grigore Jomiru</span><a href="tel:079363836">079 363 836</a></li>
+                    </ul>
+                </article>
+                <article class="about-team__group">
+                    <div class="about-team__group-head">
+                        <span class="about-team__group-icon"><i class="fas fa-ruler-combined"></i></span>
+                        <div>
+                            <h3 class="about-team__group-title">Инженеры-строители</h3>
+                            <p class="about-team__group-desc">Проверяют технические решения и качество выполнения работ.</p>
+                        </div>
+                    </div>
+                    <ul class="about-team__contact-list">
+                        <li class="about-team__contact"><span>Bezerdic Vadim</span><a href="tel:067359518">067 359 518</a></li>
+                        <li class="about-team__contact"><span>AP</span><a href="tel:06338419">063 384 19</a></li>
+                    </ul>
+                </article>
+                <article class="about-team__group">
+                    <div class="about-team__group-head">
+                        <span class="about-team__group-icon"><i class="fas fa-compass"></i></span>
+                        <div>
+                            <h3 class="about-team__group-title">Генеральный директор</h3>
+                            <p class="about-team__group-desc">Отвечает за направление компании и внутренние стандарты.</p>
+                        </div>
+                    </div>
+                    <ul class="about-team__contact-list">
+                        <li class="about-team__contact about-team__contact--name-only"><span>Cozari Victor</span></li>
+                    </ul>
+                </article>
+            </div>
+            <p class="about-team__note">Вместо индивидуальных портретов мы открыто показываем роли и зоны ответственности. Так мы сохраняем доверие клиентов и уважительно относимся к конфиденциальности сотрудников.</p>
         </div>
     </section>
 

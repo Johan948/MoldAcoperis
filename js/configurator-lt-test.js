@@ -16,6 +16,7 @@
     const panelSections = document.querySelectorAll('.cfg__panel-section');
     const costEl = document.querySelector('.cfg__cost');
     const dimsResetBtn = document.getElementById('cfgDimsReset');
+    const dimsContinueBtn = document.getElementById('cfgDimsContinue');
     const dimsNoteEl = document.getElementById('cfgDimsNote');
     const wingFieldEls = document.querySelectorAll('[data-wing-field]');
     const eaveOverhangInput = document.getElementById('cfgEaveOverhang');
@@ -132,10 +133,10 @@
     let currentShapeComplexity = 1;
     let currentRoofComplexity = 1;
     let currentEaveOverhang = eaveOverhangInput ? (parseFloat(eaveOverhangInput.value) || 0.48) : 0.48;
-    // Keep panel navigation manual to avoid auto-jumps between sections after option clicks.
     let guidedPanelFlowActive = false;
     let activeMobilePanelKey = 'shape';
     let mobileStepperEl = null;
+    const DESKTOP_PANEL_TRANSITION_MS = 520;
     const DRAINAGE_PREVIEW_DURATION = 5000;
     const DEFAULT_SCENE_BG = 0xf4f3f1;
     const PREVIEW_SCENE_BG = 0xd7dde2;
@@ -706,6 +707,64 @@
         return window.innerWidth <= 768;
     }
 
+    function isDesktopConfiguratorViewport() {
+        return !isCompactConfiguratorViewport();
+    }
+
+    function enableDesktopGuidedPanelFlow() {
+        guidedPanelFlowActive = isDesktopConfiguratorViewport();
+    }
+
+    function clearDesktopPanelTransition(section) {
+        if (!section) return;
+        section.classList.remove('is-transition-target');
+    }
+
+    function markDesktopPanelTransition(section) {
+        if (!section || !isDesktopConfiguratorViewport()) return;
+
+        panelSections.forEach((item) => {
+            if (item !== section) {
+                item.classList.remove('is-transition-target');
+            }
+        });
+
+        section.classList.remove('is-transition-target');
+        window.requestAnimationFrame(() => {
+            section.classList.add('is-transition-target');
+            window.setTimeout(() => clearDesktopPanelTransition(section), DESKTOP_PANEL_TRANSITION_MS);
+        });
+    }
+
+    function scrollDesktopPanelToSection(section) {
+        if (!section || !panelEl || !isDesktopConfiguratorViewport()) return;
+
+        const targetTop = Math.max(section.offsetTop - panelEl.offsetTop - 12, 0);
+        panelEl.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+        });
+    }
+
+    function clearDimensionAdvance() {
+        const dimsSection = getPanelSection('dims');
+        if (dimsSection) {
+            dimsSection.classList.remove('is-dims-settling');
+        }
+    }
+
+    function markDimensionInteraction() {
+        if (!isDesktopConfiguratorViewport()) return;
+
+        enableDesktopGuidedPanelFlow();
+        clearDimensionAdvance();
+
+        const dimsSection = getPanelSection('dims');
+        if (dimsSection) {
+            dimsSection.classList.add('is-dims-settling');
+        }
+    }
+
     function isRussianPage() {
         return (document.documentElement.getAttribute('lang') || '').toLowerCase().startsWith('ru');
     }
@@ -804,30 +863,50 @@
         });
     }
 
+    function collapseDesktopGuidedPanels(activeSection) {
+        if (!isDesktopConfiguratorViewport()) return;
+        panelSections.forEach((section) => {
+            if (section !== activeSection) {
+                setPanelExpanded(section, false);
+            }
+        });
+    }
+
     function getPanelSection(key) {
         return Array.from(panelSections).find((section) => section.dataset.panelKey === key) || null;
     }
 
-    function openPanel(key, shouldScroll = false) {
+    function openPanel(key, shouldScroll = false, guidedDesktop = false) {
         const section = getPanelSection(key);
         if (!section) return;
         activeMobilePanelKey = key;
-        collapseSiblingPanels(section);
+        if (guidedDesktop) {
+            collapseDesktopGuidedPanels(section);
+        } else {
+            collapseSiblingPanels(section);
+        }
         setPanelExpanded(section, true);
         updateMobilePanelLayout();
-        void shouldScroll;
+
+        if (isDesktopConfiguratorViewport()) {
+            markDesktopPanelTransition(section);
+            if (shouldScroll) {
+                scrollDesktopPanelToSection(section);
+            }
+        }
     }
 
     function advanceGuidedPanelFlow(key) {
-        if (!guidedPanelFlowActive) return;
-        openPanel(key, true);
+        if (!guidedPanelFlowActive || !isDesktopConfiguratorViewport()) return;
+        openPanel(key, true, true);
     }
 
     function completeGuidedPanelFlow(finalKey) {
-        if (guidedPanelFlowActive && finalKey) {
-            openPanel(finalKey, true);
+        if (guidedPanelFlowActive && finalKey && isDesktopConfiguratorViewport()) {
+            openPanel(finalKey, true, true);
         }
         guidedPanelFlowActive = false;
+        clearDimensionAdvance();
     }
 
     function getActiveColorPalette(materialType = currentMaterialType, qualityKey = currentQualityKey) {
@@ -919,6 +998,8 @@
                 triggerConfiguratorFeedback();
                 updatePanelSummaries();
                 updateCost();
+                enableDesktopGuidedPanelFlow();
+                clearDimensionAdvance();
                 advanceGuidedPanelFlow('drainage');
             });
 
@@ -983,13 +1064,13 @@
 
         switch (key) {
         case 'mainWidth':
-            return clamp(numeric, 6, 12);
+            return clamp(numeric, 6, 16);
         case 'mainDepth':
-            return clamp(numeric, 4, 8);
+            return clamp(numeric, 4, 12);
         case 'wingWidth':
-            return clamp(numeric, 2.8, 6);
+            return clamp(numeric, 2.8, 8);
         case 'wingDepth':
-            return clamp(numeric, 5.5, 11);
+            return clamp(numeric, 5.5, 15);
         default:
             return numeric;
         }
@@ -1042,7 +1123,7 @@
     }
 
     function updateEaveControl() {
-        currentEaveOverhang = clamp(currentEaveOverhang, 0.2, 0.9);
+        currentEaveOverhang = clamp(currentEaveOverhang, 0.2, 1.2);
         if (eaveOverhangInput) eaveOverhangInput.value = currentEaveOverhang.toFixed(2);
         if (eaveOverhangValueEl) eaveOverhangValueEl.textContent = formatMeters(currentEaveOverhang);
         updatePanelSummaries();
@@ -4962,6 +5043,10 @@
 
     function onResize() {
         updateMobilePanelLayout();
+        if (!isDesktopConfiguratorViewport()) {
+            guidedPanelFlowActive = false;
+            clearDimensionAdvance();
+        }
 
         if (useFallbackRenderer) {
             drawFallbackHouse();
@@ -4980,6 +5065,7 @@
             const section = btn.closest('.cfg__panel-section');
             if (!section) return;
             const shouldExpand = section.classList.contains('is-collapsed');
+            clearDimensionAdvance();
             if (isCompactConfiguratorViewport() && !shouldExpand) {
                 return;
             }
@@ -4989,6 +5075,8 @@
             setPanelExpanded(section, shouldExpand);
             if (shouldExpand) {
                 activeMobilePanelKey = section.dataset.panelKey || activeMobilePanelKey;
+                markDesktopPanelTransition(section);
+                scrollDesktopPanelToSection(section);
             }
             updateMobilePanelLayout();
         });
@@ -5008,6 +5096,7 @@
 
             updatePanelSummaries();
             refreshGeometry(true);
+            enableDesktopGuidedPanelFlow();
             advanceGuidedPanelFlow('dims');
         });
     });
@@ -5029,6 +5118,8 @@
             triggerConfiguratorFeedback();
             updatePanelSummaries();
             updateCost();
+            enableDesktopGuidedPanelFlow();
+            clearDimensionAdvance();
             advanceGuidedPanelFlow('drainage');
         });
     });
@@ -5038,6 +5129,7 @@
         if (!input) return;
 
         input.addEventListener('input', () => {
+            markDimensionInteraction();
             const dims = getShapeDimensions(currentShapeType);
             dims[key] = clampDimensionValue(key, input.value);
             normalizeShapeDimensions(currentShapeType);
@@ -5045,7 +5137,7 @@
         });
 
         input.addEventListener('change', () => {
-            advanceGuidedPanelFlow('material');
+            clearDimensionAdvance();
         });
     });
 
@@ -5054,17 +5146,31 @@
             shapeDimensionState[currentShapeType] = { ...defaultShapeDimensions[currentShapeType] };
             currentEaveOverhang = 0.48;
             refreshGeometry(true);
+            clearDimensionAdvance();
+        });
+    }
+
+    if (dimsContinueBtn) {
+        dimsContinueBtn.addEventListener('click', () => {
+            clearDimensionAdvance();
+            enableDesktopGuidedPanelFlow();
+            if (isDesktopConfiguratorViewport()) {
+                advanceGuidedPanelFlow('material');
+            } else {
+                openPanel('material', true);
+            }
         });
     }
 
     if (eaveOverhangInput) {
         eaveOverhangInput.addEventListener('input', () => {
-            currentEaveOverhang = clamp(parseFloat(eaveOverhangInput.value) || 0.48, 0.2, 0.9);
+            markDimensionInteraction();
+            currentEaveOverhang = clamp(parseFloat(eaveOverhangInput.value) || 0.48, 0.2, 1.2);
             refreshGeometry(true);
         });
 
         eaveOverhangInput.addEventListener('change', () => {
-            advanceGuidedPanelFlow('material');
+            clearDimensionAdvance();
         });
     }
 
@@ -5076,6 +5182,7 @@
             const plan = getShapePlan(currentShapeType);
             const drainageEstimate = buildDrainageEstimate(plan);
             startDrainagePreview(plan, drainageEstimate);
+            enableDesktopGuidedPanelFlow();
             completeGuidedPanelFlow('cost');
         });
     }

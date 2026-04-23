@@ -20,6 +20,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ensureViewportFitCover();
 
+    const setupMobileViewportGuards = () => {
+        const html = document.documentElement;
+        const userAgent = String(navigator.userAgent || '');
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(userAgent)
+            || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        const isInAppBrowser = /Telegram|FBAN|FBAV|Instagram|Line|MicroMessenger|WhatsApp|Viber/i.test(userAgent)
+            || (isMobile && /wv|WebView/i.test(userAgent));
+
+        html.classList.toggle('is-mobile-viewport', Boolean(isMobile));
+        html.classList.toggle('is-in-app-browser', Boolean(isInAppBrowser));
+
+        const applyViewportHeight = () => {
+            const viewportHeight = Math.round(
+                (window.visualViewport && window.visualViewport.height)
+                || window.innerHeight
+                || html.clientHeight
+                || 0
+            );
+
+            if (viewportHeight > 0) {
+                html.style.setProperty('--ma-viewport-height', `${viewportHeight}px`);
+            }
+        };
+
+        applyViewportHeight();
+        window.addEventListener('resize', applyViewportHeight, { passive: true });
+        window.addEventListener('orientationchange', () => window.setTimeout(applyViewportHeight, 220), { passive: true });
+        window.addEventListener('pageshow', applyViewportHeight, { passive: true });
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', applyViewportHeight, { passive: true });
+            window.visualViewport.addEventListener('scroll', applyViewportHeight, { passive: true });
+        }
+    };
+
+    setupMobileViewportGuards();
+
     // Keep the homepage hero background video smooth, but prefer a static hero when the device
     // or connection is likely to struggle with a 67 MB looping background video.
     const setupHeroBackgroundVideo = () => {
@@ -371,6 +408,13 @@ document.addEventListener('DOMContentLoaded', () => {
         || defaultOfferWebhookEndpoint
         || ''
     ).trim();
+    function isSameOriginEndpoint(endpoint) {
+        try {
+            return new URL(endpoint, window.location.href).origin === window.location.origin;
+        } catch (error) {
+            return true;
+        }
+    }
     const defaultHeaderImage = '/images/products/header/blog_header.jpg';
     const directHeaderImageMap = [
         ['/despre-noi', '/images/products/header/despre_noi_header.jpg'],
@@ -615,6 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { href: '/ru/#configurator', label: 'Калькулятор цены' },
             { href: '/ru/blog', label: 'Блог' },
             { href: '/ru/intrebari-frecvente', label: 'Частые вопросы' },
+                { href: '/ru/informaciya-moldacoperis', label: 'Полезная информация' },
             { href: '/ru/contact', label: 'Контакты' },
             { href: '/ru/politica-confidentialitate', label: 'Политика конфиденциальности' }
         ]
@@ -624,6 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { href: '/#configurator', label: 'Calculator Preț' },
             { href: '/blog', label: 'Blog' },
             { href: '/intrebari-frecvente', label: 'Întrebări Frecvente' },
+                { href: '/informatii-moldacoperis', label: 'Informații utile' },
             { href: '/contact', label: 'Contact' },
             { href: '/politica-confidentialitate', label: 'Politica de Confidențialitate' }
         ];
@@ -661,7 +707,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderHeaderProductLinks = () => {
         return localizedProductLinks.map((item) => {
             const isActive = item.isModular ? isModularPremiumFamilyPage : isActivePath(item.href);
-            return `<li><a href="${item.href}"${isActive ? ' class="active"' : ''}>${item.label}</a></li>`;
+            const modularLabelClass = item.isModular
+                ? `header__dropdown-label header__dropdown-label--tagged${isRussianPage ? ' header__dropdown-label--tagged-ru' : ''}`
+                : 'header__dropdown-label';
+            const modularBadgeClass = item.isModular
+                ? `header__new-badge header__new-badge--dropdown${isRussianPage ? ' header__new-badge--dropdown-ru' : ''}`
+                : 'header__new-badge';
+            const labelContent = item.isModular
+                ? `<span class="${modularLabelClass}">${item.label}<span class="${modularBadgeClass}">Nou</span></span>`
+                : `<span class="${modularLabelClass}">${item.label}</span>`;
+            return `<li><a href="${item.href}"${isActive ? ' class="active"' : ''}>${labelContent}</a></li>`;
         }).join('');
     };
 
@@ -686,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navMenu.innerHTML = `
             ${renderPrimaryNavLink(homeNavItem)}
             <li class="header__dropdown${isActivePath(productsPath) ? ' open' : ''}">
-                <a href="#" class="header__menu-link${isActivePath(productsPath) ? ' active' : ''}" data-dropdown-trigger="products">${isRussianPage ? 'Продукция' : 'Produse'} <i class="fas fa-chevron-down header__dropdown-arrow"></i></a>
+                <a href="#" class="header__menu-link${isActivePath(productsPath) ? ' active' : ''}" data-dropdown-trigger="products"><span class="header__menu-link-main"><span>${isRussianPage ? 'Продукция' : 'Produse'}</span><span class="header__new-badge">NOU</span></span><i class="fas fa-chevron-down header__dropdown-arrow"></i></a>
                 <ul class="header__dropdown-menu">
                     ${renderHeaderProductLinks()}
                 </ul>
@@ -900,8 +955,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (viberLink && socialProfiles.viber) {
                 viberLink.href = socialProfiles.viber;
-                viberLink.target = '_blank';
-                viberLink.rel = 'noopener noreferrer';
+                viberLink.removeAttribute('target');
+                viberLink.removeAttribute('rel');
             }
 
             if (youtubeLink && socialProfiles.youtube) {
@@ -1342,6 +1397,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initProductPageEnhancements = () => {
         if (!isProductPage) return;
+
+        const setupTechnicalDetailsToggles = () => {
+            const labels = isRussianPage
+                ? { open: 'Узнать детали', close: 'Скрыть детали' }
+                : { open: 'Află detaliile', close: 'Ascunde detaliile' };
+            const technicalSelectors = [
+                'table.metal-tile-models__table',
+                'table.corrugated-types__table',
+                '.modular-models__tech',
+                '.drainage-material-card__list',
+                '.product-features__meta'
+            ];
+            const technicalGroupSelector = [
+                '.metal-tile-models__grid',
+                '.corrugated-types__grid',
+                '.modular-models__tech-grid',
+                '.drainage-materials__grid',
+                '.product-features__meta'
+            ].join(',');
+
+            const closeSiblingTechnicalDetails = (details) => {
+                const group = details.closest(technicalGroupSelector);
+                if (!group) return;
+                group.querySelectorAll('.technical-details[open]').forEach((siblingDetails) => {
+                    if (siblingDetails !== details) {
+                        siblingDetails.open = false;
+                    }
+                });
+            };
+
+            document.querySelectorAll(technicalSelectors.join(',')).forEach((element, index) => {
+                if (
+                    element.closest('.technical-details') ||
+                    element.closest('[data-technical-toggle-skip="true"]') ||
+                    element.dataset.technicalToggleReady === '1'
+                ) return;
+
+                const details = document.createElement('details');
+                const summary = document.createElement('summary');
+                const label = document.createElement('span');
+                const icon = document.createElement('i');
+                const isWideBlock = element.matches('.product-features__meta');
+
+                details.className = `technical-details${isWideBlock ? ' technical-details--wide' : ''}`;
+                details.dataset.openLabel = labels.open;
+                details.dataset.closeLabel = labels.close;
+                summary.className = 'technical-details__summary';
+                label.className = 'technical-details__label';
+                label.textContent = labels.open;
+                icon.className = 'fas fa-chevron-down';
+                icon.setAttribute('aria-hidden', 'true');
+                summary.append(label, icon);
+
+                const contentId = `technical-details-${index + 1}`;
+                element.id = element.id || contentId;
+                summary.setAttribute('aria-controls', element.id);
+
+                element.dataset.technicalToggleReady = '1';
+                element.parentNode.insertBefore(details, element);
+                details.append(summary, element);
+                details.addEventListener('toggle', () => {
+                    if (details.open) closeSiblingTechnicalDetails(details);
+                    label.textContent = details.open ? labels.close : labels.open;
+                });
+            });
+        };
+
+        setupTechnicalDetailsToggles();
 
         const relatedProductsAnchor = document.querySelector('.product-projects, .cta-banner, footer.footer, main > section:last-of-type');
         scheduleViewportOrIdleInit(relatedProductsAnchor, buildRelatedProductsSection, {
@@ -2000,6 +2123,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         } catch (error) {
             if (error && error.name === 'AbortError') {
+                throw error;
+            }
+
+            if (isSameOriginEndpoint(offerWebhookEndpoint)) {
                 throw error;
             }
 
@@ -2993,12 +3120,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (/(oferta|pret|costa|cost|price|quote)/.test(normalized)) {
-                return 'price';
+            if (/(solicita oferta|cer oferta|cere oferta|vreau oferta|vreau o oferta|oferta personalizata|trimite oferta|request quote|quote request|запросить предложение|хочу предложение|нужно предложение)/.test(normalized)) {
+                return 'lead_offer';
             }
 
-            if (/(sunati ma|vreau sa ma sune|contact consultant|apel|call me)/.test(normalized)) {
-                return 'lead';
+            if (/(sunati ma|vreau sa ma sune|contact consultant|apel|call me|suna ma|sunati|перезвоните|позвоните|свяжитесь)/.test(normalized)) {
+                return 'lead_call';
+            }
+
+            if (/(pret|costa|cost|price|quote|цена|стоимость|сколько стоит)/.test(normalized)) {
+                return 'price';
             }
 
             return bestMatch;
@@ -3197,7 +3328,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     submittedAt: new Date().toISOString(),
                     lead: {
                         name: leadFlow.data.name,
-                        phone: leadFlow.data.phone
+                        phone: leadFlow.data.phone,
+                        location: leadFlow.data.location || '',
+                        interest: leadFlow.data.roofType || ''
                     },
                     message: [
                         `Motiv: ${leadFlow.reason || chatText.leadReason}`,
@@ -3356,6 +3489,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const normalized = normalizeChatInput(userText);
             const quickIntent = forcedIntent || quickActionMap[normalized] || extractIntent(userText);
+
+            if (!forcedIntent) {
+                const directLeadPayload = extractLeadPayloadFromText(userText);
+                if (directLeadPayload) {
+                    leadFlow = {
+                        step: 'collecting',
+                        reason: getLeadReasonByIntent(quickIntent),
+                        sourceText: userText,
+                        data: directLeadPayload
+                    };
+                    saveLeadFlow();
+                    await submitLeadFromChat();
+                    return;
+                }
+            }
 
             if (forcedIntent && quickIntent && !String(quickIntent).startsWith('lead')) {
                 setActiveTopic(getTopicLabel(quickIntent, userText));

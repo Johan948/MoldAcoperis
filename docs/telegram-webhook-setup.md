@@ -1,100 +1,92 @@
-# Telegram Webhook Setup (oferta)
+# Telegram Offer Setup
 
-Formularul de oferta trimite acum JSON catre un endpoint webhook.
+Formularele si chatul trimit cererile de oferta catre endpointul backend:
 
-## 1) Configureaza endpoint-ul in frontend
+- `/api/offer`
 
-In `js/main.js` exista variabila:
+Frontendul nu trebuie sa contina tokenuri Telegram sau URL-uri private. Endpointul backend citeste variabilele din `.env.local` in dezvoltare sau din setarile de environment ale hostingului in productie.
 
-- `offerWebhookEndpoint`
+## Varianta 1: Make webhook
 
-Poti seta endpoint-ul in doua moduri:
+Configureaza:
 
-1. Global JS (recomandat):
-   - setezi `window.MA_OFFER_WEBHOOK = "https://..."` inainte de `js/main.js`
-2. Meta tag pe pagina:
-   - `<meta name="ma-offer-webhook" content="https://...">`
-
-## 1.1) Configureaza API key-ul Make (x-make-apikey)
-
-Daca webhook-ul Make cere cheia in header, configureaza cheia astfel:
-
-1. Global JS:
-  - setezi `window.MA_MAKE_API_KEY = "CHEIA_TA"` inainte de `js/main.js`
-2. Meta tag pe pagina:
-  - `<meta name="ma-make-apikey" content="CHEIA_TA">`
-
-Aplicatia trimite automat header-ul HTTP:
-
-- `x-make-apikey: CHEIA_TA`
-
-Important:
-
-- Cand API key-ul este activ, endpoint-ul trebuie sa permita CORS pentru request-ul cu header custom.
-- Fallback-ul `no-cors` nu poate trimite `x-make-apikey`.
-
-## 2) Creeaza un webhook simplu (Cloudflare Worker exemplu)
-
-```js
-export default {
-  async fetch(request, env) {
-    if (request.method !== "POST") {
-      return new Response("Method not allowed", { status: 405 });
-    }
-
-    try {
-      const data = await request.json();
-      const lead = data.lead || {};
-      const lines = [
-        "Noua solicitare oferta",
-        `Nume: ${lead.name || "-"}`,
-        `Telefon: ${lead.phone || "-"}`,
-        `Limba: ${data.language || "-"}`,
-        `Pagina: ${data.pageUrl || "-"}`,
-        `Timp: ${data.submittedAt || "-"}`
-      ];
-
-      if (data.estimateSummary) {
-        lines.push(`Estimare: ${data.estimateSummary}`);
-      }
-
-      const text = lines.join("\n");
-
-      const tgUrl = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`;
-      const tgRes = await fetch(tgUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: env.TELEGRAM_CHAT_ID,
-          text
-        })
-      });
-
-      if (!tgRes.ok) {
-        const details = await tgRes.text();
-        return new Response(`Telegram error: ${details}`, { status: 502 });
-      }
-
-      return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      });
-    } catch (err) {
-      return new Response(`Invalid request: ${err.message}`, { status: 400 });
-    }
-  }
-};
+```env
+MAKE_OFFER_WEBHOOK_URL=https://hook...
+MAKE_API_KEY=optional_make_api_key
+OFFER_DELIVERY_MODE=make
 ```
 
-Seteaza secretele in Worker:
+Endpointul trimite catre Make un payload JSON normalizat, inclusiv campuri usor de mapat:
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+```json
+{
+  "source": "site-chatbot",
+  "language": "ro",
+  "leadName": "Ion",
+  "leadPhone": "+373...",
+  "leadEmail": "",
+  "leadLocation": "Chisinau",
+  "leadInterest": "tigla metalica",
+  "messageText": "Mesajul clientului",
+  "estimateSummary": "Rezumat configurator",
+  "telegramText": "Text gata formatat pentru Telegram"
+}
+```
 
-## 3) Test rapid
+In Make, cea mai sigura mapare este sa trimiti direct campul `telegramText` in modulul Telegram `Send a message`.
 
-1. Deschide site-ul
-2. Trimite formularul "Solicita Oferta"
-3. Verifica mesajul in Telegram
+## Varianta 2: Telegram direct
 
-Daca endpoint-ul nu e configurat, site-ul afiseaza eroare in modal.
+Daca vrei sa eliminam dependenta de Make pentru oferta, configureaza:
+
+```env
+TELEGRAM_BOT_TOKEN=tokenul_botului
+TELEGRAM_CHAT_ID=id_chat_sau_grup
+OFFER_DELIVERY_MODE=telegram
+```
+
+In acest mod, `/api/offer` trimite direct mesajul in Telegram si poate returna eroare reala daca Telegram respinge cererea.
+
+## Varianta 3: Make + Telegram direct
+
+Pentru testare sau redundanta:
+
+```env
+MAKE_OFFER_WEBHOOK_URL=https://hook...
+TELEGRAM_BOT_TOKEN=tokenul_botului
+TELEGRAM_CHAT_ID=id_chat_sau_grup
+OFFER_DELIVERY_MODE=both
+```
+
+Atentie: acest mod poate dubla mesajele daca Make trimite deja in Telegram.
+
+## Test local
+
+1. Completeaza `.env.local`.
+2. Porneste site-ul cu:
+
+```bash
+npm run dev
+```
+
+3. Testeaza endpointul:
+
+```bash
+curl -X POST http://localhost:8787/api/offer \
+  -H "Content-Type: application/json" \
+  -d "{\"source\":\"test\",\"lead\":{\"name\":\"Test\",\"phone\":\"+37300000000\"},\"message\":\"Test oferta\"}"
+```
+
+Un raspuns bun arata asa:
+
+```json
+{
+  "ok": true,
+  "deliveredTo": {
+    "make": true,
+    "telegram": false
+  }
+}
+```
+
+Daca `make` este `true`, site-ul a transmis cererea catre Make. Daca mesajul nu apare in Telegram, problema este in scenariul Make sau in maparea modulului Telegram.

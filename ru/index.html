@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="color-scheme" content="light only">
     <title>MoldAcoperis | Кровля, металлочерепица и монтаж</title>
     <meta name="description" content="Металлочерепица, модульная металлочерепица, битумная черепица и водосточные системы. Расчет и ориентировочное предложение по проекту от MoldAcoperis.">
@@ -22,9 +22,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="../images/tigla-metalica-modulara.png">
+    <link rel="preload" as="image" href="../images/hero-mobile-regime.png" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="../images/tigla-metalica-modulara.png" media="(min-width: 769px)">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=20260423-no-parma-banner">
 
     <script type="application/ld+json">
     {
@@ -101,40 +102,43 @@
                         <strong class="hero__brand-name">MoldAcoperis</strong>
                     </div>
                 </div>
-                <h1 class="hero__title">Кровля по всей Молдове, <span class="text-accent">от материала до монтажа</span></h1>
-                <p class="hero__subtitle">Сравните металлочерепицу, модульную металлочерепицу, битумную черепицу и водосточные системы для крыши, затем получите ориентировочное предложение по вашему проекту.</p>
-                <div class="hero__qualities" aria-label="Преимущества бренда">
-                    <span class="hero__quality"><i class="fas fa-check"></i> Надежно</span>
-                    <span class="hero__quality"><i class="fas fa-check"></i> Компетентно</span>
-                    <span class="hero__quality"><i class="fas fa-check"></i> Оперативно</span>
-                </div>
-                <div class="hero__actions">
-                    <button type="button" class="btn btn--primary btn--lg js-open-modal">Получить бесплатное предложение</button>
-                    <a href="/ru/#configurator" class="btn btn--outline btn--lg">
-                        <i class="fas fa-calculator"></i> Калькулятор цены
-                    </a>
-                    <a href="tel:+37379360360" class="btn btn--outline btn--lg">
-                        <i class="fas fa-phone"></i> Позвонить сейчас
-                    </a>
-                </div>
-                <div class="hero__stats">
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="1500">0</span>+
-                        <span class="hero__stat-label">Завершенных проектов</span>
+                <div class="hero__copy">
+                    <h1 class="hero__title">Кровля по всей Молдове, <span class="text-accent">от материала до монтажа</span></h1>
+                    <p class="hero__subtitle">Сравните металлочерепицу, модульную металлочерепицу, битумную черепицу и водосточные системы для крыши, затем получите ориентировочное предложение по вашему проекту.</p>
+                    <div class="hero__qualities" aria-label="Преимущества бренда">
+                        <span class="hero__quality"><i class="fas fa-check"></i> Надежно</span>
+                        <span class="hero__quality"><i class="fas fa-check"></i> Компетентно</span>
+                        <span class="hero__quality"><i class="fas fa-check"></i> Оперативно</span>
                     </div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="14">0</span>+
-                        <span class="hero__stat-label">Лет опыта</span>
+                </div>
+                <div class="hero__engage">
+                    <div class="hero__actions">
+                        <button type="button" class="btn btn--primary btn--lg js-open-modal">Получить бесплатное предложение</button>
+                        <a href="/ru/#configurator" class="btn btn--outline btn--lg">
+                            <i class="fas fa-calculator"></i> Калькулятор цены
+                        </a>
+                        <a href="tel:+37379360360" class="btn btn--outline btn--lg">
+                            <i class="fas fa-phone"></i> Позвонить сейчас
+                        </a>
                     </div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="98">0</span>%
-                        <span class="hero__stat-label">Довольных клиентов</span>
+                    <div class="hero__stats">
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="1500">0</span>+
+                            <span class="hero__stat-label">Завершенных проектов</span>
+                        </div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="14">0</span>+
+                            <span class="hero__stat-label">Лет опыта</span>
+                        </div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number" data-count="98">0</span>%
+                            <span class="hero__stat-label">Довольных клиентов</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="cfg" id="configurator">
         <div class="container">
             <div class="section-header reveal reveal--scale">
@@ -237,7 +241,7 @@
                                         <span>Ширина основного корпуса</span>
                                         <strong class="cfg-test-dim-value" id="cfgMainWidthValue">8.6 м</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgMainWidth" type="range" min="6" max="12" step="0.1" value="8.6" data-dim-key="mainWidth">
+                                    <input class="cfg-test-dim-range" id="cfgMainWidth" type="range" min="6" max="16" step="0.1" value="8.6" data-dim-key="mainWidth">
                                     <small>Управляет основным корпусом по фронтальной оси.</small>
                                 </label>
                                 <label class="cfg-test-dim-field">
@@ -245,7 +249,7 @@
                                         <span>Глубина основного корпуса</span>
                                         <strong class="cfg-test-dim-value" id="cfgMainDepthValue">5.0 м</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgMainDepth" type="range" min="4" max="8" step="0.1" value="5" data-dim-key="mainDepth">
+                                    <input class="cfg-test-dim-range" id="cfgMainDepth" type="range" min="4" max="12" step="0.1" value="5" data-dim-key="mainDepth">
                                     <small>Определяет, насколько компактным или вытянутым будет основной объем.</small>
                                 </label>
                                 <label class="cfg-test-dim-field" data-wing-field>
@@ -253,7 +257,7 @@
                                         <span>Ширина вторичного крыла</span>
                                         <strong class="cfg-test-dim-value" id="cfgWingWidthValue">4.2 м</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgWingWidth" type="range" min="2.8" max="6" step="0.1" value="4.2" data-dim-key="wingWidth">
+                                    <input class="cfg-test-dim-range" id="cfgWingWidth" type="range" min="2.8" max="8" step="0.1" value="4.2" data-dim-key="wingWidth">
                                     <small>Доступно только для форм L и T.</small>
                                 </label>
                                 <label class="cfg-test-dim-field" data-wing-field>
@@ -261,7 +265,7 @@
                                         <span>Длина вторичного крыла</span>
                                         <strong class="cfg-test-dim-value" id="cfgWingDepthValue">8.2 м</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgWingDepth" type="range" min="5.5" max="11" step="0.1" value="8.2" data-dim-key="wingDepth">
+                                    <input class="cfg-test-dim-range" id="cfgWingDepth" type="range" min="5.5" max="15" step="0.1" value="8.2" data-dim-key="wingDepth">
                                     <small>Управляет тем, насколько далеко вытягивается вторичный объем.</small>
                                 </label>
                                 <label class="cfg-test-dim-field">
@@ -269,11 +273,14 @@
                                         <span>Свес крыши</span>
                                         <strong class="cfg-test-dim-value" id="cfgEaveOverhangValue">0.48 м</strong>
                                     </span>
-                                    <input class="cfg-test-dim-range" id="cfgEaveOverhang" type="range" min="0.2" max="0.9" step="0.02" value="0.48">
+                                    <input class="cfg-test-dim-range" id="cfgEaveOverhang" type="range" min="0.2" max="1.2" step="0.02" value="0.48">
                                     <small>Определяет, насколько крыша выходит за внешний периметр стены.</small>
                                 </label>
                             </div>
                             <p class="cfg-test-dim-note" id="cfgDimsNote">Для простой формы используется только основной корпус. Для форм L и T автоматически активируется вторичное крыло и пересчитывается геометрия крыши.</p>
+                            <div class="cfg-test-next-wrap">
+                                <button class="cfg-test-next cfg-test-next--footer" id="cfgDimsContinue" type="button">Далее к материалу</button>
+                            </div>
                         </div>
                     </div>
 
@@ -390,14 +397,6 @@
             <div class="services__grid">
                 <div class="service-card">
                     <div class="service-card__media">
-                        <img src="../images/products/tigla-metalica.jpg" alt="Металлочерепица для кровли" loading="lazy" decoding="async">
-                    </div>
-                    <h3 class="service-card__title">Металлочерепица</h3>
-                    <p class="service-card__desc">Качественная металлочерепица, устойчивая к погодным условиям и рассчитанная на долгий срок службы. Доступна в разных цветах.</p>
-                    <a href="/ru/produse/tigla-metalica" class="service-card__link">Подробнее <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-card__media">
                         <img src="../images/products/tigla-metalica-modulara.png" alt="Модульная металлочерепица" loading="lazy" decoding="async">
                     </div>
                     <h3 class="service-card__title">Модульная металлочерепица</h3>
@@ -411,6 +410,14 @@
                     <h3 class="service-card__title">Битумная черепица</h3>
                     <p class="service-card__desc">Гибкий и долговечный материал для крыш с разным уклоном, с хорошей шумоизоляцией и аккуратным внешним видом.</p>
                     <a href="/ru/produse/sindrila-bituminoasa" class="service-card__link">Подробнее <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-card__media">
+                        <img src="../images/products/tigla-metalica.jpg" alt="Металлочерепица для кровли" loading="lazy" decoding="async">
+                    </div>
+                    <h3 class="service-card__title">Металлочерепица</h3>
+                    <p class="service-card__desc">Качественная металлочерепица, устойчивая к погодным условиям и рассчитанная на долгий срок службы. Доступна в разных цветах.</p>
+                    <a href="/ru/produse/tigla-metalica" class="service-card__link">Подробнее <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-card__media">
@@ -503,8 +510,7 @@
                 </div>
                 <div class="why-us__image reveal reveal--right">
                     <div class="why-us__image-placeholder">
-                        <i class="fas fa-hard-hat"></i>
-                        <span>Команда на объекте</span>
+                        <img src="../images/echipa-moldacoperis-web.jpg" alt="Команда MoldAcoperis для кровельных проектов" class="why-us__photo" width="1800" height="1200" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -693,7 +699,7 @@
     </div>
     <script src="../js/projects-data.js" defer></script>
     <script src="../js/projects-render.js" defer></script>
-    <script src="../js/main.js" defer></script>
+    <script src="../js/main.js?v=20260419-mobile-hero-safe" defer></script>
     <script
         src="../js/configurator-loader.js"
         defer
