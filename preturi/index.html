@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
     <meta name="color-scheme" content="light only">
     <title>Preturi Acoperis Moldova | Calculator si Ghiduri | MoldAcoperis</title>
-    <meta name="description" content="Acceseaza hub-ul de preturi MoldAcoperis: calculator online, pret tigla metalica si costuri de montaj acoperis actualizate pentru Moldova.">
+    <meta name="description" content="Acceseaza hub-ul de preturi MoldAcoperis: calculator online, pret tigla metalica si estimari orientative pentru acoperisuri in Moldova.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://moldacoperis.md/preturi/">
+    <link rel="alternate" hreflang="ro" href="https://moldacoperis.md/preturi/">
+    <link rel="alternate" hreflang="x-default" href="https://moldacoperis.md/preturi/">
 
     <meta property="og:title" content="Preturi Acoperis Moldova | MoldAcoperis">
     <meta property="og:description" content="Calculator cost acoperis, ghiduri de pret si costuri de montaj pentru principalele tipuri de acoperisuri.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://moldacoperis.md/preturi/">
-    <meta property="og:locale" content="ro_RO">
+        <meta property="og:image" content="https://moldacoperis.md/images/tigla-metalica-modulara.jpg">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="MoldAcoperis - acoperișuri în Moldova">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MoldAcoperis">
+    <meta name="twitter:description" content="Acoperișuri, țiglă metalică și montaj în Moldova.">
+    <meta name="twitter:image" content="https://moldacoperis.md/images/tigla-metalica-modulara.jpg">
+<meta property="og:locale" content="ro_RO">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +45,9 @@
         "url": "https://moldacoperis.md/preturi/"
     }
     </script>
+
+    <!-- ============================================ -->
+
 </head>
 <body>
     <header class="header" id="header">
@@ -44,11 +64,27 @@
             <div class="container">
                 <a href="/" class="header__logo"><img src="../images/logo.png" alt="MoldAcoperis" class="header__logo-img" decoding="async" width="1025" height="436"></a>
                 <ul class="header__menu" id="navMenu">
-                    <li><a href="/" class="header__menu-link">Acasa</a></li>
-                    <li><a href="/servicii" class="header__menu-link">Servicii</a></li>
-                    <li><a href="/produse/tigla-metalica" class="header__menu-link">Produse</a></li>
-                    <li><a href="/preturi" class="header__menu-link active">Preturi</a></li>
+                    <li><a href="/" class="header__menu-link">Acasă</a></li>
+                    <li class="header__dropdown">
+                        <a href="/produse/tigla-metalica" class="header__menu-link" data-dropdown-trigger="products">
+                            <span class="header__menu-link-main">
+                                <span>Produse</span>
+                                <span class="header__new-badge">NOU</span>
+                            </span>
+                            <i class="fas fa-chevron-down header__dropdown-arrow"></i>
+                        </a>
+                        <ul class="header__dropdown-menu">
+                            <li><a href="/produse/tigla-metalica/">Țiglă Metalică</a></li>
+                            <li><a href="/produse/tigla-metalica-modulara-premium/">Țiglă Metalică Modulară</a></li>
+                            <li><a href="/produse/sindrila-bituminoasa/">Șindrilă Bituminoasă</a></li>
+                            <li><a href="/produse/tabla-cutata/">Tablă Cutată</a></li>
+                            <li><a href="/produse/sistem-de-scurgere/">Sistem de Scurgere</a></li>
+                            <li><a href="/produse/accesorii-acoperis/">Accesorii Acoperiș</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/portofoliu" class="header__menu-link">Portofoliu</a></li>
+                    <li><a href="/despre-noi" class="header__menu-link">Despre Noi</a></li>
+                    <li><a href="/blog" class="header__menu-link">Blog</a></li>
                     <li><a href="/contact" class="header__menu-link">Contact</a></li>
                 </ul>
                 <a href="/contact" class="btn btn--primary header__cta">Solicita Oferta</a>
@@ -90,7 +126,7 @@
                 <article class="service-card">
                     <div class="service-card__icon"><i class="fas fa-calculator"></i></div>
                     <h3 class="service-card__title">Calculator Acoperis</h3>
-                    <p class="service-card__desc">Instrument rapid pentru estimarea costului total, inclusiv material si manopera.</p>
+                    <p class="service-card__desc">Instrument rapid pentru estimarea costului total, in functie de material, accesorii si complexitatea proiectului.</p>
                     <a href="/#configurator" class="service-card__link">Deschide calculatorul <i class="fas fa-arrow-right"></i></a>
                 </article>
                 <article class="service-card">
@@ -100,10 +136,10 @@
                     <a href="/preturi/tigla-metalica-pret" class="service-card__link">Vezi preturile <i class="fas fa-arrow-right"></i></a>
                 </article>
                 <article class="service-card">
-                    <div class="service-card__icon"><i class="fas fa-hard-hat"></i></div>
-                    <h3 class="service-card__title">Pret Montaj Acoperis</h3>
-                    <p class="service-card__desc">Costuri de manopera pentru montaj, in functie de complexitate si tip de material.</p>
-                    <a href="/preturi/montaj-acoperis-pret" class="service-card__link">Vezi costurile <i class="fas fa-arrow-right"></i></a>
+                    <div class="service-card__icon"><i class="fas fa-file-signature"></i></div>
+                    <h3 class="service-card__title">Oferta Personalizata</h3>
+                    <p class="service-card__desc">Trimite suprafata, localitatea si cateva poze pentru o estimare adaptata proiectului tau.</p>
+                    <a href="/contact" class="service-card__link">Cere oferta <i class="fas fa-arrow-right"></i></a>
                 </article>
             </div>
         </div>
@@ -127,7 +163,7 @@
         <div class="container">
             <div class="footer__grid">
                 <div class="footer__col"><img src="../images/logo.png" alt="MoldAcoperis" class="footer__logo" decoding="async" width="1025" height="436"><p class="footer__about">Hub de preturi pentru materialele si serviciile principale oferite de MoldAcoperis.</p></div>
-                <div class="footer__col"><h4 class="footer__heading">Preturi</h4><ul class="footer__links"><li><a href="/#configurator">Calculator Acoperis</a></li><li><a href="/preturi/tigla-metalica-pret">Pret Tigla Metalica</a></li><li><a href="/preturi/montaj-acoperis-pret">Pret Montaj Acoperis</a></li></ul></div>
+                <div class="footer__col"><h4 class="footer__heading">Preturi</h4><ul class="footer__links"><li><a href="/#configurator">Calculator Acoperis</a></li><li><a href="/preturi/tigla-metalica-pret">Pret Tigla Metalica</a></li><li><a href="/contact">Oferta Personalizata</a></li></ul></div>
                 <div class="footer__col"><h4 class="footer__heading">Linkuri Utile</h4><ul class="footer__links"><li><a href="/produse/tigla-metalica">Produse</a></li><li><a href="/servicii">Servicii</a></li><li><a href="/portofoliu">Portofoliu</a></li><li><a href="/contact">Contact</a></li></ul></div>
                 <div class="footer__col"><h4 class="footer__heading">Contact</h4><ul class="footer__contact"><li><a href="tel:+37379360360"><i class="fas fa-phone"></i> +373 79 360 360</a></li><li><a href="mailto:moldacoperis@gmail.com"><i class="fas fa-envelope"></i> moldacoperis@gmail.com</a></li></ul></div>
             </div>
@@ -140,5 +176,4 @@
     <script src="../js/main.js?v=20260423b" defer></script>
 </body>
 </html>
-
 

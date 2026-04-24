@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
     <meta name="color-scheme" content="light only">
     <title>Servicii Acoperisuri Moldova | MoldAcoperis</title>
     <meta name="description" content="Servicii complete de acoperisuri in Moldova: montaj, reparatii, inlocuire, izolatie, jgheaburi. Echipa profesionista, materiale certificate, garantie.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://moldacoperis.md/servicii/">
+    <link rel="alternate" hreflang="ro" href="https://moldacoperis.md/servicii/">
+    <link rel="alternate" hreflang="x-default" href="https://moldacoperis.md/servicii/">
 
     <meta property="og:title" content="Servicii Acoperisuri Moldova | MoldAcoperis">
     <meta property="og:description" content="Servicii complete de acoperisuri in Moldova: montaj, reparatii, inlocuire, izolatie, jgheaburi.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://moldacoperis.md/servicii/">
-    <meta property="og:locale" content="ro_RO">
+        <meta property="og:image" content="https://moldacoperis.md/images/tigla-metalica-modulara.jpg">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="MoldAcoperis - acoperișuri în Moldova">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MoldAcoperis">
+    <meta name="twitter:description" content="Acoperișuri, țiglă metalică și montaj în Moldova.">
+    <meta name="twitter:image" content="https://moldacoperis.md/images/tigla-metalica-modulara.jpg">
+<meta property="og:locale" content="ro_RO">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +53,7 @@
             "@type": "OfferCatalog",
             "name": "Servicii Acoperisuri",
             "itemListElement": [
-                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Montaj Acoperis"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Acoperis complet"}},
                 {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reparatie Acoperis"}},
                 {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Inlocuire Acoperis"}},
                 {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Izolatie Acoperis"}},
@@ -45,6 +62,9 @@
         }
     }
     </script>
+
+    <!-- ============================================ -->
+
 </head>
 <body>
 
@@ -67,8 +87,24 @@
             <div class="container">
                 <a href="/" class="header__logo"><img src="../images/logo.png" alt="MoldAcoperis" class="header__logo-img" decoding="async" width="1025" height="436"></a>
                 <ul class="header__menu" id="navMenu">
-                    <li><a href="/" class="header__menu-link">Acasa</a></li>
-                    <li><a href="/servicii" class="header__menu-link active">Servicii</a></li>
+                    <li><a href="/" class="header__menu-link">Acasă</a></li>
+                    <li class="header__dropdown">
+                        <a href="/produse/tigla-metalica" class="header__menu-link" data-dropdown-trigger="products">
+                            <span class="header__menu-link-main">
+                                <span>Produse</span>
+                                <span class="header__new-badge">NOU</span>
+                            </span>
+                            <i class="fas fa-chevron-down header__dropdown-arrow"></i>
+                        </a>
+                        <ul class="header__dropdown-menu">
+                            <li><a href="/produse/tigla-metalica/">Țiglă Metalică</a></li>
+                            <li><a href="/produse/tigla-metalica-modulara-premium/">Țiglă Metalică Modulară</a></li>
+                            <li><a href="/produse/sindrila-bituminoasa/">Șindrilă Bituminoasă</a></li>
+                            <li><a href="/produse/tabla-cutata/">Tablă Cutată</a></li>
+                            <li><a href="/produse/sistem-de-scurgere/">Sistem de Scurgere</a></li>
+                            <li><a href="/produse/accesorii-acoperis/">Accesorii Acoperiș</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/portofoliu" class="header__menu-link">Portofoliu</a></li>
                     <li><a href="/despre-noi" class="header__menu-link">Despre Noi</a></li>
                     <li><a href="/blog" class="header__menu-link">Blog</a></li>
@@ -107,14 +143,14 @@
                     <div class="service-card__icon">
                         <i class="fas fa-hard-hat"></i>
                     </div>
-                    <h2 class="service-card__title">Montaj Acoperis</h2>
-                    <p class="service-card__desc">Montaj profesional de acoperisuri cu tigla metalica, sindrila bituminoasa sau tabla. Echipa experimentata, garantie pe lucrari.</p>
+                    <h2 class="service-card__title">Acoperis Complet</h2>
+                    <p class="service-card__desc">Solutie completa pentru acoperisul casei: recomandare de material, accesorii compatibile, drenaj si oferta adaptata proiectului.</p>
                     <ul class="service-card__features" style="list-style:none;padding:0;margin:16px 0;display:flex;flex-direction:column;gap:6px;font-size:0.85rem;color:var(--color-gray-600);">
-                        <li><i class="fas fa-check" style="color:var(--color-orange);margin-right:8px;font-size:0.75rem;"></i> Montaj tigla metalica</li>
-                        <li><i class="fas fa-check" style="color:var(--color-orange);margin-right:8px;font-size:0.75rem;"></i> Montaj sindrila bituminoasa</li>
+                        <li><i class="fas fa-check" style="color:var(--color-orange);margin-right:8px;font-size:0.75rem;"></i> Tigla metalica si modulara</li>
+                        <li><i class="fas fa-check" style="color:var(--color-orange);margin-right:8px;font-size:0.75rem;"></i> Sindrila bituminoasa</li>
                         <li><i class="fas fa-check" style="color:var(--color-orange);margin-right:8px;font-size:0.75rem;"></i> Sistem complet de drenaj</li>
                     </ul>
-                    <a href="/contact" class="btn btn--primary" style="margin-top:auto;">Detalii <i class="fas fa-arrow-right" style="margin-left:6px;font-size:0.8rem;"></i></a>
+                    <a href="/contact" class="btn btn--primary" style="margin-top:auto;">Cere recomandare <i class="fas fa-arrow-right" style="margin-left:6px;font-size:0.8rem;"></i></a>
                 </article>
 
                 <article class="service-card">
@@ -307,7 +343,6 @@
     <script src="../js/main.js?v=20260423b" defer></script>
 </body>
 </html>
-
 
 
 

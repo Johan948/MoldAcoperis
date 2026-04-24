@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
     <meta name="color-scheme" content="light only">
     <title>О компании MoldAcoperis | кровля и монтаж</title>
     <meta name="description" content="История, команда и стандарты MoldAcoperis: более 14 лет опыта в кровельных проектах, понятный процесс и реальные гарантии.">
@@ -13,7 +20,11 @@
     <meta property="og:description" content="История, ценности и команда MoldAcoperis за каждым качественным кровельным проектом.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://moldacoperis.md/ru/despre-noi/">
-    <meta property="og:locale" content="ru_RU">
+        <meta property="og:image" content="https://moldacoperis.md/images/echipa-moldacoperis-web.jpg">
+    <meta property="og:image:alt" content="MoldAcoperis">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://moldacoperis.md/images/echipa-moldacoperis-web.jpg">
+<meta property="og:locale" content="ru_RU">
     <link rel="alternate" hreflang="ro" href="https://moldacoperis.md/despre-noi/">
     <link rel="alternate" hreflang="ru" href="https://moldacoperis.md/ru/despre-noi/">
     <link rel="alternate" hreflang="x-default" href="https://moldacoperis.md/despre-noi/">
@@ -33,6 +44,9 @@
         "url": "https://moldacoperis.md/ru/despre-noi/"
     }
     </script>
+
+    <!-- ============================================ -->
+
 </head>
 <body class="about-page">
 
@@ -46,7 +60,30 @@
         <nav class="header__nav">
             <div class="container">
                 <a href="/ru/" class="header__logo"><img src="../../images/logo.png" alt="MoldAcoperis" class="header__logo-img" width="1025" height="436" decoding="async"></a>
-                <ul class="header__menu" id="navMenu"></ul>
+                <ul class="header__menu" id="navMenu">
+                    <li><a href="/ru/" class="header__menu-link">Домой</a></li>
+                    <li class="header__dropdown">
+                        <a href="/ru/produse/tigla-metalica" class="header__menu-link" data-dropdown-trigger="products">
+                            <span class="header__menu-link-main">
+                                <span>Продукция</span>
+                                <span class="header__new-badge">NOU</span>
+                            </span>
+                            <i class="fas fa-chevron-down header__dropdown-arrow"></i>
+                        </a>
+                        <ul class="header__dropdown-menu">
+                            <li><a href="/ru/produse/tigla-metalica/">Металлочерепица</a></li>
+                            <li><a href="/ru/produse/tigla-metalica-modulara/">Модульная металлочерепица</a></li>
+                            <li><a href="/ru/produse/sindrila-bituminoasa/">Битумная черепица</a></li>
+                            <li><a href="/ru/produse/tabla-cutata/">Профнастил</a></li>
+                            <li><a href="/ru/produse/sistem-de-scurgere/">Водосточные системы</a></li>
+                            <li><a href="/ru/produse/accesorii-acoperis/">Аксессуары для кровли</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/ru/portofoliu" class="header__menu-link">Портфолио</a></li>
+                    <li><a href="/ru/despre-noi" class="header__menu-link">О нас</a></li>
+                    <li><a href="/ru/blog" class="header__menu-link">Блог</a></li>
+                    <li><a href="/ru/contact" class="header__menu-link">Контакты</a></li>
+                </ul>
                 <button class="header__burger" id="burgerBtn" aria-label="Открыть меню"><span></span><span></span><span></span></button>
             </div>
         </nav>

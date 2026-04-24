@@ -145,7 +145,7 @@
 
     const roofReferenceSources = {
         'metal-modular': 'images/products/tigla_modualra/Elegant Voestalpine 0,53 7016.jpg',
-        'bitumen-shingle': 'images/products/sindrila_bituminoasa/sindrila_bituminoasa_cambridge_xtreme.png'
+        'bitumen-shingle': 'images/products/sindrila_bituminoasa/sindrila_bituminoasa_cambridge_xtreme.jpg'
     };
 
     const qualityColorPalettes = {

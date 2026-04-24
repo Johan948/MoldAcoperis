@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 href: `${modularRuPath}/`,
                 navLabel: 'Модульная металлочерепица',
                 title: 'Модульная металлочерепица',
-                image: '/images/tigla-metalica-modulara.png',
+                image: '/images/tigla-metalica-modulara.jpg',
                 icon: 'fas fa-th-large',
                 desc: 'Удобна на сложной геометрии и снижает отходы при монтаже.',
                 isModular: true
@@ -587,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 href: `${modularPremiumPath}/`,
                 navLabel: 'Țiglă Metalică Modulară',
                 title: 'Tigla Metalica Modulara',
-                image: '/images/tigla-metalica-modulara.png',
+                image: '/images/tigla-metalica-modulara.jpg',
                 icon: 'fas fa-th-large',
                 desc: 'Ideala pentru geometrii complexe, cu montaj rapid si deseuri reduse.',
                 isModular: true
@@ -2407,19 +2407,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatText = isRussianPage
         ? {
             title: 'Ассистент MoldAcoperis',
-            subtitle: 'Отвечает на общие вопросы и помогает быстро отправить заявку.',
+            subtitle: 'Помогает выбрать кровельную систему и быстро отправить заявку.',
             status: 'Сейчас онлайн',
             statusAi: 'AI активен',
             statusFallback: 'Автоответ',
             statusOffline: 'AI недоступен',
             toggleLabel: 'Спросите нас о кровле',
             inputPlaceholder: 'Напишите ваш вопрос...',
-            intro: 'Здравствуйте! Я виртуальный ассистент MoldAcoperis.\nМогу подсказать по продукции, монтажу, ремонту, гарантиям и помочь быстро отправить заявку.',
+            intro: 'Здравствуйте! Я виртуальный ассистент MoldAcoperis.\nПомогу выбрать кровельный материал, водосток, аксессуары и передать заявку консультанту.',
             quickLabel: 'Можно начать с:',
             quickActions: [
                 { label: 'Цена и предложение', action: 'price' },
                 { label: 'Модульная металлочерепица', action: 'modular' },
-                { label: 'Монтаж кровли', action: 'install' },
+                { label: 'Кровля под ключ', action: 'install' },
                 { label: 'Пусть мне позвонят', action: 'lead_call' }
             ],
             askName: 'Конечно. Чтобы передать заявку дальше, напишите ваше имя.',
@@ -2432,7 +2432,7 @@ document.addEventListener('DOMContentLoaded', () => {
             leadSuccess: 'Заявка зарегистрирована. Консультант MoldAcoperis свяжется с вами в ближайшее время.',
             leadError: 'Сейчас не удалось отправить заявку. Попробуйте еще раз или позвоните напрямую по номеру +373 79 360 360.',
             leadFormInvalid: 'Отправьте все данные одним сообщением: имя, телефон, населенный пункт и тип кровли или нужный продукт.',
-            fallback: 'Я могу помочь с информацией о продукции, ориентировочных ценах, монтаже, ремонте, гарантии и доставке. Если хотите, я сразу оформлю заявку на предложение.',
+            fallback: 'Я могу помочь с выбором материала, водостока, аксессуаров, ориентировочной оценкой и заявкой на персональное предложение.',
             note: 'Вы получите быстрые ориентировочные ответы, а для точного предложения запрос будет передан консультанту MoldAcoperis.',
             sendAria: 'Отправить сообщение',
             closeAria: 'Закрыть чат',
@@ -2444,13 +2444,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Показать продукты', action: 'products' }
             ],
             answers: {
-                price: 'Цена зависит от типа покрытия, толщины металла, защитного слоя, площади, сложности кровли и комплекта аксессуаров. Если хотите, я могу принять данные для персонального предложения.',
+                price: 'Цена зависит от покрытия, толщины, площади, формы крыши, аксессуаров, водостока и населенного пункта. Калькулятор дает только ориентир; для точной оценки лучше передать данные консультанту.',
                 modular: 'Модульная металлочерепица позиционируется как современное, премиальное и практичное решение: быстрый монтаж, компактная транспортировка, меньше отходов и более простая замена модулей. Кроме того, доступны 2 эксклюзивные формы.',
                 metal: 'Металлочерепица остается одним из самых популярных решений для новых домов и замены старой кровли: сбалансированный внешний вид, малый вес, быстрый монтаж и широкий выбор покрытий и цветов.',
                 shingle: 'Битумная черепица особенно подходит для крыш со сложной геометрией, когда важны гибкость материала, аккуратные детали и ровный внешний вид.',
                 drainage: 'Водосточная система защищает фасад, фундамент и пространство вокруг дома. Мы можем быстро подсказать подходящий размер и материал в зависимости от дома и площади кровли.',
                 accessories: 'Правильные аксессуары важны для герметичности, вентиляции, конька, ендовы и финишных узлов. Обычно мы рекомендуем совместимую полную систему, а не выбор только по цене.',
-                install: 'Для монтажа важна вся система: основание, пленки, вентиляция, аксессуары и качественное исполнение. Мы можем обсудить как полный монтаж, так и частичную реконструкцию.',
+                install: 'Для надежной крыши важна вся система: основание, пленки, вентиляция, аксессуары, водосток и корректное исполнение. Лучше рассматривать проект как полное решение, а не отдельную операцию.',
                 repair: 'Для ремонта важно понять, есть ли протечки, деформированные листы, ослабленные саморезы, проблемы с коньком, ендовами или водостоком. При желании я могу сразу оформить заявку для связи с командой.',
                 warranty: 'Долговечность и гарантия зависят от материала, толщины, защитного покрытия и правильного монтажа. Именно поэтому мы рекомендуем полное решение, а не выбор только по самой низкой цене.',
                 area: 'MoldAcoperis работает в Кишиневе и по всей Молдове. Если скажете населенный пункт, я добавлю его сразу в заявку.',
@@ -2460,20 +2460,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         : {
             title: 'Asistent MoldAcoperis',
-            subtitle: 'Raspunde instant la intrebari generale si te ajuta sa trimiti o cerere.',
+            subtitle: 'Te ajuta sa alegi sistemul potrivit si sa trimiti rapid o cerere.',
             status: 'Online acum',
             statusAi: 'AI activ',
             statusFallback: 'Răspuns automat',
             statusOffline: 'AI indisponibil',
             toggleLabel: 'Intreaba-ne despre acoperis',
             inputPlaceholder: 'Scrie intrebarea ta...',
-            intro: 'Salut! Sunt asistentul virtual MoldAcoperis.\nIti pot raspunde despre produse, montaj, reparatii, garantii si te pot ajuta sa trimiti rapid o cerere.',
-            welcomeTyped: 'Salut! Sunt aici ca sa te ajut rapid cu acoperisul tau. Ma poti intreba despre pret, garantie, montaj sau poti sa-mi spui direct ce produs te intereseaza.',
+            intro: 'Salut! Sunt asistentul virtual MoldAcoperis.\nTe pot ajuta sa alegi materialul, sistemul de scurgere, accesoriile si sa transmiti rapid o cerere.',
+            welcomeTyped: 'Salut! Sunt aici ca sa te ajut rapid cu acoperisul tau. Ma poti intreba despre pret, garantie, produse sau poti sa-mi spui direct ce sistem te intereseaza.',
             quickLabel: 'Poti incepe cu:',
             quickActions: [
                 { label: 'Pret si oferta', action: 'price' },
                 { label: 'Tigla metalica modulara', action: 'modular' },
-                { label: 'Montaj acoperis', action: 'install' },
+                { label: 'Acoperis complet', action: 'install' },
                 { label: 'Vreau sa ma sune cineva', action: 'lead_call' }
             ],
             askName: 'Sigur. Ca sa trimitem cererea mai departe, spune-mi numele tau.',
@@ -2487,7 +2487,7 @@ document.addEventListener('DOMContentLoaded', () => {
             leadSuccess: 'Cererea a fost inregistrata. Un consultant MoldAcoperis te va contacta in cel mai scurt timp.',
             leadError: 'Nu am reusit sa trimit cererea acum. Poti incerca din nou sau suna direct la +373 79 360 360.',
             leadFormInvalid: 'Trimite-mi toate datele intr-un singur mesaj: nume, telefon, localitate si tipul acoperisului sau produsul dorit.',
-            fallback: 'Pot sa te ajut cu informatii despre produse, preturi orientative, montaj, reparatii, garantie si livrare. Daca vrei, pot sa preiau direct o cerere de oferta.',
+            fallback: 'Pot sa te ajut cu produse, preturi orientative, sisteme complete, reparatii, garantie si livrare. Daca vrei, pot sa preiau direct o cerere de oferta.',
             note: 'Primesti raspunsuri rapide si orientative, iar pentru o oferta exacta solicitarea este transmisa unui consultant MoldAcoperis.',
             sendAria: 'Trimite mesaj',
             closeAria: 'Inchide chatul',
@@ -2499,15 +2499,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Vezi produsele', action: 'products' }
             ],
             answers: {
-                price: 'Pretul depinde de tipul de invelitoare, grosime, acoperire, suprafata, complexitatea acoperisului si accesoriile incluse. Daca vrei, iti pot prelua datele pentru o oferta personalizata.',
-                modular: 'Tigla metalica modulara este promovata ca o solutie moderna, premium si practica: montaj rapid, transport compact, pierderi mai mici si inlocuire mai usoara a modulelor. In plus, aveti si 2 forme exclusive fata de oferta obisnuita din piata locala.',
+                price: 'Pretul depinde de invelitoare, grosime, acoperire, suprafata, forma acoperisului, accesorii, sistemul de scurgere si localitate. Calculatorul ofera doar o estimare orientativa; pentru un pret corect este nevoie de oferta personalizata.',
+                modular: 'Tigla metalica modulara este o solutie moderna, premium si practica: transport compact, manipulare usoara, pierderi mai mici si inlocuire mai simpla a modulelor. Este foarte potrivita pentru case noi si acoperisuri mai complexe.',
                 metal: 'Tigla metalica este una dintre cele mai cautate optiuni pentru case noi si renovari: aspect echilibrat, greutate redusa, montaj eficient si multe optiuni de finisaj si culoare.',
                 shingle: 'Sindrila bituminoasa este potrivita mai ales pentru acoperisuri cu forme mai complexe, unde ai nevoie de flexibilitate, un aspect uniform si o buna adaptare la detalii.',
                 drainage: 'Sistemul de scurgere protejeaza fatada, fundatia si zonele de langa casa. Putem recomanda rapid dimensiunea si materialul potrivit in functie de casa si suprafata acoperisului.',
                 accessories: 'Accesoriile corecte fac diferenta la etansare, ventilare, coama, dolie si finisaje. De regula le recomandam impreuna cu sistemul complet, nu separat, ca sa eviti incompatibilitatile.',
-                install: 'Pentru montaj, cel mai important este sistemul complet: astereala sau suportul corect, folii, ventilare, accesorii si executie buna. Putem discuta atat montaj complet, cat si renovari partiale.',
+                install: 'Pentru un acoperis durabil conteaza sistemul complet: suport corect, folii, ventilare, accesorii, drenaj si executie buna. Cel mai sigur este sa pornim de la proiect si sa pregatim o oferta personalizata.',
                 repair: 'Pentru reparatii, cel mai bine este sa stim daca ai infiltratii, tabla deformata, suruburi slabite, probleme la coama, dolii sau sistemul de scurgere. Daca vrei, pot prelua cererea si te contacteaza echipa.',
-                warranty: 'Durabilitatea si garantia depind de material, grosime, stratul de protectie si de montajul corect. Tocmai de aceea recomandam solutia completa, nu doar alegerea unei table dupa pret.',
+                warranty: 'Durabilitatea si garantia depind de material, grosime, stratul de protectie, compatibilitatea accesoriilor si executia corecta. Tocmai de aceea recomandam solutia completa, nu doar alegerea dupa cel mai mic pret.',
                 area: 'MoldAcoperis lucreaza in Chisinau si in toata Moldova. Daca imi spui localitatea, o includ direct in cererea ta.',
                 contact: 'Ne poti contacta direct la +373 79 360 360 sau pe email la moldacoperis@gmail.com. Daca vrei, pot sa transmit chiar acum o cerere si sa fii sunat.',
                 calculator: 'Aveti deja si configurator/calculator pe site pentru o estimare orientativa. Daca ai un proiect concret, iti recomand sa ceri si o oferta personalizata, pentru ca pretul final depinde de mai multi factori.'
@@ -2593,7 +2593,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const quickActionMap = {
             'pret si oferta': 'price',
             'tigla metalica modulara': 'modular',
-            'montaj acoperis': 'install',
+            'acoperis complet': 'install',
             'vreau sa ma sune cineva': 'lead_call',
             'solicita oferta': 'lead_offer',
             'sunati-ma': 'lead_call',
@@ -2651,12 +2651,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return isRussianPage
                 ? [
                     createAction('Запросить предложение', 'lead_offer'),
-                    createAction('Монтаж кровли', 'install'),
+                    createAction('Кровля под ключ', 'install'),
                     createAction('Контакты', 'contact')
                 ]
                 : [
                     createAction('Solicita oferta', 'lead_offer'),
-                    createAction('Montaj acoperis', 'install'),
+                    createAction('Acoperis complet', 'install'),
                     createAction('Contact', 'contact')
                 ];
         }
@@ -2665,11 +2665,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return isRussianPage
                 ? [
                     createAction('Запросить предложение', 'price'),
-                    createAction('Монтаж кровли', 'install')
+                    createAction('Кровля под ключ', 'install')
                 ]
                 : [
                     createAction('Pret si oferta', 'price'),
-                    createAction('Montaj acoperis', 'install')
+                    createAction('Acoperis complet', 'install')
                 ];
         }
 
@@ -3210,7 +3210,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 products: isRussianPage ? 'produse pentru acoperis' : 'produse pentru acoperis',
                 drainage: isRussianPage ? 'sistem de scurgere' : 'sistem de scurgere',
                 accessories: isRussianPage ? 'accesorii acoperis' : 'accesorii acoperis',
-                install: isRussianPage ? 'montaj acoperis' : 'montaj acoperis',
+                install: isRussianPage ? 'krovlya pod klyuch' : 'acoperis complet',
                 repair: isRussianPage ? 'reparatii acoperis' : 'reparatii acoperis',
                 warranty: isRussianPage ? 'garantie acoperis' : 'garantie acoperis',
                 contact: isRussianPage ? 'contact MoldAcoperis' : 'contact MoldAcoperis',
