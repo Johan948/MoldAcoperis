@@ -2413,6 +2413,9 @@ document.addEventListener('DOMContentLoaded', () => {
             statusFallback: 'Автоответ',
             statusOffline: 'AI недоступен',
             toggleLabel: 'Спросите нас о кровле',
+            teaserText: 'Это AI-ассистент MoldAcoperis. Он поможет быстро выбрать кровельную систему и отправить заявку консультанту.',
+            teaserCta: 'Попробовать сейчас',
+            teaserCloseAria: 'Закрыть сообщение ассистента',
             inputPlaceholder: 'Напишите ваш вопрос...',
             intro: 'Здравствуйте! Я виртуальный ассистент MoldAcoperis.\nПомогу выбрать кровельный материал, водосток, аксессуары и передать заявку консультанту.',
             quickLabel: 'Можно начать с:',
@@ -2466,6 +2469,9 @@ document.addEventListener('DOMContentLoaded', () => {
             statusFallback: 'Răspuns automat',
             statusOffline: 'AI indisponibil',
             toggleLabel: 'Intreaba-ne despre acoperis',
+            teaserText: 'Acesta este asistentul AI MoldAcoperis. Te ajută să alegi rapid sistemul potrivit și să trimiți o cerere către echipă.',
+            teaserCta: 'Încearcă acum',
+            teaserCloseAria: 'Închide mesajul asistentului',
             inputPlaceholder: 'Scrie intrebarea ta...',
             intro: 'Salut! Sunt asistentul virtual MoldAcoperis.\nTe pot ajuta sa alegi materialul, sistemul de scurgere, accesoriile si sa transmiti rapid o cerere.',
             welcomeTyped: 'Salut! Sunt aici ca sa te ajut rapid cu acoperisul tau. Ma poti intreba despre pret, garantie, produse sau poti sa-mi spui direct ce sistem te intereseaza.',
@@ -2517,6 +2523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatStorageKey = `ma-chat-history-${isRussianPage ? 'ru' : 'ro'}`;
     const chatLeadStorageKey = `ma-chat-lead-${isRussianPage ? 'ru' : 'ro'}`;
     const chatGreetingSeenKey = `ma-chat-greeting-${isRussianPage ? 'ru' : 'ro'}`;
+    const chatTeaserDismissedKey = `ma-chat-teaser-dismissed-${isRussianPage ? 'ru' : 'ro'}`;
     const chatApiEndpoint = String(window.MA_CHAT_API || '/api/chat').trim();
     const chatHistoryLimit = 16;
     const chatHistoryTtlMs = 1000 * 60 * 60 * 24 * 14;
@@ -2730,6 +2737,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             </div>
+            <div class="chat-widget__teaser" aria-hidden="true">
+                <button type="button" class="chat-widget__teaser-close" aria-label="${chatText.teaserCloseAria}">
+                    <i class="fas fa-times"></i>
+                </button>
+                <p>${chatText.teaserText}</p>
+                <button type="button" class="chat-widget__teaser-cta">${chatText.teaserCta}</button>
+            </div>
             <button type="button" class="chat-widget__toggle" aria-label="${chatText.openAria}">
                 <span class="chat-widget__toggle-label">${chatText.toggleLabel}</span>
                 <span class="chat-widget__toggle-badge">AI</span>
@@ -2746,6 +2760,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const formEl = chatRoot.querySelector('.chat-widget__form');
         const inputEl = chatRoot.querySelector('.chat-widget__input');
         const statusTextEl = chatRoot.querySelector('.chat-widget__status span:last-child');
+        const teaserEl = chatRoot.querySelector('.chat-widget__teaser');
+        const teaserCloseButton = chatRoot.querySelector('.chat-widget__teaser-close');
+        const teaserCtaButton = chatRoot.querySelector('.chat-widget__teaser-cta');
 
         let leadFlow = null;
         let messageHistory = loadMessageHistory();
@@ -2753,6 +2770,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let aiMode = 'unknown';
         let activeTopic = '';
         let isWelcomeTyping = false;
+        let teaserDelayId = 0;
 
         function setChatMode(mode) {
             aiMode = mode;
@@ -3029,8 +3047,61 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
         }
 
+        function hasDismissedChatTeaser() {
+            try {
+                return window.sessionStorage.getItem(chatTeaserDismissedKey) === '1';
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function markChatTeaserDismissed() {
+            try {
+                window.sessionStorage.setItem(chatTeaserDismissedKey, '1');
+            } catch (error) {
+                // Ignore session storage issues.
+            }
+        }
+
+        function hideChatTeaser(rememberChoice) {
+            if (teaserDelayId) {
+                window.clearTimeout(teaserDelayId);
+                teaserDelayId = 0;
+            }
+
+            chatRoot.classList.remove('has-teaser');
+
+            if (teaserEl) {
+                teaserEl.setAttribute('aria-hidden', 'true');
+            }
+
+            if (rememberChoice) {
+                markChatTeaserDismissed();
+            }
+        }
+
+        function showChatTeaser() {
+            teaserDelayId = 0;
+
+            if (!teaserEl || isOpen || messageHistory.length || leadFlow || hasDismissedChatTeaser()) {
+                return;
+            }
+
+            teaserEl.setAttribute('aria-hidden', 'false');
+            chatRoot.classList.add('has-teaser');
+        }
+
+        function scheduleChatTeaser() {
+            if (!teaserEl || messageHistory.length || leadFlow || hasDismissedChatTeaser()) {
+                return;
+            }
+
+            teaserDelayId = window.setTimeout(showChatTeaser, 5200);
+        }
+
         function openChat() {
             isOpen = true;
+            hideChatTeaser(true);
             chatRoot.classList.add('is-open');
             document.body.classList.add('chat-open');
 
@@ -3564,6 +3635,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        teaserCloseButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            hideChatTeaser(true);
+        });
+
+        teaserCtaButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            openChat();
+            ensureInitialChatContent();
+        });
+
         closeButton.addEventListener('click', closeChat);
 
         chatRoot.addEventListener('click', (event) => {
@@ -3598,6 +3680,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 addMessage('bot', chatText.askLeadCompact);
             }
             openChat();
+        } else {
+            scheduleChatTeaser();
         }
     }
 
