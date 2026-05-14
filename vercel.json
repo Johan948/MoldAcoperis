@@ -2,6 +2,178 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/krysha_metallocherepica_model_kaskad_tipala",
+      "destination": "/ru/portofoliu/proiecte/tipala-kaskad",
+      "permanent": true
+    },
+    {
+      "source": "/page33340848.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/metallocerepitsa",
+      "destination": "/ru/produse/tigla-metalica",
+      "permanent": true
+    },
+    {
+      "source": "/tigla-metalica-modulara",
+      "destination": "/produse/tigla-metalica-modulara-premium",
+      "permanent": true
+    },
+    {
+      "source": "/tigla-metalica",
+      "destination": "/produse/tigla-metalica",
+      "permanent": true
+    },
+    {
+      "source": "/sindrila-bituminoasa",
+      "destination": "/produse/sindrila-bituminoasa",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_tigla_metalica_arctica_gaureni_ialoveni",
+      "destination": "/portofoliu/proiecte/gaureni-arktica",
+      "permanent": true
+    },
+    {
+      "source": "/lucrari",
+      "destination": "/portofoliu",
+      "permanent": true
+    },
+    {
+      "source": "/krysha_metalocerepitsa_monterey_ketrosu_novye_aneny",
+      "destination": "/ru/portofoliu/proiecte/chetrosu-monterey-bordo",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_kaskad_cruzesti_chisinau",
+      "destination": "/portofoliu/proiecte/cruzesti-kaskad",
+      "permanent": true
+    },
+    {
+      "source": "/contacte",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/sistem-de-scurgere",
+      "destination": "/produse/sistem-de-scurgere",
+      "permanent": true
+    },
+    {
+      "source": "/test-ro-vechi",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/krysha_metallocherepica_model_banga_cojusna_straseni",
+      "destination": "/ru/portofoliu/proiecte/cojusna-banga",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_modulara_panorama_bacioi_chisinau",
+      "destination": "/portofoliu/proiecte/bacioi-panorama",
+      "permanent": true
+    },
+    {
+      "source": "/rechizite",
+      "destination": "/informatii-moldacoperis",
+      "permanent": true
+    },
+    {
+      "source": "/messenger",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_tipala_ialoveni",
+      "destination": "/portofoliu/proiecte/tipala-kasskad",
+      "permanent": true
+    },
+    {
+      "source": "/bitumnaia_cerepitsa",
+      "destination": "/ru/produse/sindrila-bituminoasa",
+      "permanent": true
+    },
+    {
+      "source": "/profnastil",
+      "destination": "/ru/produse/tabla-cutata",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_sindrila_bituminoasa_ruflex_stefan_voda",
+      "destination": "/portofoliu/proiecte/stefan-voda-ruflex-katrili",
+      "permanent": true
+    },
+    {
+      "source": "/politica",
+      "destination": "/politica-confidentialitate",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_capriana",
+      "destination": "/portofoliu/proiecte/capriana-arktica",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_nordica_cojusna_straseni",
+      "destination": "/portofoliu/proiecte/cojusna-nordica",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_floreni_anenii_noi",
+      "destination": "/portofoliu/proiecte/floreni-arctica",
+      "permanent": true
+    },
+    {
+      "source": "/krysha_metallocherepica_model_nordica_cojusna_straseni",
+      "destination": "/ru/portofoliu/proiecte/cojusna-nordica",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_tigla_metalica_monterey_vmat_chetrosu_aneniinoi",
+      "destination": "/portofoliu/proiecte/chetrosu-monterey-mat",
+      "permanent": true
+    },
+    {
+      "source": "/accesorii-acoperis",
+      "destination": "/produse/accesorii-acoperis",
+      "permanent": true
+    },
+    {
+      "source": "/krysha_metallocherepica_moduli_panorama_bacioi",
+      "destination": "/ru/portofoliu/proiecte/bacioi-panorama",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_valencia_causeni",
+      "destination": "/portofoliu/proiecte/causeni-valencia",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_monterey_dobrusa_aneniinoi",
+      "destination": "/portofoliu/proiecte/dobrusa-monterey",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_tilgla_metalica_edinet_ruseni",
+      "destination": "/portofoliu/proiecte/ruseni-arktica-negru",
+      "permanent": true
+    },
+    {
+      "source": "/acoperis_la_cheie_tigla_metalica_monterey_chisinau",
+      "destination": "/portofoliu/proiecte/chisinau-monterey-cogalniceanu",
+      "permanent": true
+    },
+    {
+      "source": "/krysha_metallocerepitsa_monterey_cricovo_chisinev",
+      "destination": "/ru/portofoliu/proiecte/cricova-monterey",
+      "permanent": true
+    }
+  ],
   "functions": {
     "api/*.js": {
       "maxDuration": 20

@@ -40,7 +40,7 @@
     <link rel="preload" as="image" href="../images/hero-mobile-regime.jpg" media="(max-width: 768px)">
     <link rel="preload" as="image" href="../images/tigla-metalica-modulara.jpg" media="(min-width: 769px)">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css?v=20260429a">
+    <link rel="stylesheet" href="../css/style.css?v=20260512m">
 
     <script type="application/ld+json">
     {
@@ -149,19 +149,10 @@
         <div class="hero__overlay"></div>
         <div class="container">
             <div class="hero__content">
-                <div class="hero__brand-block" aria-label="Бренд MoldAcoperis">
-                    <div class="hero__brand-mark">
-                        <img src="../images/logo.png" alt="Логотип MoldAcoperis" class="hero__brand-logo" width="1025" height="436" decoding="async">
-                    </div>
-                    <div class="hero__brand-copy">
-                        <span class="hero__brand-label">Надежный бренд в сфере кровли</span>
-                        <strong class="hero__brand-name">MoldAcoperis</strong>
-                    </div>
-                </div>
                 <div class="hero__copy">
                     <h1 class="hero__title">Кровля по всей Молдове, <span class="text-accent">от материала до монтажа</span></h1>
-                    <p class="hero__subtitle">Сравните металлочерепицу, модульную металлочерепицу, битумную черепицу и водосточные системы для крыши, затем получите ориентировочное предложение по вашему проекту.</p>
-                    <div class="hero__qualities" aria-label="Преимущества бренда">
+                    <p class="hero__subtitle">Предлагаем комплексные решения для новых крыш и реконструкций: консультацию, подходящие материалы, водосточные системы и корректный монтаж.</p>
+                    <div class="hero__qualities" aria-label="Преимущества услуги">
                         <span class="hero__quality"><i class="fas fa-check"></i> Надежно</span>
                         <span class="hero__quality"><i class="fas fa-check"></i> Компетентно</span>
                         <span class="hero__quality"><i class="fas fa-check"></i> Оперативно</span>
@@ -200,7 +191,7 @@
             <div class="section-header reveal reveal--scale">
                 <span class="section-header__tag">3D конфигуратор</span>
                 <h2 class="section-header__title">Выберите свою крышу</h2>
-                <p class="section-header__desc">Посмотрите дом в 3D, сравните модульную металлочерепицу с битумной черепицей и сразу получите три ориентировочных сценария цены, рассчитанных по выбранной геометрии.</p>
+                <p class="section-header__desc cfg__headline-desc">Узнайте <strong>стоимость вашей крыши</strong> за несколько кликов и сразу сравните предложения.</p>
             </div>
 
             <div class="cfg__intro">
@@ -425,15 +416,14 @@
                                 <div class="cfg__cost-line"><span>Оценка кровли:</span><span id="cRoofEstimate">51.6 м&sup2;</span></div>
                                 <div class="cfg__cost-line"><span>Площадь:</span><span id="cArea">51.6 м&sup2;</span></div>
                                 <div class="cfg__offers" id="cfgQualityOffers"></div>
-                                <p class="cfg__cost-note">* Этот калькулятор носит строго ориентировочный характер и не отражает полностью итоговую стоимость проекта. Показанные значения являются оценочными, основаны на выбранной геометрии и стандартных допущениях, а реальное предложение подтверждается только после проверки проекта, замеров и уточнения всех технических деталей.</p>
+                                <p class="cfg__cost-note">* Расчет приблизительный и включает только материалы и выбранную водосточную систему. Монтаж не входит в эту сумму; для точной оценки нужно проконсультироваться со специалистом.</p>
                                 <a href="/ru/#configurator" class="cfg__calc-link">
                                     <i class="fas fa-calculator"></i> Открыть полный калькулятор
                                 </a>
-                                <div class="cfg__estimate-breakdown" id="cfgEstimateBreakdown" hidden></div>
                             </div>
                             <div class="cfg__offer-actions">
                                 <button type="button" class="btn btn--primary btn--lg cfg__cta-btn js-open-modal">
-                                    <i class="fas fa-file-invoice"></i> Запросить предложение
+                                    <i class="fas fa-calculator"></i> Узнать стоимость вашей крыши
                                 </button>
                             </div>
                         </div>
@@ -755,15 +745,13 @@
     </div>
     <script src="../js/projects-data.js?v=20260423b" defer></script>
     <script src="../js/projects-render.js?v=20260423b" defer></script>
-    <script src="../js/main.js?v=20260429a" defer></script>
+    <script src="../js/main.js?v=20260512a" defer></script>
     <script
         src="../js/configurator-loader.js"
         defer
         data-target="#configurator"
         data-three="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
         data-controls="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
-        data-configurator="../js/configurator-lt-test.js?v=20260423b"></script>
+        data-configurator="../js/configurator-lt-test.js?v=20260512b"></script>
 </body>
 </html>
-
-

@@ -53,22 +53,20 @@
     const offerTexts = isRussianLocale
         ? {
             material: 'Материал',
-            labor: 'Монтаж',
             drainage: 'Водосток',
             drainageRates: 'Тарифы водостока: дополнительный каталог из эталонного симулятора',
-            noteBitumen: 'Включает автоматическую смету для битумной черепицы, монтаж и водосток',
-            noteModular: 'Включает модульную черепицу, металлические аксессуары по геометрии, монтаж и водосток',
-            noteGeneric: 'Включает материал, монтаж и выбранную водосточную систему',
+            noteBitumen: 'Включает битумную черепицу, необходимые материалы и выбранный водосток',
+            noteModular: 'Включает модульную черепицу, металлические аксессуары и выбранный водосток',
+            noteGeneric: 'Включает материалы и выбранную водосточную систему',
             currency: 'лей'
         }
         : {
             material: 'Material',
-            labor: 'Manopera',
             drainage: 'Scurgere',
             drainageRates: 'Tarife scurgere: catalog extras din simulatorul de referință',
-            noteBitumen: 'Include devizul automat pentru șindrilă, manopera și scurgere',
-            noteModular: 'Include modulara, accesorii metalice deduse din geometrie, manopera și scurgere',
-            noteGeneric: 'Include materialul, manopera și sistemul de scurgere selectat',
+            noteBitumen: 'Include șindrilă bituminoasă, materialele necesare și scurgerea selectată',
+            noteModular: 'Include modulara, accesoriile metalice și scurgerea selectată',
+            noteGeneric: 'Include materialele și sistemul de scurgere selectat',
             currency: 'lei'
         };
 
@@ -2619,7 +2617,6 @@
                     <div class="cfg__offer-total">${Math.round(offer.total).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
                     <div class="cfg__offer-meta">
                         <div>${offerTexts.material}: ${Math.round(offer.materialTotal).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
-                        <div>${offerTexts.labor}: ${Math.round(offer.laborTotal).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
                         <div>${offerTexts.drainage}: ${Math.round(offer.drainageCost).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
                         <div>${offerTexts.drainageRates}</div>
                         <div>${note}</div>
@@ -2627,40 +2624,6 @@
                 </article>
             `;
         }).join('');
-    }
-
-    function renderEstimateBreakdown(estimate, title = 'Deviz orientativ') {
-        const container = document.getElementById('cfgEstimateBreakdown');
-        if (!container) return;
-
-        if (!estimate || !estimate.items || !estimate.items.length) {
-            container.innerHTML = '';
-            container.hidden = true;
-            return;
-        }
-
-        const rows = estimate.items.map((item) => {
-            const unitPriceText = item.unitPrice !== null
-                ? `${Math.round(item.unitPrice).toLocaleString('ro-RO')} lei/${item.unit}`
-                : 'tarif nealocat';
-            const discountText = item.discount ? ` (-${Math.round(item.discount * 100)}%)` : '';
-
-            return `
-                <div class="cfg__estimate-line">
-                    <div class="cfg__estimate-line-main">
-                        <strong>${item.label}</strong>
-                        <span>${formatEstimateQuantity(item.quantity, item.unit)} x ${unitPriceText}${discountText}</span>
-                    </div>
-                    <div class="cfg__estimate-line-value">${Math.round(item.totalAfterDiscount).toLocaleString('ro-RO')} lei</div>
-                </div>
-            `;
-        }).join('');
-
-        container.innerHTML = `
-            <p class="cfg__estimate-title">${title}</p>
-            ${rows}
-        `;
-        container.hidden = false;
     }
 
     function buildDrainageEstimate(plan) {
@@ -4877,9 +4840,8 @@
         const materialPrice = Math.round(currentPrice * totalComplexity);
         const laborPrice = Math.round(currentManopera * totalComplexity);
         const totalMaterial = bitumenEstimate ? bitumenEstimate.total : (area * materialPrice);
-        const totalLabor = area * laborPrice;
         const drainageCost = drainageEstimate?.pricingAvailable ? drainageEstimate.costs.total : 0;
-        const total = totalMaterial + totalLabor + drainageCost;
+        const total = totalMaterial + drainageCost;
         const fmtInteger = (value) => value.toLocaleString('ro-RO');
         const fmtDecimal = (value) => value.toLocaleString('ro-RO', {
             minimumFractionDigits: 1,
@@ -4914,13 +4876,10 @@
         setText('cRoofEstimate', formatSurface(plan.roofEstimate));
         setText('cArea', formatSurface(area));
         setText('cPriceMat', `${fmtInteger(Math.round(totalMaterial))} lei`);
-        setText('cManopera', `${fmtInteger(Math.round(totalLabor))} lei`);
         setText('cTotal', `${fmtInteger(Math.round(total))} lei`);
-        renderEstimateBreakdown(bitumenEstimate);
-
         if (costNoteEl) {
             if (bitumenEstimate) {
-                costNoteEl.textContent = '* Pentru șindrila bituminoasă, devizul materialelor include produsul principal, coama, membrana, cuie, ventilație, OSB și regleta de streașină. Cantitățile sunt estimate automat din geometria curentă și pot diferi față de măsurătorile din șantier.';
+                costNoteEl.textContent = '* Pentru șindrila bituminoasă, cele 3 oferte includ produsul principal, coama, membrana, cuie, ventilație, OSB și regleta de streașină. Cantitățile sunt estimate automat din geometria curentă și pot diferi față de măsurătorile din șantier.';
             } else if (!drainageEstimate) {
                 costNoteEl.textContent = '* Pagina este pentru test intern. Valorile sunt orientative și includ o ajustare pentru complexitatea geometriei. Sistemul de scurgere se calculează din conturul acoperișului și poate fi activat separat.';
             } else {
@@ -4934,7 +4893,6 @@
     function buildQualityOffers(plan, area, drainageEstimate, totalComplexity) {
         const qualityOptions = materialQualityOptions[currentMaterialType] || [];
         const drainageCost = drainageEstimate?.pricingAvailable ? drainageEstimate.costs.total : 0;
-        const laborPrice = Math.round(currentManopera * totalComplexity);
 
         return qualityOptions.map((option) => {
             const bitumenEstimate = currentMaterialType === 'bitumen-shingle'
@@ -4946,16 +4904,14 @@
             const materialPrice = Math.round(option.price * totalComplexity);
             const estimate = bitumenEstimate || modularEstimate;
             const materialTotal = estimate ? estimate.total : (area * materialPrice);
-            const laborTotal = area * laborPrice;
 
             return {
                 key: option.key,
                 label: option.label,
                 estimate,
                 materialTotal,
-                laborTotal,
                 drainageCost,
-                total: materialTotal + laborTotal + drainageCost
+                total: materialTotal + drainageCost
             };
         });
     }
@@ -5001,21 +4957,10 @@
         setText('cRoofEstimate', formatSurface(plan.roofEstimate));
         setText('cArea', formatSurface(area));
         renderQualityOffers(qualityOffers);
-        renderEstimateBreakdown(
-            drainageEstimate?.pricingAvailable ? drainageEstimate : null,
-            'Deviz orientativ sistem de scurgere'
-        );
-
         if (costNoteEl) {
-            if (currentMaterialType === 'bitumen-shingle') {
-                costNoteEl.textContent = '* Pentru șindrila bituminoasă, cele 3 prețuri sunt strict orientative și includ produsul principal, coama, membrana suport, membrana de difuzie, cuie, ventilație, OSB, regleta de jgheab, bordura fronton, manopera și sistemul de scurgere selectat. Calculul nu reflectă perfect realitatea din șantier; consumabilele generale, sistemele de fixare structurale și particularitățile proiectului se validează separat.';
-            } else if (currentMaterialType === 'metal-modular') {
-                costNoteEl.textContent = '* Pentru țigla metalică modulară, cele 3 prețuri sunt strict orientative și includ produsul principal, coama, capacele de coamă, bordura fronton, picurător, regleta de jgheab, dolia interioară, membrana de difuzie, lenta de coamă, pieptenele și grila de ventilare la streașină, șuruburile de 35 mm, manopera și sistemul de scurgere selectat. Calculul nu corespunde perfect cu realitatea finală; elementele speciale de perete, parazăpezile, consumabilele generale și particularitățile proiectului se validează separat.';
-            } else {
-                costNoteEl.textContent = isSandboxConfigurator
-                    ? '* Pagina este pentru test intern. Valorile sunt orientative și includ o ajustare pentru complexitatea geometriei. Sistemul de scurgere se calculează din conturul acoperișului și poate fi activat separat.'
-                    : '* Configuratorul oferă doar o estimare orientativă pe baza geometriei selectate și nu reflectă perfect prețul real din oferta finală. Prețul final se confirmă numai după verificarea proiectului, măsurători exacte și validarea tuturor detaliilor tehnice.';
-            }
+            costNoteEl.textContent = isRussianLocale
+                ? '* Расчет приблизительный и включает только материалы и выбранную водосточную систему. Монтаж не входит в эту сумму; для точной оценки нужно проконсультироваться со специалистом.'
+                : '* Calculul este aproximativ și include doar materialele și sistemul de scurgere selectat. Manopera nu este inclusă în această sumă; pentru o evaluare corectă, oferta trebuie consultată cu un specialist.';
         }
 
         if (lowestOffer && highestOffer) {
@@ -5225,7 +5170,6 @@
             price: currentPrice,
             quality: 1,
             qualityLabel: 'VIP / Premium / Standart',
-            manopera: currentManopera,
             area: Math.round(area * 10) / 10,
             drainageLabel: currentDrainageLabel,
             offers: offers.map((offer) => ({
@@ -5233,7 +5177,6 @@
                 label: offer.label,
                 total: Math.round(offer.total),
                 materialTotal: Math.round(offer.materialTotal),
-                laborTotal: Math.round(offer.laborTotal),
                 drainageCost: Math.round(offer.drainageCost)
             })),
             lowestTotal: lowestOffer ? Math.round(lowestOffer.total) : 0,

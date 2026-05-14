@@ -4,6 +4,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const supportWidgetFeatures = {
+        messengers: window.MA_ENABLE_FLOATING_MESSENGERS !== false,
+        chatbot: window.MA_ENABLE_SITE_CHATBOT === true
+    };
+
     const ensureViewportFitCover = () => {
         const viewportMeta = document.querySelector('meta[name="viewport"]');
         if (!viewportMeta) return;
@@ -2593,6 +2598,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function buildSiteChatbot() {
+        if (!supportWidgetFeatures.chatbot) {
+            return;
+        }
+
         if (!document.body || document.querySelector('.chat-widget')) {
             return;
         }
@@ -3690,11 +3699,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const initSupportWidgets = () => {
         if (supportWidgetsInitialized) return;
         supportWidgetsInitialized = true;
-        buildFloatingMessengers();
-        buildSiteChatbot();
+
+        if (supportWidgetFeatures.messengers) {
+            buildFloatingMessengers();
+        }
+
+        if (supportWidgetFeatures.chatbot) {
+            buildSiteChatbot();
+        }
     };
 
     const initSupportWidgetsFeature = () => {
+        if (!supportWidgetFeatures.messengers && !supportWidgetFeatures.chatbot) {
+            return;
+        }
+
         const supportWidgetTriggerEvents = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
         const detachSupportWidgetTriggers = [];
 
