@@ -404,6 +404,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const isProjectDetailPage = /^\/portofoliu\/proiecte\/[^/]+$/.test(rootPath);
     const isContactPage = rootPath === '/contact';
     const isCorrugatedProductPage = rootPath === '/produse/tabla-cutata';
+
+    const setupHomepageConfiguratorAnchorGuard = () => {
+        if (!isHomepage) return;
+
+        const normalizePathForCompare = (value) => {
+            const normalized = String(value || '/').replace(/\/+$/, '');
+            return normalized || '/';
+        };
+        const isMobileViewport = () => document.documentElement.classList.contains('is-mobile-viewport')
+            || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+        const isReloadNavigation = () => {
+            const navigationEntry = performance.getEntriesByType
+                ? performance.getEntriesByType('navigation')[0]
+                : null;
+            return navigationEntry?.type === 'reload'
+                || (performance.navigation && performance.navigation.type === 1);
+        };
+        const clearHash = () => {
+            if (window.location.hash !== '#configurator') return;
+            window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
+        };
+
+        if (isMobileViewport() && window.location.hash === '#configurator' && isReloadNavigation()) {
+            clearHash();
+            window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
+            window.setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 80);
+        }
+
+        document.addEventListener('click', (event) => {
+            const anchor = event.target.closest('a[href]');
+            if (!anchor) return;
+
+            let url;
+            try {
+                url = new URL(anchor.getAttribute('href'), window.location.href);
+            } catch (error) {
+                return;
+            }
+
+            const samePage = url.origin === window.location.origin
+                && normalizePathForCompare(url.pathname) === normalizePathForCompare(window.location.pathname);
+            if (!samePage || url.hash !== '#configurator') return;
+
+            const configurator = document.getElementById('configurator');
+            if (!configurator) return;
+
+            event.preventDefault();
+            configurator.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            clearHash();
+        });
+    };
+
+    setupHomepageConfiguratorAnchorGuard();
+
     const projectPageCtaContent = isRussianPage
         ? {
             title: 'Хотите похожий проект?',
@@ -1341,6 +1395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         animatedCounters.add(counter);
         const target = parseInt(counter.getAttribute('data-count'), 10);
+        const suffix = counter.getAttribute('data-suffix') || '';
         const duration = 2000;
         const step = target / (duration / 16);
         let current = 0;
@@ -1348,10 +1403,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateCounter = () => {
             current += step;
             if (current < target) {
-                counter.textContent = Math.floor(current);
+                counter.textContent = `${Math.floor(current)}${suffix}`;
                 requestAnimationFrame(updateCounter);
             } else {
-                counter.textContent = target;
+                counter.textContent = `${target}${suffix}`;
             }
         };
 
