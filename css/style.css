@@ -901,6 +901,7 @@ img {
     font-weight: 800;
     color: var(--color-orange);
     line-height: 1;
+    white-space: nowrap;
 }
 
 .hero__stat-label {
