@@ -40,6 +40,8 @@
 html {
     scroll-behavior: smooth;
     color-scheme: only light;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Prevent browser/extension forced dark filters from altering brand images */
@@ -64,7 +66,16 @@ body {
     line-height: 1.6;
     color: var(--color-gray-800);
     background-color: var(--color-white);
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+    html,
+    body {
+        overflow-x: clip;
+    }
 }
 
 body.menu-open {
@@ -967,10 +978,24 @@ img {
     border: 1px solid transparent;
 }
 
+a.service-card {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .service-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-lg);
     border-color: rgba(232, 97, 26, 0.15);
+}
+
+a.service-card:focus-visible {
+    outline: 3px solid rgba(232, 97, 26, 0.32);
+    outline-offset: 4px;
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(232, 97, 26, 0.22);
 }
 
 .service-card__media {
@@ -1041,6 +1066,11 @@ img {
 }
 
 .service-card__link:hover {
+    gap: 12px;
+}
+
+.service-card:hover .service-card__link,
+.service-card:focus-visible .service-card__link {
     gap: 12px;
 }
 
@@ -1770,6 +1800,13 @@ img {
         linear-gradient(180deg, #ffffff 0%, var(--homepage-premium-bg) 100%);
     background-attachment: scroll;
     color: var(--homepage-premium-ink);
+    overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+    .homepage {
+        overflow-x: clip;
+    }
 }
 
 .homepage .hero {
@@ -6050,6 +6087,22 @@ img {
     }
 }
 
+@media (max-width: 768px) {
+    html,
+    body,
+    .homepage {
+        width: 100%;
+        max-width: 100%;
+        overscroll-behavior-x: none;
+    }
+
+    .homepage section,
+    .homepage footer,
+    .homepage .container {
+        max-width: 100%;
+    }
+}
+
 /* ============================================
    3D CONFIGURATOR (Three.js)
    ============================================ */
@@ -6768,8 +6821,9 @@ img {
     position: absolute;
     top: 16px;
     right: 16px;
-    width: 38px;
-    height: 38px;
+    z-index: 5;
+    width: 44px;
+    height: 44px;
     border: 1px solid rgba(232, 97, 26, 0.14);
     border-radius: 999px;
     background: #fff7f0;
@@ -6778,6 +6832,8 @@ img {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
     transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
@@ -7125,7 +7181,7 @@ body.cfg-lead-modal-open {
 
     .cfg-lead-modal__dialog {
         max-height: calc(100vh - 24px);
-        padding: 24px 18px 20px;
+        padding: 58px 18px 20px;
     }
 
     .cfg-lead-modal__head {
@@ -7188,12 +7244,12 @@ body.cfg-lead-modal-open {
     }
 
     .cfg-lead-modal__dialog {
-        padding: 22px 14px 18px;
+        padding: 58px 14px 18px;
     }
 
     .cfg-lead-modal__close {
-        top: 12px;
-        right: 12px;
+        top: 10px;
+        right: 10px;
     }
 }
 
@@ -7239,10 +7295,11 @@ body.cfg-lead-modal-open {
 
 .modal__close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+    width: 44px;
+    height: 44px;
     border: none;
     background: var(--color-gray-100);
     border-radius: 50%;
@@ -7252,6 +7309,8 @@ body.cfg-lead-modal-open {
     justify-content: center;
     color: var(--color-gray-400);
     font-size: 1rem;
+    pointer-events: auto;
+    touch-action: manipulation;
     transition: all 0.2s ease;
 }
 
@@ -7413,9 +7472,23 @@ body.cfg-lead-modal-open {
     to { opacity: 1; transform: scale(1); }
 }
 
+@media (max-width: 768px) {
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 12px;
+    }
+
+    .modal {
+        max-height: calc(100vh - 24px);
+        max-height: calc(100svh - 24px);
+        overflow-y: auto;
+        border-radius: 24px;
+    }
+}
+
 @media (max-width: 480px) {
     .modal {
-        padding: 30px 24px;
+        padding: 56px 20px 24px;
     }
 }
 
@@ -14269,8 +14342,16 @@ body.portfolio-page .portfolio-card--real .portfolio-card__image-link {
 }
 
 body.portfolio-page .portfolio-card .project-visual {
-    min-height: 236px;
+    min-height: 268px;
     border-radius: 20px;
+}
+
+body.portfolio-page .portfolio-card .project-visual__inner {
+    gap: 12px;
+    justify-content: flex-end;
+    min-height: 100%;
+    padding: 76px 24px 24px;
+    background: linear-gradient(180deg, rgba(15, 18, 28, 0.08) 0%, rgba(15, 18, 28, 0.42) 48%, rgba(15, 18, 28, 0.86) 100%);
 }
 
 body.portfolio-page .portfolio-card--real .portfolio-card__badge {
@@ -14284,6 +14365,10 @@ body.portfolio-page .portfolio-card--real .portfolio-card__badge {
 }
 
 body.portfolio-page .portfolio-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
     padding: 0 24px 24px;
 }
 
@@ -14294,17 +14379,33 @@ body.portfolio-page .portfolio-card__eyebrow {
 body.portfolio-page .portfolio-card__title {
     color: var(--portfolio-premium-ink);
     font-size: 1.14rem;
+    line-height: 1.32;
+    margin: 0;
+    overflow-wrap: anywhere;
 }
 
 body.portfolio-page .portfolio-card__desc {
     color: var(--portfolio-premium-ink-soft);
+    margin: 0;
+}
+
+body.portfolio-page .portfolio-card__meta {
+    display: grid;
+    gap: 8px;
+    margin: 0;
 }
 
 body.portfolio-page .portfolio-card__location {
+    align-items: flex-start;
     color: #5c687a;
+    line-height: 1.45;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 body.portfolio-page .portfolio-card__location i {
+    flex: 0 0 auto;
+    margin-top: 0.18em;
     color: var(--portfolio-premium-accent-deep);
 }
 
@@ -14410,7 +14511,12 @@ body.portfolio-page .cta-banner .btn--outline-white:hover {
     }
 
     body.portfolio-page .portfolio-card .project-visual {
-        min-height: 220px;
+        min-height: clamp(272px, 78vw, 320px);
+    }
+
+    body.portfolio-page .portfolio-card .project-visual__inner {
+        gap: 11px;
+        padding: 74px 22px 22px;
     }
 }
 
