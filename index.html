@@ -12,7 +12,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="color-scheme" content="light only">
     <title>MoldAcoperiș | Acoperișuri, țiglă metalică și montaj</title>
-    <meta name="description" content="Acoperiș la cheie, țiglă metalică, țiglă modulară, șindrilă bituminoasă și sisteme de scurgere. Calculator și ofertă orientativă MoldAcoperiș.">
+    <meta name="description" content="Acoperiș la cheie, țiglă metalică, țiglă modulară, șindrilă bituminoasă și sisteme de scurgere. Cere o estimare orientativă MoldAcoperiș.">
     <meta name="keywords" content="acoperiș, acoperiș Moldova, acoperișuri md, acoperiș la cheie, țiglă metalică, țiglă metalică modulară, șindrilă bituminoasă, sisteme de scurgere a apei de pe acoperiș, MoldAcoperiș">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://moldacoperis.md/">
@@ -38,7 +38,7 @@
     <link rel="preload" as="image" href="images/hero-mobile-regime.jpg" media="(max-width: 768px)">
     <link rel="preload" as="image" href="images/tigla-metalica-modulara.jpg" media="(min-width: 769px)">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css?v=20260512m">
+<link rel="stylesheet" href="css/style.css?v=20260515h">
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -159,7 +159,7 @@
                     <div class="hero__actions">
                         <button type="button" class="btn btn--primary btn--lg js-open-modal">Solicită Ofertă Gratuită</button>
                         <a href="/#configurator" class="btn btn--outline btn--lg">
-                            <i class="fas fa-calculator"></i> Calculator Preț
+                            <i class="fas fa-file-invoice"></i> Estimare Preț
                         </a>
                         <a href="tel:+37379360360" class="btn btn--outline btn--lg">
                             <i class="fas fa-phone"></i> Sună Acum
@@ -183,12 +183,12 @@
             </div>
         </div>
 </section>
-<section class="cfg" id="configurator">
+<section class="cfg cfg--lead-hybrid" id="configurator">
         <div class="container">
             <div class="section-header reveal reveal--scale">
                 <span class="section-header__tag">Configurator 3D</span>
                 <h2 class="section-header__title">Configurează-ți acoperișul</h2>
-                <p class="section-header__desc cfg__headline-desc">Află <strong>prețul acoperișului tău</strong> în câteva click-uri și compară ofertele instant.</p>
+                <p class="section-header__desc cfg__headline-desc">Află cât te costă acoperișul, la doar câteva click-uri distanță.</p>
             </div>
 
             <div class="cfg__intro">
@@ -197,12 +197,12 @@
                     <span>Casă simplă în 2 sau 4 pante, plus formele L și T, în același configurator.</span>
                 </div>
                 <div class="cfg__intro-card reveal reveal--scale">
-                    <strong>2 materiale, 3 oferte</strong>
-                    <span>Compari direct variantele VIP, Premium și Standart pentru fiecare material disponibil.</span>
+                    <strong>2 materiale, 3 variante</strong>
+                    <span>Alegi materialul, iar specialistul pregătește scenariile Standart, Premium și VIP.</span>
                 </div>
                 <div class="cfg__intro-card reveal reveal--scale">
                     <strong>Sistem de scurgere inclus</strong>
-                    <span>Poți activa rapid sistemul de scurgere și vezi separat impactul lui în costul total.</span>
+                    <span>Poți activa rapid sistemul de scurgere, iar configurația ajunge direct în cererea ta.</span>
                 </div>
             </div>
 
@@ -362,7 +362,7 @@
                         <div class="cfg__panel-head">
                             <div class="cfg__panel-heading">
                                 <h3 class="cfg__panel-title"><span class="cfg__panel-num">4</span> Sistem de Scurgere</h3>
-                                <p class="cfg__panel-summary" id="cfgDrainageSummary">Fără sistem de scurgere</p>
+                                <p class="cfg__panel-summary" id="cfgDrainageSummary">Până ce nu</p>
                             </div>
                             <button class="cfg__panel-toggle" type="button" data-panel-toggle aria-expanded="false" aria-label="Extinde secțiunea sistem de scurgere">
                                 <i class="fas fa-chevron-down"></i>
@@ -370,12 +370,14 @@
                         </div>
                         <div class="cfg__panel-body">
                             <div class="cfg__select-group">
-                                <label class="cfg__label" for="cfgDrainage">Alege dacă dorești sistem de scurgere</label>
+                                <label class="cfg__label" for="cfgDrainage">Alege opțiunea pentru șandrama și scurgere</label>
                                 <select id="cfgDrainage" class="cfg__select">
-                                    <option value="none" selected>Fără sistem de scurgere</option>
-                                    <option value="with-drainage">Cu sistem de scurgere</option>
+                                    <option value="sandrama">Șandrama</option>
+                                    <option value="with-drainage">Scurgere</option>
+                                    <option value="sandrama-drainage">Șandrama (streașină) + scurgere</option>
+                                    <option value="none" selected>Până ce nu</option>
                                 </select>
-                                <p class="cfg__select-note">Selectorul activează același sistem universal de scurgere pentru toate formele casei și include tarifele standard deja validate.</p>
+                                <p class="cfg__select-note">Opțiunea cu scurgere activează previzualizarea sistemului pe casă. Celelalte opțiuni sunt trimise specialistului în solicitare.</p>
                             </div>
                         </div>
                     </div>
@@ -383,8 +385,8 @@
                     <div class="cfg__panel-section" data-panel-key="cost">
                         <div class="cfg__panel-head">
                             <div class="cfg__panel-heading">
-                                <h3 class="cfg__panel-title"><span class="cfg__panel-num">5</span> Afișarea Costului Total</h3>
-                                <p class="cfg__panel-summary" id="cfgCostSummary">Compară instant cele 3 oferte</p>
+                                <h3 class="cfg__panel-title"><span class="cfg__panel-num">5</span> Trimite configurația</h3>
+                                <p class="cfg__panel-summary" id="cfgCostSummary">Estimare personalizată în 3 variante</p>
                             </div>
                             <button class="cfg__panel-toggle" type="button" data-panel-toggle aria-expanded="true" aria-label="Restrange sectiunea cost">
                                 <i class="fas fa-chevron-down"></i>
@@ -403,23 +405,27 @@
                                 <div class="cfg__cost-line"><span>Forma casei:</span><span id="cShapeType">Casa simpla</span></div>
                                 <div class="cfg__cost-line"><span>Configurație acoperiș:</span><span id="cRoofType">2 pante</span></div>
                                 <div class="cfg__cost-line"><span>Material:</span><span id="cMaterial">Țiglă Modulară</span></div>
-                                <div class="cfg__cost-line"><span>Sistem de scurgere:</span><span id="cDrainage">Fără sistem de scurgere</span></div>
+                                <div class="cfg__cost-line"><span>Sistem de scurgere:</span><span id="cDrainage">Până ce nu</span></div>
                                 <div class="cfg__cost-line"><span>Lungime jgheab:</span><span id="cDrainageLength">0.0 ml</span></div>
                                 <div class="cfg__cost-line"><span>Burlane estimate:</span><span id="cDrainageDownspouts">0 buc</span></div>
-                                <div class="cfg__cost-line"><span>Cost scurgere:</span><span id="cDrainageCost">0 lei</span></div>
+                                <div class="cfg__cost-line cfg__cost-line--price"><span>Cost scurgere:</span><span id="cDrainageCost">0 lei</span></div>
                                 <div class="cfg__cost-line"><span>Streașină:</span><span id="cEave">0.48 m</span></div>
                                 <div class="cfg__cost-line cfg__cost-line--accent"><span>Coeficient geometrie:</span><span id="cComplexity">1.00x</span></div>
                                 <div class="cfg__cost-line"><span>Amprentă construită:</span><span id="cFootprint">43.0 m&sup2;</span></div>
                                 <div class="cfg__cost-line"><span>Acoperiș estimat:</span><span id="cRoofEstimate">51.6 m&sup2;</span></div>
                                 <div class="cfg__cost-line"><span>Suprafață:</span><span id="cArea">51.6 m&sup2;</span></div>
-                                <div class="cfg__offers" id="cfgQualityOffers"></div>
-                                <p class="cfg__cost-note">* Calculul este aproximativ și include doar materialele și sistemul de scurgere selectat. Manopera nu este inclusă în această sumă; pentru o evaluare corectă, oferta trebuie consultată cu un specialist.</p>
-                                <a href="/#configurator" class="cfg__calc-link">
-                                    <i class="fas fa-calculator"></i> Deschide calculatorul complet
-                                </a>
-                                <button type="button" class="btn btn--primary btn--lg cfg__cta-btn js-open-modal">
-                                    <i class="fas fa-calculator"></i> Află cât costă acoperișul tău
+                                <div class="cfg__offers cfg__offers--hidden" id="cfgQualityOffers" aria-hidden="true"></div>
+                                <div class="cfg-estimate-prompt">
+                                    <span class="cfg-estimate-prompt__icon"><i class="fas fa-file-invoice"></i></span>
+                                    <div>
+                                        <strong>Trimite configurația și primești estimarea în 3 variante</strong>
+                                        <p>Standart, Premium și VIP vor fi calculate de specialist pe baza formei, suprafeței, materialului și scurgerii selectate.</p>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn--primary btn--lg cfg-estimate-prompt__button js-open-cfg-lead-modal">
+                                    <i class="fas fa-paper-plane"></i> Deschide formularul pentru preț
                                 </button>
+                                <p class="cfg-estimate-prompt__hint">Formularul se deschide într-un pop-up rapid și trimite automat configurația aleasă.</p>
                             </div>
                         </div>
                     </div>
@@ -428,6 +434,58 @@
             </div>
         </div>
     </section>
+<div class="cfg-lead-modal" id="configuratorLeadModal" aria-hidden="true">
+        <div class="cfg-lead-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="configuratorLeadTitle">
+            <button type="button" class="cfg-lead-modal__close" id="configuratorLeadClose" aria-label="Închide formularul">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="cfg-lead-modal__head">
+                <span class="cfg-lead-modal__icon"><i class="fas fa-file-invoice"></i></span>
+                <div>
+                    <span class="cfg-lead-modal__eyebrow">Estimare în 3 variante</span>
+                    <h3 id="configuratorLeadTitle">Primește prețul pentru configurația ta</h3>
+                    <p>Completează datele, iar specialistul primește forma, suprafața, materialul și scurgerea selectate în configurator.</p>
+                </div>
+            </div>
+            <form class="cfg-estimate-form cfg-estimate-form--modal" id="configuratorLeadForm" data-offer-mode="lead-test">
+                <div class="cfg-lead__grid">
+                    <label class="cfg-lead__field" for="cfgLeadName">
+                        <span>Nume</span>
+                        <input id="cfgLeadName" name="nume" type="text" autocomplete="name" placeholder="Ion Popescu" required>
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadPhone">
+                        <span>Telefon</span>
+                        <input id="cfgLeadPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="07xx xxx xxx" required>
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadLocation">
+                        <span>Localitate</span>
+                        <input id="cfgLeadLocation" name="localitate" type="text" autocomplete="address-level2" placeholder="Chișinău, Orhei, Bălți...">
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadArea">
+                        <span>Suprafață reală, dacă o știi</span>
+                        <input id="cfgLeadArea" name="suprafata" type="number" inputmode="decimal" min="1" step="1" placeholder="ex: 180">
+                    </label>
+                    <label class="cfg-lead__field cfg-lead__field--full" for="cfgLeadWorkType">
+                        <span>Tip lucrare</span>
+                        <select id="cfgLeadWorkType" name="lucrare">
+                            <option value="">Alege varianta potrivită</option>
+                            <option value="Acoperiș la cheie">Acoperiș la cheie</option>
+                            <option value="Lucrare parțială">Lucrare parțială</option>
+                        </select>
+                    </label>
+                    <label class="cfg-lead__field cfg-lead__field--full" for="cfgLeadMessage">
+                        <span>Detalii opționale</span>
+                        <textarea id="cfgLeadMessage" name="mesaj" rows="3" placeholder="Ex: culoare antracit, casă nouă, cu sistem de scurgere"></textarea>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg cfg-lead__submit">
+                    <i class="fas fa-paper-plane"></i> Cere estimarea gratuită
+                </button>
+                <p class="cfg-lead__privacy">Trimitem și configurația aleasă în modelul 3D, ca specialistul să pornească de la datele tale.</p>
+                <p class="cfg-lead__status" id="configuratorLeadStatus" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
 <section class="services" id="produse">
         <div class="container">
             <div class="section-header reveal reveal--scale">
@@ -640,7 +698,7 @@
                 <div class="cta-banner__actions">
                     <button type="button" class="btn btn--white btn--lg js-open-modal">Solicită Ofertă</button>
                     <a href="/#configurator" class="btn btn--outline-white btn--lg">
-                        <i class="fas fa-calculator"></i> Calculator Preț
+                        <i class="fas fa-file-invoice"></i> Estimare Preț
                     </a>
                     <a href="tel:+37379360360" class="btn btn--outline-white btn--lg">
                         <i class="fas fa-phone"></i> +373 79 360 360
@@ -677,7 +735,7 @@
                     <ul class="footer__links">
                         <li><a href="/despre-noi">Despre Noi</a></li>
                         <li><a href="/portofoliu">Portofoliu</a></li>
-                        <li><a href="/#configurator">Calculator Preț</a></li>
+                        <li><a href="/#configurator">Estimare Preț</a></li>
                         <li><a href="/blog">Blog</a></li>
                         <li><a href='/intrebari-frecvente'>Întrebări frecvente</a></li>
                         <li><a href="/contact">Contact</a></li>
@@ -738,13 +796,13 @@
 
     <script src="js/projects-data.js?v=20260423b" defer></script>
     <script src="js/projects-render.js?v=20260423b" defer></script>
-<script src="js/main.js?v=20260512a" defer></script>
+    <script src="js/main.js?v=20260515g" defer></script>
     <script
         src="js/configurator-loader.js"
         defer
         data-target="#configurator"
         data-three="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
         data-controls="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
-        data-configurator="js/configurator-lt-test.js?v=20260512b"></script>
+        data-configurator="js/configurator-lt-test.js?v=20260515f"></script>
 </body>
 </html>

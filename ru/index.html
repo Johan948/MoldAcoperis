@@ -40,7 +40,7 @@
     <link rel="preload" as="image" href="../images/hero-mobile-regime.jpg" media="(max-width: 768px)">
     <link rel="preload" as="image" href="../images/tigla-metalica-modulara.jpg" media="(min-width: 769px)">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css?v=20260512m">
+    <link rel="stylesheet" href="../css/style.css?v=20260515h">
 
     <script type="application/ld+json">
     {
@@ -162,7 +162,7 @@
                     <div class="hero__actions">
                         <button type="button" class="btn btn--primary btn--lg js-open-modal">Получить бесплатное предложение</button>
                         <a href="/ru/#configurator" class="btn btn--outline btn--lg">
-                            <i class="fas fa-calculator"></i> Калькулятор цены
+                            <i class="fas fa-file-invoice"></i> Оценка цены
                         </a>
                         <a href="tel:+37379360360" class="btn btn--outline btn--lg">
                             <i class="fas fa-phone"></i> Позвонить сейчас
@@ -186,12 +186,12 @@
             </div>
         </div>
     </section>
-    <section class="cfg" id="configurator">
+    <section class="cfg cfg--lead-hybrid" id="configurator">
         <div class="container">
             <div class="section-header reveal reveal--scale">
                 <span class="section-header__tag">3D конфигуратор</span>
                 <h2 class="section-header__title">Выберите свою крышу</h2>
-                <p class="section-header__desc cfg__headline-desc">Узнайте <strong>стоимость вашей крыши</strong> за несколько кликов и сразу сравните предложения.</p>
+                <p class="section-header__desc cfg__headline-desc">Узнайте стоимость вашей крыши всего за несколько кликов.</p>
             </div>
 
             <div class="cfg__intro">
@@ -200,12 +200,12 @@
                     <span>Простой дом с 2 или 4 скатами, а также формы L и T в одном конфигураторе.</span>
                 </div>
                 <div class="cfg__intro-card reveal reveal--scale">
-                    <strong>2 материала, 3 предложения</strong>
-                    <span>Сравнивайте одновременно варианты VIP, Premium и Standart для каждого доступного материала.</span>
+                    <strong>2 материала, 3 варианта</strong>
+                    <span>Вы выбираете материал, а специалист готовит сценарии Standart, Premium и VIP.</span>
                 </div>
                 <div class="cfg__intro-card reveal reveal--scale">
                     <strong>Водосточная система включена</strong>
-                    <span>Можно быстро включить водосточную систему и отдельно увидеть ее влияние на итоговую стоимость.</span>
+                    <span>Можно быстро включить водосточную систему, и конфигурация уйдет вместе с заявкой.</span>
                 </div>
             </div>
 
@@ -365,7 +365,7 @@
                         <div class="cfg__panel-head">
                             <div class="cfg__panel-heading">
                                 <h3 class="cfg__panel-title"><span class="cfg__panel-num">4</span> Водосточная система</h3>
-                                <p class="cfg__panel-summary" id="cfgDrainageSummary">Без водосточной системы</p>
+                                <p class="cfg__panel-summary" id="cfgDrainageSummary">Пока нет</p>
                             </div>
                             <button class="cfg__panel-toggle" type="button" data-panel-toggle aria-expanded="false" aria-label="Развернуть секцию водосточной системы">
                                 <i class="fas fa-chevron-down"></i>
@@ -373,12 +373,14 @@
                         </div>
                         <div class="cfg__panel-body">
                             <div class="cfg__select-group">
-                                <label class="cfg__label" for="cfgDrainage">Выберите, нужен ли вам водосток</label>
+                                <label class="cfg__label" for="cfgDrainage">Выберите вариант для шандрамы и водостока</label>
                                 <select id="cfgDrainage" class="cfg__select">
-                                    <option value="none" selected>Без водосточной системы</option>
-                                    <option value="with-drainage">С водосточной системой</option>
+                                    <option value="sandrama">Шандрама</option>
+                                    <option value="with-drainage">Водосток</option>
+                                    <option value="sandrama-drainage">Шандрама (карниз) + водосток</option>
+                                    <option value="none" selected>Пока нет</option>
                                 </select>
-                                <p class="cfg__select-note">Селектор активирует единую универсальную систему водостока для всех форм дома и включает уже подтвержденные стандартные тарифы.</p>
+                                <p class="cfg__select-note">Вариант с водостоком включает предварительный просмотр системы на доме. Остальные варианты будут отправлены специалисту в заявке.</p>
                             </div>
                         </div>
                     </div>
@@ -386,8 +388,8 @@
                     <div class="cfg__panel-section" data-panel-key="cost">
                         <div class="cfg__panel-head">
                             <div class="cfg__panel-heading">
-                                <h3 class="cfg__panel-title"><span class="cfg__panel-num">5</span> Отображение итоговой стоимости</h3>
-                                <p class="cfg__panel-summary" id="cfgCostSummary">Сравните 3 предложения сразу</p>
+                                <h3 class="cfg__panel-title"><span class="cfg__panel-num">5</span> Отправить конфигурацию</h3>
+                                <p class="cfg__panel-summary" id="cfgCostSummary">Персональная оценка в 3 вариантах</p>
                             </div>
                             <button class="cfg__panel-toggle" type="button" data-panel-toggle aria-expanded="true" aria-label="Свернуть секцию стоимости">
                                 <i class="fas fa-chevron-down"></i>
@@ -406,25 +408,27 @@
                                 <div class="cfg__cost-line"><span>Форма дома:</span><span id="cShapeType">Простой дом</span></div>
                                 <div class="cfg__cost-line"><span>Конфигурация крыши:</span><span id="cRoofType">2 ската</span></div>
                                 <div class="cfg__cost-line"><span>Материал:</span><span id="cMaterial">Модульная металлочерепица</span></div>
-                                <div class="cfg__cost-line"><span>Водосточная система:</span><span id="cDrainage">Без водосточной системы</span></div>
+                                <div class="cfg__cost-line"><span>Водосточная система:</span><span id="cDrainage">Пока нет</span></div>
                                 <div class="cfg__cost-line"><span>Длина желоба:</span><span id="cDrainageLength">0.0 м.п.</span></div>
                                 <div class="cfg__cost-line"><span>Оценка водосточных труб:</span><span id="cDrainageDownspouts">0 шт</span></div>
-                                <div class="cfg__cost-line"><span>Стоимость водостока:</span><span id="cDrainageCost">0 лей</span></div>
+                                <div class="cfg__cost-line cfg__cost-line--price"><span>Стоимость водостока:</span><span id="cDrainageCost">0 лей</span></div>
                                 <div class="cfg__cost-line"><span>Свес:</span><span id="cEave">0.48 м</span></div>
                                 <div class="cfg__cost-line cfg__cost-line--accent"><span>Коэффициент геометрии:</span><span id="cComplexity">1.00x</span></div>
                                 <div class="cfg__cost-line"><span>Пятно застройки:</span><span id="cFootprint">43.0 м&sup2;</span></div>
                                 <div class="cfg__cost-line"><span>Оценка кровли:</span><span id="cRoofEstimate">51.6 м&sup2;</span></div>
                                 <div class="cfg__cost-line"><span>Площадь:</span><span id="cArea">51.6 м&sup2;</span></div>
-                                <div class="cfg__offers" id="cfgQualityOffers"></div>
-                                <p class="cfg__cost-note">* Расчет приблизительный и включает только материалы и выбранную водосточную систему. Монтаж не входит в эту сумму; для точной оценки нужно проконсультироваться со специалистом.</p>
-                                <a href="/ru/#configurator" class="cfg__calc-link">
-                                    <i class="fas fa-calculator"></i> Открыть полный калькулятор
-                                </a>
-                            </div>
-                            <div class="cfg__offer-actions">
-                                <button type="button" class="btn btn--primary btn--lg cfg__cta-btn js-open-modal">
-                                    <i class="fas fa-calculator"></i> Узнать стоимость вашей крыши
+                                <div class="cfg__offers cfg__offers--hidden" id="cfgQualityOffers" aria-hidden="true"></div>
+                                <div class="cfg-estimate-prompt">
+                                    <span class="cfg-estimate-prompt__icon"><i class="fas fa-file-invoice"></i></span>
+                                    <div>
+                                        <strong>Отправьте конфигурацию и получите оценку в 3 вариантах</strong>
+                                        <p>Standart, Premium и VIP будут рассчитаны специалистом на основе формы, площади, материала и выбранного водостока.</p>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn--primary btn--lg cfg-estimate-prompt__button js-open-cfg-lead-modal">
+                                    <i class="fas fa-paper-plane"></i> Открыть форму для цены
                                 </button>
+                                <p class="cfg-estimate-prompt__hint">Форма откроется в быстром pop-up и автоматически отправит выбранную конфигурацию.</p>
                             </div>
                         </div>
                     </div>
@@ -432,6 +436,58 @@
             </div>
         </div>
     </section>
+    <div class="cfg-lead-modal" id="configuratorLeadModal" aria-hidden="true">
+        <div class="cfg-lead-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="configuratorLeadTitle">
+            <button type="button" class="cfg-lead-modal__close" id="configuratorLeadClose" aria-label="Закрыть форму">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="cfg-lead-modal__head">
+                <span class="cfg-lead-modal__icon"><i class="fas fa-file-invoice"></i></span>
+                <div>
+                    <span class="cfg-lead-modal__eyebrow">Оценка в 3 вариантах</span>
+                    <h3 id="configuratorLeadTitle">Получите цену для вашей конфигурации</h3>
+                    <p>Оставьте данные, и специалист получит форму, площадь, материал и водосток, выбранные в конфигураторе.</p>
+                </div>
+            </div>
+            <form class="cfg-estimate-form cfg-estimate-form--modal" id="configuratorLeadForm" data-offer-mode="lead-test">
+                <div class="cfg-lead__grid">
+                    <label class="cfg-lead__field" for="cfgLeadName">
+                        <span>Имя</span>
+                        <input id="cfgLeadName" name="nume" type="text" autocomplete="name" placeholder="Ivan Popescu" required>
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadPhone">
+                        <span>Телефон</span>
+                        <input id="cfgLeadPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="07xx xxx xxx" required>
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadLocation">
+                        <span>Населенный пункт</span>
+                        <input id="cfgLeadLocation" name="localitate" type="text" autocomplete="address-level2" placeholder="Кишинев, Орхей, Бельцы...">
+                    </label>
+                    <label class="cfg-lead__field" for="cfgLeadArea">
+                        <span>Реальная площадь, если знаете</span>
+                        <input id="cfgLeadArea" name="suprafata" type="number" inputmode="decimal" min="1" step="1" placeholder="например: 180">
+                    </label>
+                    <label class="cfg-lead__field cfg-lead__field--full" for="cfgLeadWorkType">
+                        <span>Тип работ</span>
+                        <select id="cfgLeadWorkType" name="lucrare">
+                            <option value="">Выберите подходящий вариант</option>
+                            <option value="Крыша под ключ">Крыша под ключ</option>
+                            <option value="Частичные работы">Частичные работы</option>
+                        </select>
+                    </label>
+                    <label class="cfg-lead__field cfg-lead__field--full" for="cfgLeadMessage">
+                        <span>Дополнительные детали</span>
+                        <textarea id="cfgLeadMessage" name="mesaj" rows="3" placeholder="Например: цвет антрацит, новый дом, с водостоком"></textarea>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg cfg-lead__submit">
+                    <i class="fas fa-paper-plane"></i> Запросить бесплатную оценку
+                </button>
+                <p class="cfg-lead__privacy">Мы отправим и выбранную 3D-конфигурацию, чтобы специалист начал с ваших данных.</p>
+                <p class="cfg-lead__status" id="configuratorLeadStatus" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
 
     <section class="services" id="produse">
         <div class="container">
@@ -647,7 +703,7 @@
                 <div class="cta-banner__actions">
                     <button type="button" class="btn btn--white btn--lg js-open-modal">Запросить предложение</button>
                     <a href="/ru/#configurator" class="btn btn--outline-white btn--lg">
-                        <i class="fas fa-calculator"></i> Калькулятор цены
+                        <i class="fas fa-file-invoice"></i> Оценка цены
                     </a>
                     <a href="tel:+37379360360" class="btn btn--outline-white btn--lg">
                         <i class="fas fa-phone"></i> +373 79 360 360
@@ -684,7 +740,7 @@
                     <ul class="footer__links">
                         <li><a href="/ru/despre-noi">О компании</a></li>
                         <li><a href="/ru/portofoliu">Портфолио</a></li>
-                        <li><a href="/ru/#configurator">Калькулятор цены</a></li>
+                        <li><a href="/ru/#configurator">Оценка цены</a></li>
                         <li><a href="/ru/blog">Блог</a></li>
                         <li><a href="/ru/intrebari-frecvente">Частые вопросы</a></li>
                         <li><a href="/ru/contact">Контакты</a></li>
@@ -745,13 +801,13 @@
     </div>
     <script src="../js/projects-data.js?v=20260423b" defer></script>
     <script src="../js/projects-render.js?v=20260423b" defer></script>
-    <script src="../js/main.js?v=20260512a" defer></script>
+    <script src="../js/main.js?v=20260515g" defer></script>
     <script
         src="../js/configurator-loader.js"
         defer
         data-target="#configurator"
         data-three="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
         data-controls="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
-        data-configurator="../js/configurator-lt-test.js?v=20260512b"></script>
+        data-configurator="../js/configurator-lt-test.js?v=20260515f"></script>
 </body>
 </html>
