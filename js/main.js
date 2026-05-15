@@ -303,6 +303,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modalErrorTitle: 'Не удалось отправить заявку',
             modalErrorMessage: 'Проверьте подключение и попробуйте снова.',
             modalMissingWebhook: 'Telegram webhook не настроен. Добавьте endpoint для приема заявок.',
+            configuratorLeadSubmitting: 'Отправка запроса...',
+            configuratorLeadSuccess: 'Заявка отправлена. Мы скоро свяжемся с вами с ориентировочной оценкой.',
+            configuratorLeadSuccessTitle: 'Заявка успешно отправлена',
+            configuratorLeadSuccessMessage: 'Мы свяжемся с вами в ближайшее время.',
+            configuratorLeadError: 'Сейчас не удалось отправить заявку. Попробуйте еще раз или позвоните нам напрямую.',
+            configuratorLeadRequired: 'Заполните имя и телефон, чтобы мы могли связаться с вами.',
+            productLeadSubmitting: 'Отправка...',
+            productLeadSuccess: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
+            productLeadError: 'Не удалось отправить заявку. Попробуйте еще раз или позвоните нам напрямую.',
+            productLeadRequired: 'Заполните имя и телефон, чтобы мы могли связаться с вами.',
             headerOfferLabel: 'Запросить предложение',
             headerBurgerLabel: 'Открыть меню',
             areaUnit: 'м²',
@@ -323,6 +333,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modalErrorTitle: 'Cererea nu a putut fi trimisa',
             modalErrorMessage: 'Verificati conexiunea si incercati din nou.',
             modalMissingWebhook: 'Webhook-ul Telegram nu este configurat. Adauga endpoint-ul pentru cereri.',
+            configuratorLeadSubmitting: 'Se trimite cererea...',
+            configuratorLeadSuccess: 'Cererea a fost trimisă. Revenim în scurt timp cu estimarea orientativă.',
+            configuratorLeadSuccessTitle: 'Solicitarea a fost transmisă cu succes',
+            configuratorLeadSuccessMessage: 'Vei fi contactat în scurt timp.',
+            configuratorLeadError: 'Cererea nu a putut fi trimisă acum. Încearcă din nou sau sună-ne direct.',
+            configuratorLeadRequired: 'Completează numele și telefonul ca să te putem contacta.',
+            productLeadSubmitting: 'Se trimite...',
+            productLeadSuccess: 'Solicitarea a fost transmisă. Te contactăm în scurt timp.',
+            productLeadError: 'Solicitarea nu a putut fi trimisă. Încearcă din nou sau sună-ne direct.',
+            productLeadRequired: 'Completează numele și telefonul ca să te putem contacta.',
             corrugatedSubmitting: 'Se trimite cererea...',
             corrugatedSuccess: 'Cererea a fost trimisa. Revenim in cel mai scurt timp.',
             corrugatedError: 'Cererea nu a putut fi trimisa. Incearca din nou.',
@@ -661,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ? [
             { href: '/ru/despre-noi', label: 'О нас' },
             { href: '/ru/portofoliu', label: 'Портфолио' },
-            { href: '/ru/#configurator', label: 'Калькулятор цены' },
+            { href: '/ru/#configurator', label: 'Оценка цены' },
             { href: '/ru/blog', label: 'Блог' },
             { href: '/ru/intrebari-frecvente', label: 'Частые вопросы' },
                 { href: '/ru/informaciya-moldacoperis', label: 'Полезная информация' },
@@ -671,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
         : [
             { href: '/despre-noi', label: 'Despre Noi' },
             { href: '/portofoliu', label: 'Portofoliu' },
-            { href: '/#configurator', label: 'Calculator Preț' },
+            { href: '/#configurator', label: 'Estimare Preț' },
             { href: '/blog', label: 'Blog' },
             { href: '/intrebari-frecvente', label: 'Întrebări Frecvente' },
                 { href: '/informatii-moldacoperis', label: 'Informații utile' },
@@ -842,6 +862,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
         section.classList.add('product-links--rolling');
         section.innerHTML = sectionMarkup;
+    };
+
+    const escapeProductLeadHtml = (value) => String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+    const getCurrentProductName = () => {
+        const title = document.querySelector('.page-header__title');
+        const text = title ? title.textContent.trim() : '';
+        if (text) return text;
+        return (document.title || 'MoldAcoperis').split('|')[0].trim();
+    };
+
+    const buildProductLeadCardSection = () => {
+        if (!isProductPage || document.querySelector('.product-lead-card-section') || document.querySelector('.corrugated-lead--top')) return;
+
+        const productName = getCurrentProductName();
+        const safeProductName = escapeProductLeadHtml(productName);
+        const content = isRussianPage
+            ? {
+                tag: 'Персональное предложение',
+                title: `Расчет для: ${safeProductName}`,
+                desc: 'Оставьте имя и телефон, и консультант свяжется с вами для уточнения деталей.',
+                name: 'Имя',
+                namePlaceholder: 'Ivan Popescu',
+                phone: 'Телефон',
+                phonePlaceholder: '07xx xxx xxx',
+                submit: 'Получить расчет',
+                privacy: 'Данные используются только для связи по выбранному продукту.'
+            }
+            : {
+                tag: 'Ofertă personalizată',
+                title: `Calcul pentru: ${safeProductName}`,
+                desc: 'Lasă numele și telefonul, iar consultantul te contactează pentru detalii.',
+                name: 'Nume',
+                namePlaceholder: 'Ion Popescu',
+                phone: 'Telefon',
+                phonePlaceholder: '07xx xxx xxx',
+                submit: 'Primește calculul',
+                privacy: 'Folosim datele doar pentru contact privind produsul ales.'
+            };
+
+        const section = document.createElement('section');
+        section.className = 'product-lead-card-section';
+        section.innerHTML = `
+            <div class="container">
+                <div class="product-lead-card" data-product-name="${safeProductName}">
+                    <div class="product-lead-card__copy">
+                        <span class="section-header__tag">${content.tag}</span>
+                        <h2>${content.title}</h2>
+                        <p>${content.desc}</p>
+                    </div>
+                    <form class="product-lead-card__form" id="productLeadForm" novalidate>
+                        <input type="hidden" name="produs" value="${safeProductName}">
+                        <div class="product-lead-card__grid">
+                            <label class="product-lead-card__field" for="productLeadName">
+                                <span>${content.name}</span>
+                                <input id="productLeadName" name="nume" type="text" autocomplete="name" placeholder="${content.namePlaceholder}" required>
+                            </label>
+                            <label class="product-lead-card__field" for="productLeadPhone">
+                                <span>${content.phone}</span>
+                                <input id="productLeadPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="${content.phonePlaceholder}" required>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--lg product-lead-card__submit">
+                            <i class="fas fa-paper-plane"></i> ${content.submit}
+                        </button>
+                        <p class="product-lead-card__privacy">${content.privacy}</p>
+                        <p class="product-lead-card__status" id="productLeadStatus" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </div>
+        `;
+
+        const pageHeader = document.querySelector('.page-header');
+        if (pageHeader && pageHeader.parentElement) {
+            pageHeader.parentElement.insertBefore(section, pageHeader.nextSibling);
+            return;
+        }
+
+        const intro = document.querySelector('.product-intro');
+        if (intro && intro.parentElement) {
+            intro.parentElement.insertBefore(section, intro);
+        } else {
+            document.body.appendChild(section);
+        }
     };
 
     const applyUnifiedFooterLayout = () => {
@@ -1470,6 +1579,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         setupTechnicalDetailsToggles();
+        buildProductLeadCardSection();
 
         const relatedProductsAnchor = document.querySelector('.product-projects, .cta-banner, footer.footer, main > section:last-of-type');
         scheduleViewportOrIdleInit(relatedProductsAnchor, buildRelatedProductsSection, {
@@ -2256,17 +2366,270 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const configuratorLeadForm = document.getElementById('configuratorLeadForm');
+    const configuratorLeadStatus = document.getElementById('configuratorLeadStatus');
+    const configuratorLeadSubmit = configuratorLeadForm ? configuratorLeadForm.querySelector('button[type="submit"]') : null;
+    const configuratorLeadDefaultSubmit = configuratorLeadSubmit ? configuratorLeadSubmit.innerHTML : '';
+    const configuratorLeadModal = document.getElementById('configuratorLeadModal');
+    const configuratorLeadClose = document.getElementById('configuratorLeadClose');
+    const configuratorLeadOpenButtons = Array.from(document.querySelectorAll('.js-open-cfg-lead-modal'));
+    let configuratorLeadAutoTimer = null;
+    let configuratorLeadLastFocus = null;
     const corrugatedLeadForm = document.getElementById('corrugatedLeadForm');
     const corrugatedLeadStatus = document.getElementById('corrugatedLeadStatus');
     const corrugatedLeadSubmit = corrugatedLeadForm ? corrugatedLeadForm.querySelector('button[type="submit"]') : null;
     const corrugatedLeadDefaultSubmit = corrugatedLeadSubmit ? corrugatedLeadSubmit.textContent : '';
+    const productLeadForm = document.getElementById('productLeadForm');
+    const productLeadStatus = document.getElementById('productLeadStatus');
+    const productLeadSubmit = productLeadForm ? productLeadForm.querySelector('button[type="submit"]') : null;
+    const productLeadDefaultSubmit = productLeadSubmit ? productLeadSubmit.innerHTML : '';
 
     const contactForm = document.getElementById('contactForm');
     const contactSuccess = document.getElementById('contactSuccess');
     const contactSubmitButton = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
     const contactDefaultSubmitLabel = contactSubmitButton ? contactSubmitButton.textContent : '';
+    const hasConfiguratorLeadForm = Boolean(configuratorLeadForm && configuratorLeadSubmit);
+    const hasConfiguratorLeadModal = Boolean(configuratorLeadModal);
     const hasCorrugatedLeadForm = Boolean(corrugatedLeadForm && corrugatedLeadSubmit);
+    const hasProductLeadForm = Boolean(productLeadForm && productLeadSubmit);
     const hasContactLeadForm = Boolean(contactForm && contactSubmitButton);
+
+    function openConfiguratorLeadModal(options) {
+        if (!hasConfiguratorLeadModal) return;
+        const modalOptions = options || {};
+        if (configuratorLeadAutoTimer) {
+            window.clearTimeout(configuratorLeadAutoTimer);
+            configuratorLeadAutoTimer = null;
+        }
+        configuratorLeadLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        configuratorLeadModal.classList.add('is-active');
+        configuratorLeadModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('cfg-lead-modal-open');
+        if (!modalOptions.keepStatus) {
+            setConfiguratorLeadStatus('', '');
+        }
+        trackConfiguratorLeadEvent('configurator_lead_popup_open', {
+            trigger: modalOptions.trigger || 'manual'
+        });
+        window.setTimeout(() => {
+            const firstInput = configuratorLeadForm
+                ? configuratorLeadForm.querySelector('input, select, textarea')
+                : configuratorLeadModal.querySelector('input, select, textarea, button');
+            if (firstInput && typeof firstInput.focus === 'function') {
+                firstInput.focus();
+            }
+        }, 80);
+    }
+
+    function closeConfiguratorLeadModal() {
+        if (!hasConfiguratorLeadModal) return;
+        if (configuratorLeadAutoTimer) {
+            window.clearTimeout(configuratorLeadAutoTimer);
+            configuratorLeadAutoTimer = null;
+        }
+        configuratorLeadModal.classList.remove('is-active');
+        configuratorLeadModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('cfg-lead-modal-open');
+        if (configuratorLeadLastFocus && typeof configuratorLeadLastFocus.focus === 'function') {
+            configuratorLeadLastFocus.focus();
+        }
+    }
+
+    function scheduleConfiguratorLeadModal() {
+        if (!hasConfiguratorLeadModal) return;
+        if (configuratorLeadAutoTimer) {
+            window.clearTimeout(configuratorLeadAutoTimer);
+        }
+        configuratorLeadAutoTimer = window.setTimeout(() => {
+            openConfiguratorLeadModal({ trigger: 'final_step' });
+        }, 520);
+    }
+
+    function showConfiguratorLeadSuccessState() {
+        const costPanel = document.querySelector('[data-panel-key="cost"]');
+        if (!costPanel) return;
+
+        const panelHead = costPanel.querySelector('.cfg__panel-head');
+        const panelBody = costPanel.querySelector('.cfg__panel-body');
+        const panelToggle = costPanel.querySelector('[data-panel-toggle]');
+
+        costPanel.classList.remove('is-collapsed');
+        costPanel.classList.add('is-lead-success');
+
+        if (panelHead) {
+            panelHead.setAttribute('aria-hidden', 'true');
+        }
+
+        if (panelToggle) {
+            panelToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        if (panelBody) {
+            panelBody.innerHTML = `
+                <div class="cfg-lead-success" tabindex="-1">
+                    <span class="cfg-lead-success__icon"><i class="fas fa-check"></i></span>
+                    <h4>${uiText.configuratorLeadSuccessTitle}</h4>
+                    <p>${uiText.configuratorLeadSuccessMessage}</p>
+                </div>
+            `;
+
+            const successBlock = panelBody.querySelector('.cfg-lead-success');
+            if (successBlock && typeof successBlock.focus === 'function') {
+                successBlock.focus({ preventScroll: true });
+            }
+        }
+    }
+
+    function setConfiguratorLeadStatus(type, message) {
+        if (!configuratorLeadStatus) return;
+        configuratorLeadStatus.textContent = message || '';
+        configuratorLeadStatus.classList.toggle('is-success', type === 'success');
+        configuratorLeadStatus.classList.toggle('is-error', type === 'error');
+    }
+
+    function trackConfiguratorLeadEvent(eventName, params) {
+        const eventParams = Object.assign({ event_category: 'lead_test', section: 'configurator_hybrid' }, params || {});
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, eventParams);
+        }
+        if (typeof window.clarity === 'function') {
+            window.clarity('event', eventName);
+        }
+    }
+
+    function buildConfiguratorLeadSummary(formData, configState) {
+        const labels = isRussianPage
+            ? {
+                configuration: 'Конфигурация',
+                material: 'Материал',
+                estimatedSurface: 'Площадь из конфигуратора',
+                drainage: 'Водосток',
+                budgetOptions: 'Запрошенные варианты',
+                location: 'Населенный пункт',
+                surface: 'Примерная площадь',
+                workType: 'Тип работ',
+                details: 'Детали'
+            }
+            : {
+                configuration: 'Configurație',
+                material: 'Material',
+                estimatedSurface: 'Suprafață din configurator',
+                drainage: 'Scurgere',
+                budgetOptions: 'Variante solicitate',
+                location: 'Localitate',
+                surface: 'Suprafață aproximativă',
+                workType: 'Tip lucrare',
+                details: 'Detalii'
+            };
+        const rows = [
+            [labels.configuration, configState?.houseLabel],
+            [labels.material, configState?.name],
+            [labels.estimatedSurface, configState?.area ? `${configState.area} m2` : ''],
+            [labels.drainage, configState?.drainageLabel],
+            [labels.budgetOptions, 'Standart / Premium / VIP'],
+            [labels.location, formData.localitate],
+            [labels.surface, formData.suprafata ? `${formData.suprafata} m2` : ''],
+            [labels.workType, formData.lucrare],
+            [labels.details, formData.mesaj]
+        ];
+
+        return rows
+            .filter((row) => String(row[1] || '').trim())
+            .map((row) => `${row[0]}: ${String(row[1]).trim()}`)
+            .join('\n');
+    }
+
+    const initConfiguratorLeadForm = () => {
+        configuratorLeadForm.addEventListener('focusin', () => {
+            trackConfiguratorLeadEvent('configurator_lead_start');
+        }, { once: true });
+
+        configuratorLeadForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            if (!offerWebhookEndpoint) {
+                setConfiguratorLeadStatus('error', uiText.modalMissingWebhook);
+                return;
+            }
+
+            const formData = new FormData(configuratorLeadForm);
+            const leadData = {
+                nume: String(formData.get('nume') || '').trim(),
+                telefon: String(formData.get('telefon') || '').trim(),
+                localitate: String(formData.get('localitate') || '').trim(),
+                suprafata: String(formData.get('suprafata') || '').trim(),
+                lucrare: String(formData.get('lucrare') || '').trim(),
+                mesaj: String(formData.get('mesaj') || '').trim()
+            };
+
+            if (!leadData.nume || !leadData.telefon) {
+                setConfiguratorLeadStatus('error', uiText.configuratorLeadRequired);
+                return;
+            }
+
+            const configuratorState = window.__cfgState ? window.__cfgState() : null;
+
+            if (configuratorLeadSubmit) {
+                configuratorLeadSubmit.disabled = true;
+                configuratorLeadSubmit.classList.add('is-loading');
+                configuratorLeadSubmit.textContent = uiText.configuratorLeadSubmitting;
+            }
+
+            setConfiguratorLeadStatus('', '');
+            trackConfiguratorLeadEvent('configurator_lead_submit', {
+                has_area: Boolean(leadData.suprafata),
+                has_configurator_state: Boolean(configuratorState),
+                has_location: Boolean(leadData.localitate),
+                work_type: leadData.lucrare || 'not_selected'
+            });
+
+            try {
+                await submitOfferRequest({
+                    source: 'configurator-lead-test',
+                    language: isRussianPage ? 'ru' : 'ro',
+                    pageUrl: window.location.href,
+                    pagePath: window.location.pathname,
+                    submittedAt: new Date().toISOString(),
+                    lead: {
+                        name: leadData.nume,
+                        phone: leadData.telefon,
+                        location: leadData.localitate,
+                        surface: leadData.suprafata || (configuratorState?.area ? String(configuratorState.area) : ''),
+                        workType: leadData.lucrare
+                    },
+                    configuration: configuratorState ? {
+                        houseLabel: configuratorState.houseLabel || '',
+                        material: configuratorState.name || '',
+                        materialType: configuratorState.materialType || '',
+                        area: configuratorState.area || '',
+                        drainage: configuratorState.drainageLabel || ''
+                    } : null,
+                    message: leadData.mesaj,
+                    estimateSummary: buildConfiguratorLeadSummary(leadData, configuratorState)
+                });
+
+                configuratorLeadForm.reset();
+                setConfiguratorLeadStatus('success', uiText.configuratorLeadSuccess);
+                showConfiguratorLeadSuccessState();
+                trackConfiguratorLeadEvent('configurator_lead_success', {
+                    work_type: leadData.lucrare || 'not_selected'
+                });
+                if (hasConfiguratorLeadModal && configuratorLeadModal.classList.contains('is-active')) {
+                    window.setTimeout(closeConfiguratorLeadModal, 2400);
+                }
+            } catch (error) {
+                setConfiguratorLeadStatus('error', uiText.configuratorLeadError);
+                trackConfiguratorLeadEvent('configurator_lead_error');
+                console.error('Configurator lead form webhook error:', error);
+            } finally {
+                if (configuratorLeadSubmit) {
+                    configuratorLeadSubmit.disabled = false;
+                    configuratorLeadSubmit.classList.remove('is-loading');
+                    configuratorLeadSubmit.innerHTML = configuratorLeadDefaultSubmit;
+                }
+            }
+        });
+    };
 
     const initCorrugatedLeadForm = () => {
         corrugatedLeadForm.addEventListener('submit', async function (event) {
@@ -2342,6 +2705,116 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    function setProductLeadStatus(type, message) {
+        if (!productLeadStatus) return;
+        productLeadStatus.textContent = message || '';
+        productLeadStatus.classList.toggle('is-success', type === 'success');
+        productLeadStatus.classList.toggle('is-error', type === 'error');
+    }
+
+    function buildProductLeadSummary(leadData) {
+        const labels = isRussianPage
+            ? {
+                product: 'Продукт'
+            }
+            : {
+                product: 'Produs'
+            };
+
+        return [
+            [labels.product, leadData.produs]
+        ]
+            .filter((row) => String(row[1] || '').trim())
+            .map((row) => `${row[0]}: ${String(row[1]).trim()}`)
+            .join('\n');
+    }
+
+    const initProductLeadForm = () => {
+        productLeadForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            if (!offerWebhookEndpoint) {
+                setProductLeadStatus('error', uiText.modalMissingWebhook);
+                return;
+            }
+
+            const formData = new FormData(productLeadForm);
+            const leadData = {
+                produs: String(formData.get('produs') || getCurrentProductName()).trim(),
+                nume: String(formData.get('nume') || '').trim(),
+                telefon: String(formData.get('telefon') || '').trim()
+            };
+
+            if (!leadData.nume || !leadData.telefon) {
+                setProductLeadStatus('error', uiText.productLeadRequired);
+                return;
+            }
+
+            if (productLeadSubmit) {
+                productLeadSubmit.disabled = true;
+                productLeadSubmit.classList.add('is-loading');
+                productLeadSubmit.textContent = uiText.productLeadSubmitting;
+            }
+
+            setProductLeadStatus('', '');
+
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', 'product_lead_submit', {
+                    event_category: 'product_lead',
+                    product_name: leadData.produs
+                });
+            }
+            if (typeof window.clarity === 'function') {
+                window.clarity('event', 'product_lead_submit');
+            }
+
+            try {
+                await submitOfferRequest({
+                    source: 'product-card-form',
+                    language: isRussianPage ? 'ru' : 'ro',
+                    pageUrl: window.location.href,
+                    pagePath: window.location.pathname,
+                    submittedAt: new Date().toISOString(),
+                    lead: {
+                        name: leadData.nume,
+                        phone: leadData.telefon,
+                        product: leadData.produs
+                    },
+                    product: {
+                        name: leadData.produs,
+                        path: rootPath
+                    },
+                    estimateSummary: buildProductLeadSummary(leadData)
+                });
+
+                productLeadForm.reset();
+                setProductLeadStatus('success', uiText.productLeadSuccess);
+
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', 'product_lead_success', {
+                        event_category: 'product_lead',
+                        product_name: leadData.produs
+                    });
+                }
+            } catch (error) {
+                setProductLeadStatus('error', uiText.productLeadError);
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', 'product_lead_error', {
+                        event_category: 'product_lead',
+                        product_name: leadData.produs
+                    });
+                }
+                console.error('Product lead form webhook error:', error);
+            } finally {
+                if (productLeadSubmit) {
+                    productLeadSubmit.disabled = false;
+                    productLeadSubmit.classList.remove('is-loading');
+                    productLeadSubmit.innerHTML = productLeadDefaultSubmit;
+                }
+            }
+        });
+    };
+
     const initContactLeadForm = () => {
         contactForm.addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -2401,8 +2874,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    if (hasConfiguratorLeadForm) {
+        initConfiguratorLeadForm();
+    }
+
+    if (hasConfiguratorLeadModal) {
+        configuratorLeadOpenButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                openConfiguratorLeadModal({ trigger: 'button' });
+            });
+        });
+
+        if (configuratorLeadClose) {
+            configuratorLeadClose.addEventListener('click', closeConfiguratorLeadModal);
+        }
+
+        configuratorLeadModal.addEventListener('click', (event) => {
+            if (event.target === configuratorLeadModal) {
+                closeConfiguratorLeadModal();
+            }
+        });
+
+        window.addEventListener('configurator:lead-ready', scheduleConfiguratorLeadModal);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && configuratorLeadModal.classList.contains('is-active')) {
+                closeConfiguratorLeadModal();
+            }
+        });
+    }
+
     if (isCorrugatedProductPage && hasCorrugatedLeadForm) {
         initCorrugatedLeadForm();
+    }
+
+    if (hasProductLeadForm) {
+        initProductLeadForm();
     }
 
     if (isContactPage && hasContactLeadForm) {
@@ -2452,7 +2959,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Показать продукты', action: 'products' }
             ],
             answers: {
-                price: 'Цена зависит от покрытия, толщины, площади, формы крыши, аксессуаров, водостока и населенного пункта. Калькулятор дает только ориентир; для точной оценки лучше передать данные консультанту.',
+                price: 'Цена зависит от покрытия, толщины, площади, формы крыши, аксессуаров, водостока и населенного пункта. Для точной оценки лучше передать данные консультанту.',
                 modular: 'Модульная металлочерепица позиционируется как современное, премиальное и практичное решение: быстрый монтаж, компактная транспортировка, меньше отходов и более простая замена модулей. Кроме того, доступны 2 эксклюзивные формы.',
                 metal: 'Металлочерепица остается одним из самых популярных решений для новых домов и замены старой кровли: сбалансированный внешний вид, малый вес, быстрый монтаж и широкий выбор покрытий и цветов.',
                 shingle: 'Битумная черепица особенно подходит для крыш со сложной геометрией, когда важны гибкость материала, аккуратные детали и ровный внешний вид.',
@@ -2463,7 +2970,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 warranty: 'Долговечность и гарантия зависят от материала, толщины, защитного покрытия и правильного монтажа. Именно поэтому мы рекомендуем полное решение, а не выбор только по самой низкой цене.',
                 area: 'MoldAcoperis работает в Кишиневе и по всей Молдове. Если скажете населенный пункт, я добавлю его сразу в заявку.',
                 contact: 'С нами можно связаться по телефону +373 79 360 360 или по email moldacoperis@gmail.com. Если хотите, я могу прямо сейчас передать заявку и попросить, чтобы вам перезвонили.',
-                calculator: 'На сайте уже есть конфигуратор/калькулятор для ориентировочной оценки. Если у вас конкретный проект, лучше запросить персональное предложение, потому что финальная цена зависит от нескольких факторов.'
+                calculator: 'Сейчас на сайте доступна форма быстрой оценки. Оставьте данные, и консультант подготовит ориентировочный расчет под ваш проект.'
             }
         }
         : {
@@ -2510,7 +3017,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Vezi produsele', action: 'products' }
             ],
             answers: {
-                price: 'Pretul depinde de invelitoare, grosime, acoperire, suprafata, forma acoperisului, accesorii, sistemul de scurgere si localitate. Calculatorul ofera doar o estimare orientativa; pentru un pret corect este nevoie de oferta personalizata.',
+                price: 'Prețul depinde de învelitoare, grosime, acoperire, suprafață, forma acoperișului, accesorii, sistemul de scurgere și localitate. Pentru un preț corect este nevoie de ofertă personalizată.',
                 modular: 'Tigla metalica modulara este o solutie moderna, premium si practica: transport compact, manipulare usoara, pierderi mai mici si inlocuire mai simpla a modulelor. Este foarte potrivita pentru case noi si acoperisuri mai complexe.',
                 metal: 'Tigla metalica este una dintre cele mai cautate optiuni pentru case noi si renovari: aspect echilibrat, greutate redusa, montaj eficient si multe optiuni de finisaj si culoare.',
                 shingle: 'Sindrila bituminoasa este potrivita mai ales pentru acoperisuri cu forme mai complexe, unde ai nevoie de flexibilitate, un aspect uniform si o buna adaptare la detalii.',
@@ -2521,7 +3028,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 warranty: 'Durabilitatea si garantia depind de material, grosime, stratul de protectie, compatibilitatea accesoriilor si executia corecta. Tocmai de aceea recomandam solutia completa, nu doar alegerea dupa cel mai mic pret.',
                 area: 'MoldAcoperis lucreaza in Chisinau si in toata Moldova. Daca imi spui localitatea, o includ direct in cererea ta.',
                 contact: 'Ne poti contacta direct la +373 79 360 360 sau pe email la moldacoperis@gmail.com. Daca vrei, pot sa transmit chiar acum o cerere si sa fii sunat.',
-                calculator: 'Aveti deja si configurator/calculator pe site pentru o estimare orientativa. Daca ai un proiect concret, iti recomand sa ceri si o oferta personalizata, pentru ca pretul final depinde de mai multi factori.'
+                calculator: 'Momentan pe site este disponibil formularul de estimare rapidă. Lasă datele, iar consultantul pregătește o estimare orientativă pentru proiectul tău.'
             }
         };
 

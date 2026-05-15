@@ -2,6 +2,7 @@
     'use strict';
 
     const isSandboxConfigurator = Boolean(document.getElementById('configuratorTest'));
+    const isLeadConfigurator = Boolean(document.querySelector('.cfg--lead-hybrid'));
 
     const canvasEl = document.getElementById('cfgCanvas');
     const wrapEl = document.getElementById('cfgCanvasWrap');
@@ -54,6 +55,8 @@
         ? {
             material: 'Материал',
             drainage: 'Водосток',
+            modularPieces: 'Количество модульной черепицы',
+            pieces: 'шт',
             drainageRates: 'Тарифы водостока: дополнительный каталог из эталонного симулятора',
             noteBitumen: 'Включает битумную черепицу, необходимые материалы и выбранный водосток',
             noteModular: 'Включает модульную черепицу, металлические аксессуары и выбранный водосток',
@@ -63,6 +66,8 @@
         : {
             material: 'Material',
             drainage: 'Scurgere',
+            modularPieces: 'Bucăți țiglă modulară',
+            pieces: 'buc',
             drainageRates: 'Tarife scurgere: catalog extras din simulatorul de referință',
             noteBitumen: 'Include șindrilă bituminoasă, materialele necesare și scurgerea selectată',
             noteModular: 'Include modulara, accesoriile metalice și scurgerea selectată',
@@ -127,7 +132,7 @@
     let currentName = 'Țiglă Modulară';
     let currentQualityKey = 'standart';
     let currentDrainageKey = 'none';
-    let currentDrainageLabel = 'Fără sistem de scurgere';
+    let currentDrainageLabel = drainageSelect?.options[drainageSelect.selectedIndex]?.textContent || (isRussianPage() ? 'Пока нет' : 'Până ce nu');
     let currentShapeComplexity = 1;
     let currentRoofComplexity = 1;
     let currentEaveOverhang = eaveOverhangInput ? (parseFloat(eaveOverhangInput.value) || 0.48) : 0.48;
@@ -208,9 +213,9 @@
             { key: 'standart', label: 'Standart (Katepal)', price: 330, discount: 0 }
         ],
         'metal-modular': [
-            { key: 'vip', label: 'VIP (Voestalpine)', price: 250, discount: 0 },
-            { key: 'premium', label: 'Premium (Arcelor Mittal)', price: 220, discount: 0 },
-            { key: 'standart', label: 'Standart (SeAH)', price: 159, discount: 0 }
+            { key: 'vip', label: 'VIP (Voestalpine)', price: 187.5, discount: 0 },
+            { key: 'premium', label: 'Premium (Arcelor Mittal)', price: 187, discount: 0 },
+            { key: 'standart', label: 'Standart (SeAH)', price: 151, discount: 0 }
         ]
     };
 
@@ -240,6 +245,7 @@
     };
 
     const MODULAR_ESTIMATE_FACTORS = {
+        tileCoverage: 0.864,
         diffusionMembrane: 1.1,
         screws35PerSquareMeter: 8,
         ridgeTapeRollLength: 5,
@@ -249,17 +255,17 @@
     };
 
     const MODULAR_PRICING = {
-        ridge: { label: 'Coama modulara / semicirculara B312', unitPrice: { vip: 189, premium: 160, standart: 149 }, discount: 0, unit: 'ml' },
-        ridgeCap: { label: 'Capac coama modulara / semicirculara', unitPrice: { vip: 189, premium: 160, standart: 144 }, discount: 0, unit: 'buc' },
-        frontonTrim: { label: 'Bordura fronton dreapta / decorativa B250', unitPrice: { vip: 177, premium: 149, standart: 144 }, discount: 0, unit: 'ml' },
-        dripEdge: { label: 'Picurator B70', unitPrice: { vip: 44, premium: 35, standart: 35 }, discount: 0, unit: 'ml' },
-        gutterTrim: { label: 'Regleta jgheab tigla B178', unitPrice: { vip: 124, premium: 105, standart: 89 }, discount: 0, unit: 'ml' },
-        innerValley: { label: 'Dolie interioara B625', unitPrice: { vip: 175, premium: 175, standart: 175 }, discount: 0, unit: 'ml' },
-        diffusionMembrane: { label: 'Membrana de difuzie', unitPrice: { vip: 19.5, premium: 17.5, standart: 15 }, discount: 0, unit: 'mp' },
-        ridgeTape: { label: 'Lenta coama 180 mm x 5 m', unitPrice: { vip: 279, premium: 279, standart: 279 }, discount: 0, unit: 'buc' },
-        eaveComb: { label: 'Pieptene streașină', unitPrice: { vip: 57, premium: 57, standart: 57 }, discount: 0, unit: 'buc' },
-        ventilationGrid: { label: 'Grilă ventilare streașină plastic / metal', unitPrice: { vip: 59, premium: 59, standart: 45 }, discount: 0, unit: 'ml' },
-        screws35: { label: 'Suruburi 35 mm', unitPrice: { vip: 1.15, premium: 1.15, standart: 1.15 }, discount: 0, unit: 'buc' }
+        ridge: { label: 'Coama modulara / semicirculara B312', unitPrice: { vip: 189, premium: 160, standart: 149 }, discount: 0.1, unit: 'ml' },
+        ridgeCap: { label: 'Capac coama modulara / semicirculara', unitPrice: { vip: 189, premium: 160, standart: 144 }, discount: 0.1, unit: 'buc' },
+        frontonTrim: { label: 'Bordura fronton dreapta / decorativa B250', unitPrice: { vip: 177, premium: 149, standart: 144 }, discount: 0.1, unit: 'ml' },
+        dripEdge: { label: 'Picurator B70', unitPrice: { vip: 44, premium: 35, standart: 35 }, discount: 0.1, unit: 'ml' },
+        gutterTrim: { label: 'Regleta jgheab tigla B178', unitPrice: { vip: 124, premium: 105, standart: 89 }, discount: 0.1, unit: 'ml' },
+        innerValley: { label: 'Dolie interioara B625', unitPrice: { vip: 175, premium: 175, standart: 175 }, discount: 0.1, unit: 'ml' },
+        diffusionMembrane: { label: 'Membrana de difuzie', unitPrice: { vip: 19.5, premium: 17.5, standart: 15 }, discount: 0.1, unit: 'mp' },
+        ridgeTape: { label: 'Lenta coama 180 mm x 5 m', unitPrice: { vip: 279, premium: 279, standart: 279 }, discount: 0.1, unit: 'buc' },
+        eaveComb: { label: 'Pieptene streașină', unitPrice: { vip: 57, premium: 57, standart: 57 }, discount: 0.1, unit: 'buc' },
+        ventilationGrid: { label: 'Grilă ventilare streașină plastic / metal', unitPrice: { vip: 59, premium: 59, standart: 45 }, discount: 0.1, unit: 'ml' },
+        screws35: { label: 'Suruburi 35 mm', unitPrice: { vip: 1.15, premium: 1.15, standart: 1.15 }, discount: 0.1, unit: 'buc' }
     };
 
     const DRAINAGE_RULES = {
@@ -367,7 +373,7 @@
     const DRAINAGE_SYSTEMS = {
         none: {
             key: 'none',
-            label: 'Fără sistem de scurgere',
+            label: 'Până ce nu',
             pricingAvailable: false,
             gutterDiameter: 0,
             downpipeDiameter: 0,
@@ -375,9 +381,29 @@
             accent: 0xd8e0e6,
             products: null
         },
+        sandrama: {
+            key: 'sandrama',
+            label: 'Șandrama',
+            pricingAvailable: false,
+            gutterDiameter: 0,
+            downpipeDiameter: 0,
+            color: 0x6f7882,
+            accent: 0xd8e0e6,
+            products: null
+        },
+        'sandrama-drainage': {
+            key: 'sandrama-drainage',
+            label: 'Șandrama (streașină) + scurgere',
+            pricingAvailable: true,
+            gutterDiameter: 0.125,
+            downpipeDiameter: 0.087,
+            color: 0x6a737b,
+            accent: 0xd3dce3,
+            products: DRAINAGE_BASE_PRODUCTS
+        },
         'with-drainage': {
             key: 'with-drainage',
-            label: 'Cu sistem de scurgere',
+            label: 'Scurgere',
             pricingAvailable: true,
             gutterDiameter: 0.125,
             downpipeDiameter: 0.087,
@@ -907,6 +933,33 @@
         clearDimensionAdvance();
     }
 
+    function notifyConfiguratorLeadReady(key, options = {}) {
+        if (!isLeadConfigurator || key !== 'cost' || !options.complete) return;
+        window.setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('configurator:lead-ready'));
+        }, 180);
+    }
+
+    function advanceConfiguratorChoice(key, options = {}) {
+        if (!key) return;
+        clearDimensionAdvance();
+
+        if (isDesktopConfiguratorViewport()) {
+            enableDesktopGuidedPanelFlow();
+            if (options.complete) {
+                completeGuidedPanelFlow(key);
+            } else {
+                advanceGuidedPanelFlow(key);
+            }
+            notifyConfiguratorLeadReady(key, options);
+            return;
+        }
+
+        guidedPanelFlowActive = false;
+        openPanel(key, true);
+        notifyConfiguratorLeadReady(key, options);
+    }
+
     function getActiveColorPalette(materialType = currentMaterialType, qualityKey = currentQualityKey) {
         const materialPalette = qualityColorPalettes[materialType] || {};
         return materialPalette[qualityKey] || materialPalette.standart || materialPalette.premium || materialPalette.vip || [];
@@ -996,9 +1049,7 @@
                 triggerConfiguratorFeedback();
                 updatePanelSummaries();
                 updateCost();
-                enableDesktopGuidedPanelFlow();
-                clearDimensionAdvance();
-                advanceGuidedPanelFlow('drainage');
+                advanceConfiguratorChoice('drainage');
             });
 
             colorPaletteEl.appendChild(button);
@@ -2466,6 +2517,7 @@
         const ridgeLength = Math.max(sumSegmentLengths(ridgeSegments), 0);
         const valleyLength = Math.max(sumSegmentLengths(valleySegments), 0);
         const ridgeEndCaps = ridgeSegments.length ? ridgeSegments.length * 2 : 0;
+        const mainTileQuantity = Math.ceil(area / MODULAR_ESTIMATE_FACTORS.tileCoverage);
 
         const ridgeUnitPrice = resolveQualityUnitPrice(MODULAR_PRICING.ridge, qualityOption.key, 149);
         const ridgeCapUnitPrice = resolveQualityUnitPrice(MODULAR_PRICING.ridgeCap, qualityOption.key, 144);
@@ -2482,11 +2534,11 @@
         const items = [
             createEstimateLineItem({
                 label: qualityOption.label,
-                quantity: area,
-                unit: 'mp',
+                quantity: mainTileQuantity,
+                unit: 'buc',
                 unitPrice: qualityOption.price,
                 discount: 0,
-                note: 'Produs principal pentru țigla metalică modulară'
+                note: 'Produs principal calculat la 0.864 mp / bucata'
             }),
             createEstimateLineItem({
                 label: MODULAR_PRICING.ridge.label,
@@ -2587,6 +2639,7 @@
             eaveLength,
             rakeLength,
             valleyLength,
+            mainTileQuantity,
             items,
             total
         };
@@ -2607,6 +2660,9 @@
                 : currentMaterialType === 'metal-modular'
                     ? offerTexts.noteModular
                     : offerTexts.noteGeneric;
+            const modularPiecesLine = currentMaterialType === 'metal-modular' && offer.estimate?.mainTileQuantity
+                ? `<div>${offerTexts.modularPieces}: ${Math.round(offer.estimate.mainTileQuantity).toLocaleString(numberLocale)} ${offerTexts.pieces}</div>`
+                : '';
 
             return `
                 <article class="${tierClass}">
@@ -2617,6 +2673,7 @@
                     <div class="cfg__offer-total">${Math.round(offer.total).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
                     <div class="cfg__offer-meta">
                         <div>${offerTexts.material}: ${Math.round(offer.materialTotal).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
+                        ${modularPiecesLine}
                         <div>${offerTexts.drainage}: ${Math.round(offer.drainageCost).toLocaleString(numberLocale)} ${offerTexts.currency}</div>
                         <div>${offerTexts.drainageRates}</div>
                         <div>${note}</div>
@@ -2628,7 +2685,7 @@
 
     function buildDrainageEstimate(plan) {
         const system = getDrainageSystemConfig();
-        if (!plan || currentDrainageKey === 'none') return null;
+        if (!plan || !system.products) return null;
 
         const rawSegments = getFootprintSegments(plan.footprintPolygon || []);
         const gutterSegments = rawSegments
@@ -4956,14 +5013,26 @@
         setText('cFootprint', formatSurface(plan.footprint));
         setText('cRoofEstimate', formatSurface(plan.roofEstimate));
         setText('cArea', formatSurface(area));
-        renderQualityOffers(qualityOffers);
+        if (isLeadConfigurator) {
+            if (qualityOffersEl) qualityOffersEl.innerHTML = '';
+        } else {
+            renderQualityOffers(qualityOffers);
+        }
         if (costNoteEl) {
-            costNoteEl.textContent = isRussianLocale
-                ? '* Расчет приблизительный и включает только материалы и выбранную водосточную систему. Монтаж не входит в эту сумму; для точной оценки нужно проконсультироваться со специалистом.'
-                : '* Calculul este aproximativ și include doar materialele și sistemul de scurgere selectat. Manopera nu este inclusă în această sumă; pentru o evaluare corectă, oferta trebuie consultată cu un specialist.';
+            if (isLeadConfigurator) {
+                costNoteEl.textContent = isRussianLocale
+                    ? '* Конфигурация носит ориентировочный характер. Специалист проверит выбранную форму, материал, площадь и водосток перед подготовкой предложения.'
+                    : '* Configurația este orientativă. Specialistul verifică forma, materialul, suprafața și scurgerea selectată înainte de pregătirea estimării.';
+            } else {
+                costNoteEl.textContent = isRussianLocale
+                    ? '* Расчет приблизительный и включает только материалы и выбранную водосточную систему. Монтаж не входит в эту сумму; для точной оценки нужно проконсультироваться со специалистом.'
+                    : '* Calculul este aproximativ și include doar materialele și sistemul de scurgere selectat. Manopera nu este inclusă în această sumă; pentru o evaluare corectă, oferta trebuie consultată cu un specialist.';
+            }
         }
 
-        if (lowestOffer && highestOffer) {
+        if (isLeadConfigurator) {
+            updatePanelSummaries(isRussianLocale ? 'Конфигурация готова' : 'Configurație pregătită');
+        } else if (lowestOffer && highestOffer) {
             updatePanelSummaries(`${fmtInteger(Math.round(lowestOffer.total))} - ${fmtInteger(Math.round(highestOffer.total))} lei`);
         } else {
             updatePanelSummaries('Estimare actualizată');
@@ -5041,8 +5110,7 @@
 
             updatePanelSummaries();
             refreshGeometry(true);
-            enableDesktopGuidedPanelFlow();
-            advanceGuidedPanelFlow('dims');
+            advanceConfiguratorChoice('dims');
         });
     });
 
@@ -5063,9 +5131,7 @@
             triggerConfiguratorFeedback();
             updatePanelSummaries();
             updateCost();
-            enableDesktopGuidedPanelFlow();
-            clearDimensionAdvance();
-            advanceGuidedPanelFlow('drainage');
+            advanceConfiguratorChoice('drainage');
         });
     });
 
@@ -5122,13 +5188,12 @@
     if (drainageSelect) {
         drainageSelect.addEventListener('change', () => {
             currentDrainageKey = drainageSelect.value || 'none';
-            currentDrainageLabel = drainageSelect.options[drainageSelect.selectedIndex]?.textContent || 'Fără sistem de scurgere';
+            currentDrainageLabel = drainageSelect.options[drainageSelect.selectedIndex]?.textContent || (isRussianPage() ? 'Пока нет' : 'Până ce nu');
             refreshGeometry(true);
             const plan = getShapePlan(currentShapeType);
             const drainageEstimate = buildDrainageEstimate(plan);
             startDrainagePreview(plan, drainageEstimate);
-            enableDesktopGuidedPanelFlow();
-            completeGuidedPanelFlow('cost');
+            advanceConfiguratorChoice('cost', { complete: true });
         });
     }
 
