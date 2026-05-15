@@ -6103,6 +6103,42 @@ a.service-card:focus-visible {
     }
 }
 
+@media (max-width: 768px) {
+    .homepage .hero,
+    html.is-mobile-viewport .homepage .hero {
+        min-height: max(700px, 100svh);
+        min-height: max(700px, 100dvh);
+        padding-top: 0;
+    }
+
+    .homepage .hero > .container {
+        min-height: max(700px, 100svh);
+        min-height: max(700px, 100dvh);
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
+    .homepage .hero__content {
+        justify-content: flex-start;
+        padding-top: max(104px, calc(68px + env(safe-area-inset-top) + 28px));
+        padding-bottom: max(34px, calc(env(safe-area-inset-bottom) + 28px));
+    }
+}
+
+@media (max-width: 480px) {
+    .homepage .hero,
+    html.is-mobile-viewport .homepage .hero,
+    .homepage .hero > .container {
+        min-height: max(720px, 100svh);
+        min-height: max(720px, 100dvh);
+    }
+
+    .homepage .hero__content {
+        padding-top: max(98px, calc(68px + env(safe-area-inset-top) + 24px));
+        padding-bottom: max(30px, calc(env(safe-area-inset-bottom) + 24px));
+    }
+}
+
 /* ============================================
    3D CONFIGURATOR (Three.js)
    ============================================ */
