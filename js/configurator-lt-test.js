@@ -210,12 +210,12 @@
         'bitumen-shingle': [
             { key: 'vip', label: 'VIP (Cambridge Xtreme)', price: 375, discount: 0 },
             { key: 'premium', label: 'Premium (Cambridge Xpress)', price: 345, discount: 0 },
-            { key: 'standart', label: 'Standart (Katepal)', price: 330, discount: 0 }
+            { key: 'standart', label: 'Standard (Katepal)', price: 330, discount: 0 }
         ],
         'metal-modular': [
             { key: 'vip', label: 'VIP (Voestalpine)', price: 187.5, discount: 0 },
             { key: 'premium', label: 'Premium (Arcelor Mittal)', price: 187, discount: 0 },
-            { key: 'standart', label: 'Standart (SeAH)', price: 151, discount: 0 }
+            { key: 'standart', label: 'Standard (SeAH)', price: 151, discount: 0 }
         ]
     };
 
@@ -1073,7 +1073,7 @@
 
         const selectedOption = qualitySelect.options[qualitySelect.selectedIndex];
         currentQualityKey = selectedOption.value || 'standart';
-        currentQualityLabel = selectedOption.dataset.label || selectedOption.textContent || 'Standart';
+        currentQualityLabel = selectedOption.dataset.label || selectedOption.textContent || 'Standard';
         currentPrice = parseInt(selectedOption.dataset.price || '0', 10) || currentPrice;
         currentQualityDiscount = parseFloat(selectedOption.dataset.discount || '0') || 0;
         currentQuality = 1;
@@ -3295,7 +3295,7 @@
         ctx.fillStyle = '#334150';
         ctx.font = '600 13px Montserrat, sans-serif';
         ctx.fillText(
-            `${currentShapeLabel} • ${currentRoofLabel} • vedere 2D simplificata`,
+            `${currentShapeLabel} • ${currentRoofLabel} • vedere 2D simplificată`,
             22,
             height - 24
         );
@@ -5234,7 +5234,7 @@
             materialType: currentMaterialType,
             price: currentPrice,
             quality: 1,
-            qualityLabel: 'VIP / Premium / Standart',
+            qualityLabel: 'VIP / Premium / Standard',
             area: Math.round(area * 10) / 10,
             drainageLabel: currentDrainageLabel,
             offers: offers.map((offer) => ({

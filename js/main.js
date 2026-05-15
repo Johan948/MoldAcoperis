@@ -2180,7 +2180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalSummary.innerHTML =
                     '<span>' + uiText.modalConfig + ': <strong>' + (state.houseLabel || 'Casa simpla - 2 pante') + '</strong></span>' +
                     '<span>' + uiText.modalMaterial + ': <strong>' + state.name + '</strong></span>' +
-                    '<span>' + uiText.modalQuality + ': <strong>' + (state.qualityLabel || 'VIP / Premium / Standart') + '</strong></span>' +
+                    '<span>' + uiText.modalQuality + ': <strong>' + (state.qualityLabel || 'VIP / Premium / Standard') + '</strong></span>' +
                     '<span>' + uiText.modalArea + ': <strong>' + fmt(state.area) + ' ' + uiText.areaUnit + '</strong></span>' +
                     '<span>' + uiText.modalEstimate + ': <strong>' + estimateText + '</strong></span>';
             } else {
@@ -2581,7 +2581,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [labels.material, configState?.name],
             [labels.estimatedSurface, configState?.area ? `${configState.area} m2` : ''],
             [labels.drainage, configState?.drainageLabel],
-            [labels.budgetOptions, 'Standart / Premium / VIP'],
+            [labels.budgetOptions, 'Standard / Premium / VIP'],
             [labels.location, formData.localitate],
             [labels.surface, formData.suprafata ? `${formData.suprafata} m2` : ''],
             [labels.workType, formData.lucrare],
