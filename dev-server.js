@@ -5,7 +5,7 @@ const { URL } = require('url');
 const chatHandler = require('./api/chat');
 const offerHandler = require('./api/offer');
 
-const PORT = Number(process.env.PORT || 8787);
+const PORT = Number(process.env.PORT || 4179);
 const ROOT_DIR = process.cwd();
 
 const MIME_TYPES = {

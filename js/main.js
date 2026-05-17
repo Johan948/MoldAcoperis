@@ -458,6 +458,173 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupHomepageConfiguratorAnchorGuard();
 
+    const setupMetalTileImageLightbox = () => {
+        if (rootPath !== '/produse/tigla-metalica' || !pageBody) return;
+
+        const selector = '.product-metal-tile-page .metal-tile-models__media img';
+        const images = Array.from(document.querySelectorAll(selector));
+        if (!images.length) return;
+
+        const labels = isRussianPage
+            ? {
+                close: '\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435',
+                previous: '\u041f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0435\u0435 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435',
+                next: '\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435',
+                fallbackTitle: '\u041c\u0435\u0442\u0430\u043b\u043b\u043e\u0447\u0435\u0440\u0435\u043f\u0438\u0446\u0430',
+                zoom: '\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c'
+            }
+            : {
+                close: '\u00cenchide imaginea',
+                previous: 'Imaginea anterioar\u0103',
+                next: 'Imaginea urm\u0103toare',
+                fallbackTitle: '\u021aigl\u0103 metalic\u0103',
+                zoom: 'M\u0103re\u0219te'
+            };
+
+        let lightbox = null;
+
+        const getImageTitle = (img) => {
+            const cardTitle = img.closest('.metal-tile-models__card')?.querySelector('.metal-tile-models__title')?.textContent?.trim();
+            return cardTitle || img.getAttribute('alt') || labels.fallbackTitle;
+        };
+
+        const visibleImages = () => images.filter((img) => {
+            if (!img.src && !img.getAttribute('src')) return false;
+            if (img.closest('[hidden]')) return false;
+            return true;
+        });
+
+        const ensureLightbox = () => {
+            if (lightbox) return lightbox;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'project-lightbox product-image-lightbox';
+            overlay.setAttribute('aria-hidden', 'true');
+            overlay.innerHTML = `
+                <div class="project-lightbox__dialog" role="dialog" aria-modal="true" aria-label="${labels.fallbackTitle}">
+                    <button type="button" class="project-lightbox__close" aria-label="${labels.close}">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="project-lightbox__nav project-lightbox__nav--prev" aria-label="${labels.previous}">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <figure class="project-lightbox__figure">
+                        <img class="project-lightbox__image" src="" alt="" decoding="async">
+                        <figcaption class="project-lightbox__caption"></figcaption>
+                    </figure>
+                    <button type="button" class="project-lightbox__nav project-lightbox__nav--next" aria-label="${labels.next}">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    <div class="project-lightbox__counter">1 / 1</div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            const dialog = overlay.querySelector('.project-lightbox__dialog');
+            const imageEl = overlay.querySelector('.project-lightbox__image');
+            const captionEl = overlay.querySelector('.project-lightbox__caption');
+            const counterEl = overlay.querySelector('.project-lightbox__counter');
+            const prevBtn = overlay.querySelector('.project-lightbox__nav--prev');
+            const nextBtn = overlay.querySelector('.project-lightbox__nav--next');
+            const closeBtn = overlay.querySelector('.project-lightbox__close');
+
+            const state = {
+                items: [],
+                index: 0,
+                activeTrigger: null,
+                showAt(targetIndex) {
+                    if (!this.items.length) return;
+                    const total = this.items.length;
+                    this.index = (targetIndex + total) % total;
+                    const item = this.items[this.index];
+                    imageEl.classList.add('is-switching');
+                    imageEl.src = item.src;
+                    imageEl.alt = item.alt;
+                    captionEl.textContent = item.title;
+                    dialog.setAttribute('aria-label', item.title);
+                    counterEl.textContent = `${this.index + 1} / ${total}`;
+                },
+                open(startImage, trigger) {
+                    const candidates = visibleImages();
+                    if (!candidates.length) return;
+
+                    this.items = candidates.map((img) => {
+                        const title = getImageTitle(img);
+                        return {
+                            src: img.currentSrc || img.src || img.getAttribute('src'),
+                            alt: img.getAttribute('alt') || title,
+                            title
+                        };
+                    });
+
+                    const activeSrc = startImage.currentSrc || startImage.src || startImage.getAttribute('src');
+                    const startIndex = Math.max(0, candidates.findIndex((img) => {
+                        const source = img.currentSrc || img.src || img.getAttribute('src');
+                        return source === activeSrc;
+                    }));
+
+                    this.activeTrigger = trigger || startImage;
+                    overlay.classList.add('is-active');
+                    overlay.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('project-lightbox-open');
+                    this.showAt(startIndex);
+                    closeBtn.focus({ preventScroll: true });
+                },
+                close() {
+                    overlay.classList.remove('is-active');
+                    overlay.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('project-lightbox-open');
+                    imageEl.removeAttribute('src');
+
+                    if (this.activeTrigger && typeof this.activeTrigger.focus === 'function') {
+                        this.activeTrigger.focus({ preventScroll: true });
+                    }
+                    this.activeTrigger = null;
+                }
+            };
+
+            imageEl.addEventListener('load', () => {
+                imageEl.classList.remove('is-switching');
+            });
+            prevBtn.addEventListener('click', () => state.showAt(state.index - 1));
+            nextBtn.addEventListener('click', () => state.showAt(state.index + 1));
+            closeBtn.addEventListener('click', () => state.close());
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) state.close();
+            });
+            document.addEventListener('keydown', (event) => {
+                if (!overlay.classList.contains('is-active')) return;
+                if (event.key === 'Escape') state.close();
+                if (event.key === 'ArrowLeft') state.showAt(state.index - 1);
+                if (event.key === 'ArrowRight') state.showAt(state.index + 1);
+            });
+
+            lightbox = state;
+            return state;
+        };
+
+        images.forEach((img) => {
+            const frame = img.closest('.metal-tile-models__media') || img;
+            if (frame.dataset.productLightboxBound === '1') return;
+
+            frame.dataset.productLightboxBound = '1';
+            frame.classList.add('has-product-lightbox');
+            frame.setAttribute('role', 'button');
+            frame.setAttribute('tabindex', '0');
+            frame.setAttribute('aria-label', `${labels.zoom}: ${getImageTitle(img)}`);
+            frame.setAttribute('data-lightbox-label', labels.zoom);
+
+            frame.addEventListener('click', () => ensureLightbox().open(img, frame));
+            frame.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                ensureLightbox().open(img, frame);
+            });
+        });
+    };
+
+    setupMetalTileImageLightbox();
+
     const projectPageCtaContent = isRussianPage
         ? {
             title: 'Хотите похожий проект?',

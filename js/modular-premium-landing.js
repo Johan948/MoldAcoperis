@@ -11,6 +11,7 @@
         const root = document.querySelector('.product-modular-launch-page');
         if (!root) return;
 
+        const isRussianLocale = document.documentElement.lang === 'ru';
         const modelTabs = Array.from(document.querySelectorAll('[data-model-tab]'));
         const modelPanels = Array.from(document.querySelectorAll('[data-model-panel]'));
 
@@ -52,6 +53,109 @@
             });
         }
 
+        function initModularImageLightbox() {
+            const images = Array.from(document.querySelectorAll('.modular-landing-hero__card img, .modular-models__media img, .modular-gallery__item img'));
+            if (!images.length) return;
+
+            const labels = isRussianLocale
+                ? {
+                    close: 'Закрыть изображение',
+                    open: 'Увеличить',
+                    fallbackTitle: 'Модульная металлочерепица',
+                }
+                : {
+                    close: 'Închide imaginea',
+                    open: 'Mărește',
+                    fallbackTitle: 'Țiglă metalică modulară',
+                };
+
+            const lightbox = document.createElement('div');
+            lightbox.className = 'modular-image-lightbox';
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightbox.innerHTML = [
+                '<div class="modular-image-lightbox__dialog" role="dialog" aria-modal="true" aria-label="' + labels.fallbackTitle + '">',
+                '<button class="modular-image-lightbox__close" type="button" aria-label="' + labels.close + '"><i class="fas fa-times"></i></button>',
+                '<figure class="modular-image-lightbox__figure">',
+                '<img class="modular-image-lightbox__image" src="" alt="" decoding="async">',
+                '<figcaption class="modular-image-lightbox__caption"></figcaption>',
+                '</figure>',
+                '</div>',
+            ].join('');
+            document.body.appendChild(lightbox);
+
+            const dialog = lightbox.querySelector('.modular-image-lightbox__dialog');
+            const preview = lightbox.querySelector('.modular-image-lightbox__image');
+            const caption = lightbox.querySelector('.modular-image-lightbox__caption');
+            const closeButton = lightbox.querySelector('.modular-image-lightbox__close');
+            let activeTrigger = null;
+
+            function getImageTitle(img) {
+                const modelTitle = img.closest('[data-model-panel]')?.querySelector('.modular-models__content h3')?.textContent?.trim();
+                const heroTitle = img.closest('.modular-landing-hero__card')?.querySelector('.modular-landing-hero__card-meta strong')?.textContent?.trim();
+                const galleryTitle = img.closest('.modular-gallery__project')?.querySelector('.modular-gallery__project-copy h3')?.textContent?.trim();
+                return modelTitle || heroTitle || galleryTitle || img.getAttribute('alt') || labels.fallbackTitle;
+            }
+
+            function openLightbox(img) {
+                const source = img.currentSrc || img.getAttribute('src');
+                if (!source) return;
+
+                activeTrigger = img;
+                const title = getImageTitle(img);
+                preview.src = source;
+                preview.alt = img.getAttribute('alt') || title;
+                caption.textContent = title;
+                dialog.setAttribute('aria-label', title);
+                lightbox.classList.add('is-active');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('modular-lightbox-open');
+                closeButton.focus({ preventScroll: true });
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('is-active');
+                lightbox.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('modular-lightbox-open');
+                preview.removeAttribute('src');
+                if (activeTrigger) {
+                    activeTrigger.focus({ preventScroll: true });
+                    activeTrigger = null;
+                }
+            }
+
+            images.forEach((img) => {
+                const frame = img.closest('.modular-models__media, .modular-landing-hero__card, .modular-gallery__item');
+                const trigger = frame || img;
+                if (frame) {
+                    frame.classList.add('has-modular-lightbox');
+                    frame.setAttribute('data-modular-lightbox-label', labels.open);
+                }
+
+                trigger.setAttribute('role', 'button');
+                trigger.setAttribute('tabindex', '0');
+                trigger.setAttribute('aria-label', labels.open + ': ' + getImageTitle(img));
+
+                trigger.addEventListener('click', () => openLightbox(img));
+                trigger.addEventListener('keydown', (event) => {
+                    if (!['Enter', ' '].includes(event.key)) return;
+                    event.preventDefault();
+                    openLightbox(img);
+                });
+            });
+
+            closeButton.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (event) => {
+                if (event.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && lightbox.classList.contains('is-active')) {
+                    closeLightbox();
+                }
+            });
+        }
+
         modelTabs.forEach((tab) => {
             tab.addEventListener('click', () => activateModel(tab.dataset.modelTab));
             tab.addEventListener('keydown', (event) => {
@@ -81,6 +185,8 @@
                 window.setTimeout(preloadHiddenModelImages, 300);
             }
         }
+
+        initModularImageLightbox();
 
         const leadForm = document.getElementById('modularLeadForm');
         const modal = document.getElementById('ofertaModal');
