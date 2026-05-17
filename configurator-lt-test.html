@@ -856,7 +856,7 @@
                             <div class="cfg__panel-head">
                                 <div class="cfg__panel-heading">
                                     <h3 class="cfg__panel-title"><span class="cfg__panel-num">4</span> Sistem de Scurgere</h3>
-                                    <p class="cfg__panel-summary" id="cfgDrainageSummary">Fara sistem de scurgere</p>
+                                    <p class="cfg__panel-summary" id="cfgDrainageSummary">Pana ce nu</p>
                                 </div>
                                 <button class="cfg__panel-toggle" type="button" data-panel-toggle aria-expanded="false" aria-label="Extinde sectiunea sistem de scurgere">
                                     <i class="fas fa-chevron-down"></i>
@@ -864,10 +864,12 @@
                             </div>
                             <div class="cfg__panel-body">
                                 <div class="cfg__select-group">
-                                    <label class="cfg__label" for="cfgDrainage">Alege daca doresti sistem de scurgere</label>
+                                    <label class="cfg__label" for="cfgDrainage">Alege optiunea pentru sandrama si scurgere</label>
                                     <select id="cfgDrainage" class="cfg__select">
-                                        <option value="none" selected>Fara sistem de scurgere</option>
-                                        <option value="with-drainage">Cu sistem de scurgere</option>
+                                        <option value="sandrama">Sandrama</option>
+                                        <option value="with-drainage">Scurgere</option>
+                                        <option value="sandrama-drainage">Sandrama (streasina) + scurgere</option>
+                                        <option value="none" selected>Pana ce nu</option>
                                     </select>
                                     <p class="cfg__select-note">Selectorul activeaza acelasi sistem universal de scurgere pentru toate formele casei. In sandbox, costul foloseste catalogul de baza deja validat pentru sistemul standard.</p>
                                 </div>
@@ -897,7 +899,7 @@
                                 <div class="cfg__cost-line"><span>Forma casei:</span><span id="cShapeType">Casa simpla</span></div>
                                 <div class="cfg__cost-line"><span>Configuratie acoperis:</span><span id="cRoofType">2 pante</span></div>
                                 <div class="cfg__cost-line"><span>Material:</span><span id="cMaterial">Tigla Modulara</span></div>
-                                <div class="cfg__cost-line"><span>Sistem de scurgere:</span><span id="cDrainage">Fara sistem de scurgere</span></div>
+                                <div class="cfg__cost-line"><span>Sistem de scurgere:</span><span id="cDrainage">Pana ce nu</span></div>
                                 <div class="cfg__cost-line"><span>Lungime jgheab:</span><span id="cDrainageLength">0.0 ml</span></div>
                                 <div class="cfg__cost-line"><span>Burlane estimate:</span><span id="cDrainageDownspouts">0 buc</span></div>
                                 <div class="cfg__cost-line"><span>Cost scurgere:</span><span id="cDrainageCost">0 lei</span></div>
@@ -930,6 +932,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="js/configurator-lt-test.js?v=20260512b"></script>
+    <script src="js/configurator-lt-test.js?v=20260515f"></script>
 </body>
 </html>

@@ -7654,7 +7654,10 @@ body.cfg-lead-modal-open {
 
 @media (max-width: 768px) {
     .modal-overlay {
-        align-items: flex-end;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        min-height: 100svh;
         padding: 12px;
     }
 
