@@ -79,11 +79,6 @@
       "permanent": true
     },
     {
-      "source": "/rechizite",
-      "destination": "/informatii-moldacoperis",
-      "permanent": true
-    },
-    {
       "source": "/messenger",
       "destination": "/contact",
       "permanent": true

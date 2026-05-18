@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return language === 'ru' ? `/ru/portofoliu/proiecte/${slug}/` : `/portofoliu/proiecte/${slug}/`;
         }
 
-        const primaryRoutes = ['/', '/portofoliu', '/despre-noi', '/blog', '/contact', '/politica-confidentialitate'];
+        const primaryRoutes = ['/', '/portofoliu', '/despre-noi', '/blog', '/contact', '/rechizite', '/politica-confidentialitate'];
         // Check specific product routes first, otherwise '/produse' would match every product detail page.
         const localizedRoutes = [...productRoutes, ...primaryRoutes];
 
@@ -666,6 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ['/despre-noi', '/images/products/header/despre_noi_header.jpg'],
         ['/contact', '/images/products/header/contact_header.jpg'],
         ['/portofoliu', '/images/products/header/portofoliu_header.jpg'],
+        ['/rechizite', '/images/products/header/contact_header.jpg'],
         ['/politica-confidentialitate', '/images/products/header/politica_confidentialitate.jpg'],
         ['/produse/accesorii-acoperis', '/images/products/header/accesorii_acoperis.jpg'],
         ['/produse/tabla-cutata', '/images/products/header/tabla_cutata.jpg'],
@@ -907,6 +908,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { href: '/ru/intrebari-frecvente', label: 'Частые вопросы' },
                 { href: '/ru/informaciya-moldacoperis', label: 'Полезная информация' },
             { href: '/ru/contact', label: 'Контакты' },
+            { href: '/ru/rechizite', label: 'Реквизиты' },
             { href: '/ru/politica-confidentialitate', label: 'Политика конфиденциальности' }
         ]
         : [
@@ -917,6 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { href: '/intrebari-frecvente', label: 'Întrebări Frecvente' },
                 { href: '/informatii-moldacoperis', label: 'Informații utile' },
             { href: '/contact', label: 'Contact' },
+            { href: '/rechizite', label: 'Rechizite' },
             { href: '/politica-confidentialitate', label: 'Politica de Confidențialitate' }
         ];
 

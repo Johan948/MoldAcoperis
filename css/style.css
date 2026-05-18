@@ -7946,12 +7946,17 @@ body[data-project-id]:not([data-project-hydrated="1"]) #ofertaModal {
 
 .product-drainage-page .page-header,
 .contact-page .page-header,
-.privacy-page .page-header {
+.privacy-page .page-header,
+.requisites-page .page-header {
     margin-bottom: 26px;
 }
 
 .calculator-page main {
     padding-top: 20px;
+}
+
+.requisites-page main {
+    padding-bottom: 76px;
 }
 
 .privacy-policy__content {
@@ -7993,6 +7998,91 @@ body[data-project-id]:not([data-project-hydrated="1"]) #ofertaModal {
     color: var(--color-orange-dark);
 }
 
+.requisites-card {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 34px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+}
+
+.requisites-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 22px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.requisites-card__company {
+    margin: 0;
+    color: var(--color-dark);
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+.requisites-card__note {
+    margin: 8px 0 0;
+    color: var(--color-gray-600);
+}
+
+.requisites-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    color: var(--color-white);
+    background: var(--color-orange);
+    box-shadow: 0 14px 24px rgba(232, 97, 26, 0.22);
+}
+
+.requisites-card__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.requisites-card__item {
+    padding: 18px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    background: var(--color-gray-100);
+}
+
+.requisites-card__item--wide {
+    grid-column: 1 / -1;
+}
+
+.requisites-card__label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-gray-600);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.requisites-card__value {
+    margin: 0;
+    color: var(--color-dark);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.requisites-card__value a {
+    color: var(--color-dark);
+}
+
 @media (max-width: 768px) {
     .page-header {
         padding: 120px 0 40px;
@@ -8000,7 +8090,8 @@ body[data-project-id]:not([data-project-hydrated="1"]) #ofertaModal {
 
     .product-drainage-page .page-header,
     .contact-page .page-header,
-    .privacy-page .page-header {
+    .privacy-page .page-header,
+    .requisites-page .page-header {
         margin-bottom: 18px;
     }
 
@@ -8008,8 +8099,24 @@ body[data-project-id]:not([data-project-hydrated="1"]) #ofertaModal {
         padding-top: 14px;
     }
 
+    .requisites-page main {
+        padding-bottom: 54px;
+    }
+
     .page-header__title {
         font-size: 2rem;
+    }
+
+    .requisites-card {
+        padding: 22px;
+    }
+
+    .requisites-card__header {
+        align-items: flex-start;
+    }
+
+    .requisites-card__grid {
+        grid-template-columns: 1fr;
     }
 }
 
