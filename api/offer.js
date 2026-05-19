@@ -8,21 +8,15 @@ function loadEnvFileIfNeeded() {
     ];
 
     envPaths.forEach((envPath) => {
-        if (!fs.existsSync(envPath)) {
-            return;
-        }
+        if (!fs.existsSync(envPath)) return;
 
         const content = fs.readFileSync(envPath, 'utf8');
         content.split(/\r?\n/).forEach((line) => {
             const trimmedLine = line.trim();
-            if (!trimmedLine || trimmedLine.startsWith('#')) {
-                return;
-            }
+            if (!trimmedLine || trimmedLine.startsWith('#')) return;
 
             const separatorIndex = trimmedLine.indexOf('=');
-            if (separatorIndex === -1) {
-                return;
-            }
+            if (separatorIndex === -1) return;
 
             const key = trimmedLine.slice(0, separatorIndex).trim();
             const rawValue = trimmedLine.slice(separatorIndex + 1).trim();
@@ -53,61 +47,34 @@ function cleanMultiline(value) {
 function firstNonEmpty(...values) {
     for (const value of values) {
         const cleaned = cleanString(value);
-        if (cleaned) {
-            return cleaned;
-        }
+        if (cleaned) return cleaned;
     }
     return '';
 }
 
 function parseRequestBody(req) {
-    if (!req.body) {
-        return {};
-    }
-
-    if (typeof req.body === 'object') {
-        return req.body;
-    }
+    if (!req.body) return {};
+    if (typeof req.body === 'object') return req.body;
 
     const rawBody = String(req.body || '').trim();
-    if (!rawBody) {
-        return {};
-    }
+    if (!rawBody) return {};
 
     try {
         return JSON.parse(rawBody);
     } catch (error) {
         const params = new URLSearchParams(rawBody);
         const payloadJson = params.get('payloadJson');
+
         if (payloadJson) {
             try {
                 return JSON.parse(payloadJson);
             } catch (payloadError) {
-                // Keep parsing the flat form fields below.
+                return Object.fromEntries(params.entries());
             }
         }
 
         return Object.fromEntries(params.entries());
     }
-}
-
-function buildTelegramText(payload) {
-    const lines = [
-        'Noua solicitare oferta MoldAcoperis',
-        `Sursa: ${payload.source || '-'}`,
-        `Limba: ${payload.language || '-'}`,
-        `Nume: ${payload.leadName || '-'}`,
-        `Telefon: ${payload.leadPhone || '-'}`,
-        payload.leadEmail ? `Email: ${payload.leadEmail}` : '',
-        payload.leadLocation ? `Localitate: ${payload.leadLocation}` : '',
-        payload.leadInterest ? `Interes: ${payload.leadInterest}` : '',
-        payload.messageText ? `Mesaj: ${payload.messageText}` : '',
-        payload.estimateSummary ? `Estimare: ${payload.estimateSummary}` : '',
-        `Pagina: ${payload.pageUrl || payload.pagePath || '-'}`,
-        `Timp: ${payload.submittedAt || '-'}`
-    ];
-
-    return lines.filter(Boolean).join('\n');
 }
 
 function normalizeOfferPayload(rawPayload) {
@@ -121,7 +88,7 @@ function normalizeOfferPayload(rawPayload) {
     const messageText = cleanMultiline(payload.message || payload.messageText || payload.mesaj || '');
     const estimateSummary = cleanMultiline(payload.estimateSummary || payload.summary || '');
 
-    const normalizedPayload = {
+    return {
         ...payload,
         source: firstNonEmpty(payload.source, 'website'),
         language: firstNonEmpty(payload.language, 'ro'),
@@ -144,9 +111,6 @@ function normalizeOfferPayload(rawPayload) {
         messageText,
         estimateSummary
     };
-
-    normalizedPayload.telegramText = buildTelegramText(normalizedPayload);
-    return normalizedPayload;
 }
 
 async function sendMakeWebhook(webhookUrl, makeApiKey, payload) {
@@ -173,28 +137,6 @@ async function sendMakeWebhook(webhookUrl, makeApiKey, payload) {
     }
 }
 
-async function sendTelegramMessage(botToken, chatId, text) {
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            chat_id: chatId,
-            text,
-            disable_web_page_preview: true
-        })
-    });
-
-    if (!response.ok) {
-        const message = await response.text().catch(() => '');
-        const error = new Error('Telegram request failed');
-        error.status = response.status;
-        error.details = message.slice(0, 300);
-        throw error;
-    }
-}
-
 loadEnvFileIfNeeded();
 
 module.exports = async function handler(req, res) {
@@ -205,22 +147,11 @@ module.exports = async function handler(req, res) {
 
     const webhookUrl = String(process.env.MAKE_OFFER_WEBHOOK_URL || '').trim();
     const makeApiKey = String(process.env.MAKE_API_KEY || '').trim();
-    const telegramBotToken = String(process.env.TELEGRAM_BOT_TOKEN || '').trim();
-    const telegramChatId = String(process.env.TELEGRAM_CHAT_ID || '').trim();
-    const deliveryMode = String(process.env.OFFER_DELIVERY_MODE || '').trim().toLowerCase();
-    const directTelegramEnabled = String(process.env.OFFER_SEND_TELEGRAM_DIRECT || '').trim().toLowerCase() === 'true';
 
-    const canSendMake = Boolean(webhookUrl && /^https:\/\/hook\./i.test(webhookUrl) && deliveryMode !== 'telegram');
-    const canSendTelegram = Boolean(
-        telegramBotToken
-        && telegramChatId
-        && (deliveryMode === 'telegram' || deliveryMode === 'both' || directTelegramEnabled || !canSendMake)
-    );
-
-    if (!canSendMake && !canSendTelegram) {
+    if (!webhookUrl || !/^https:\/\/hook\./i.test(webhookUrl)) {
         return safeJson(res, 500, {
             error: 'Missing offer delivery configuration',
-            required: 'Set MAKE_OFFER_WEBHOOK_URL or TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID'
+            required: 'Set MAKE_OFFER_WEBHOOK_URL'
         });
     }
 
@@ -232,13 +163,7 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        if (canSendMake) {
-            await sendMakeWebhook(webhookUrl, makeApiKey, payload);
-        }
-
-        if (canSendTelegram) {
-            await sendTelegramMessage(telegramBotToken, telegramChatId, payload.telegramText);
-        }
+        await sendMakeWebhook(webhookUrl, makeApiKey, payload);
     } catch (error) {
         return safeJson(res, 502, {
             error: error.message || 'Offer delivery failed',
@@ -250,8 +175,7 @@ module.exports = async function handler(req, res) {
     return safeJson(res, 200, {
         ok: true,
         deliveredTo: {
-            make: canSendMake,
-            telegram: canSendTelegram
+            make: true
         }
     });
 };

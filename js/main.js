@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPath = normalizePath(window.location.pathname);
     const isRussianPage = currentPath === '/ru' || currentPath.startsWith('/ru/');
     const rootPath = normalizePath(currentPath.replace(/^\/ru(?=\/|$)/, '') || '/');
+    const thankYouPath = '/thank-you';
     const modularPremiumPath = '/produse/tigla-metalica-modulara-premium';
     const modularRuRootPath = '/produse/tigla-metalica-modulara';
     const modularRuPath = '/ru/produse/tigla-metalica-modulara';
@@ -286,6 +287,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         return language === 'ru' ? '/ru/' : '/';
+    };
+
+    const redirectToThankYouPage = (source) => {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', 'lead_redirect_to_thank_you', {
+                event_category: 'lead',
+                lead_source: source || 'form'
+            });
+        }
+
+        window.setTimeout(() => {
+            window.location.assign(thankYouPath);
+        }, 300);
     };
     const uiText = isRussianPage
         ? {
@@ -667,6 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ['/contact', '/images/products/header/contact_header.jpg'],
         ['/portofoliu', '/images/products/header/portofoliu_header.jpg'],
         ['/rechizite', '/images/products/header/contact_header.jpg'],
+        ['/thank-you', '/images/products/header/contact_header.jpg'],
         ['/politica-confidentialitate', '/images/products/header/politica_confidentialitate.jpg'],
         ['/produse/accesorii-acoperis', '/images/products/header/accesorii_acoperis.jpg'],
         ['/produse/tabla-cutata', '/images/products/header/tabla_cutata.jpg'],
@@ -2576,7 +2591,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 modalForm.style.display = 'none';
                 showModalFeedback('success', uiText.modalSuccessTitle, uiText.modalSuccessMessage);
-                setTimeout(closeModal, 3200);
+                redirectToThankYouPage('oferta-modal');
             } catch (error) {
                 modalForm.style.display = 'none';
                 showModalFeedback('error', uiText.modalErrorTitle, uiText.modalErrorMessage);
@@ -2839,9 +2854,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 trackConfiguratorLeadEvent('configurator_lead_success', {
                     work_type: leadData.lucrare || 'not_selected'
                 });
-                if (hasConfiguratorLeadModal && configuratorLeadModal.classList.contains('is-active')) {
-                    window.setTimeout(closeConfiguratorLeadModal, 2400);
-                }
+                redirectToThankYouPage('configurator-lead-test');
             } catch (error) {
                 setConfiguratorLeadStatus('error', uiText.configuratorLeadError);
                 trackConfiguratorLeadEvent('configurator_lead_error');
@@ -2913,6 +2926,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     corrugatedLeadStatus.classList.add('is-success');
                     corrugatedLeadStatus.classList.remove('is-error');
                 }
+                redirectToThankYouPage('tabla-cutata-inline-form');
             } catch (error) {
                 if (corrugatedLeadStatus) {
                     corrugatedLeadStatus.textContent = uiText.corrugatedError;
@@ -3021,6 +3035,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         product_name: leadData.produs
                     });
                 }
+                redirectToThankYouPage('product-card-form');
             } catch (error) {
                 setProductLeadStatus('error', uiText.productLeadError);
                 if (typeof window.gtag === 'function') {
@@ -3086,6 +3101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (contactSuccess) {
                     contactSuccess.classList.add('show');
                 }
+                redirectToThankYouPage('contact-page-form');
             } catch (error) {
                 window.alert(uiText.modalErrorMessage);
                 console.error('Contact form webhook error:', error);
