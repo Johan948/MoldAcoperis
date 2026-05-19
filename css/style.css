@@ -8133,6 +8133,18 @@ body[data-project-id]:not([data-project-hydrated="1"]) #ofertaModal {
     gap: 12px;
 }
 
+.thank-you-card__actions .btn--outline {
+    color: var(--color-orange);
+    border-color: var(--color-orange);
+    background: rgba(232, 97, 26, 0.08);
+}
+
+.thank-you-card__actions .btn--outline:hover {
+    color: var(--color-white);
+    background: var(--color-orange);
+    border-color: var(--color-orange);
+}
+
 @media (max-width: 768px) {
     .page-header {
         padding: 120px 0 40px;
