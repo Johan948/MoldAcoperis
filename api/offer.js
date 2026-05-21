@@ -306,9 +306,9 @@ module.exports = async function handler(req, res) {
         return safeJson(res, 400, { error: 'Invalid request body' });
     }
 
-    try {
-        let planfixTask = null;
+    let planfixTask = null;
 
+    try {
         if (canSendPlanfixRest) {
             planfixTask = await sendPlanfixRestTask(planfixRestSettings, payload);
         }
