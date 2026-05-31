@@ -3,6 +3,7 @@
 
     const isSandboxConfigurator = Boolean(document.getElementById('configuratorTest'));
     const isLeadConfigurator = Boolean(document.querySelector('.cfg--lead-hybrid'));
+    const isCampaignWizard = document.body?.dataset.configuratorMode === 'wizard';
 
     const canvasEl = document.getElementById('cfgCanvas');
     const wrapEl = document.getElementById('cfgCanvasWrap');
@@ -32,6 +33,16 @@
     const colorPaletteEl = document.getElementById('cfgColorPalette');
     const colorCurrentEl = document.getElementById('cfgColorCurrent');
     const costNoteEl = document.querySelector('.cfg__cost-note');
+    const campaignDrainageBtns = document.querySelectorAll('[data-drainage-option]');
+    const campaignLocationBtns = document.querySelectorAll('[data-location-option]');
+    const campaignLocationInput = document.getElementById('cfgLeadLocation');
+    const campaignCustomLocationWrap = document.getElementById('cfgCustomLocationWrap');
+    const campaignCustomLocationInput = document.getElementById('cfgCustomLocation');
+    const campaignCustomLocationContinue = document.getElementById('cfgCustomLocationContinue');
+    const campaignWizardBackBtn = document.getElementById('cfgWizardBack');
+    const campaignWizardStepText = document.getElementById('cfgWizardStepText');
+    const campaignWizardStepLabel = document.getElementById('cfgWizardStepLabel');
+    const campaignWizardDots = document.querySelectorAll('.calculator-wizard__dots span');
 
     const dimensionInputs = {
         mainWidth: document.getElementById('cfgMainWidth'),
@@ -139,6 +150,8 @@
     let guidedPanelFlowActive = false;
     let activeMobilePanelKey = 'shape';
     let mobileStepperEl = null;
+    let campaignAdvanceTimer = null;
+    let campaignCalculatorStarted = false;
     const DESKTOP_PANEL_TRANSITION_MS = 520;
     const DRAINAGE_PREVIEW_DURATION = 5000;
     const DEFAULT_SCENE_BG = 0xf4f3f1;
@@ -492,10 +505,33 @@
     }
 
     function getCanvasSize() {
+        const minimumHeight = isCampaignWizard ? 160 : 320;
         return {
             width: Math.max(wrapEl.clientWidth || 320, 320),
-            height: Math.max(wrapEl.clientHeight || 420, 320)
+            height: Math.max(wrapEl.clientHeight || (isCampaignWizard ? 210 : 420), minimumHeight)
         };
+    }
+
+    function applyCampaignCameraFraming() {
+        if (!isCampaignWizard || !camera) return;
+
+        const isCompactPreview = window.innerWidth <= 900;
+        if (isCompactPreview) {
+            camera.position.set(14.2, 9.4, 16.5);
+            camera.lookAt(0.2, 1.65, 0);
+            if (controls) {
+                controls.target.set(0.5, 1.65, 0);
+                controls.update();
+            }
+            return;
+        }
+
+        camera.position.set(12.5, 8.3, 14.5);
+        camera.lookAt(0.2, 2.3, 0);
+        if (controls) {
+            controls.target.set(0.5, 2.1, 0);
+            controls.update();
+        }
     }
 
     function formatMeters(value) {
@@ -814,6 +850,139 @@
         return labelMap[panelKey] || panelKey;
     }
 
+    const campaignWizardKeys = ['shape', 'dims', 'material', 'drainage', 'location', 'cost'];
+    const campaignWizardLabels = {
+        shape: 'Forma acoperișului',
+        dims: 'Dimensiuni',
+        material: 'Material',
+        drainage: 'Opțiuni',
+        location: 'Localitate',
+        cost: 'Date de contact'
+    };
+
+    function trackCampaignCalculatorEvent(eventName, params = {}) {
+        if (!isCampaignWizard) return;
+        const eventParams = {
+            event_category: 'calculator_campaign',
+            calculator_source: 'configurator-campaign-landing',
+            ...params
+        };
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, eventParams);
+        }
+        if (typeof window.clarity === 'function') {
+            window.clarity('event', eventName);
+        }
+    }
+
+    function trackCampaignCalculatorStart() {
+        if (campaignCalculatorStarted) return;
+        campaignCalculatorStarted = true;
+        trackCampaignCalculatorEvent('calculator_start', { step: 'shape' });
+    }
+
+    function updateCampaignWizardUI(key) {
+        if (!isCampaignWizard) return;
+        const activeIndex = Math.max(0, campaignWizardKeys.indexOf(key));
+
+        panelSections.forEach((section) => {
+            const isActive = section.dataset.panelKey === key;
+            section.classList.toggle('is-wizard-active', isActive);
+            setPanelExpanded(section, isActive);
+        });
+
+        if (campaignWizardStepText) {
+            campaignWizardStepText.textContent = `Pasul ${activeIndex + 1} din ${campaignWizardKeys.length}`;
+        }
+        if (campaignWizardStepLabel) {
+            campaignWizardStepLabel.textContent = campaignWizardLabels[key] || '';
+        }
+        campaignWizardDots.forEach((dot, index) => {
+            dot.classList.toggle('is-active', index === activeIndex);
+            dot.classList.toggle('is-complete', index < activeIndex);
+        });
+        if (campaignWizardBackBtn) {
+            campaignWizardBackBtn.hidden = activeIndex === 0;
+        }
+
+        trackCampaignCalculatorEvent('calculator_step_view', {
+            step: key,
+            step_number: activeIndex + 1
+        });
+    }
+
+    function setCampaignLocation(value) {
+        if (campaignLocationInput) {
+            campaignLocationInput.value = value;
+        }
+    }
+
+    function initializeCampaignWizard() {
+        if (!isCampaignWizard) return;
+
+        campaignDrainageBtns.forEach((button) => {
+            button.addEventListener('click', () => {
+                const value = button.dataset.drainageOption || 'none';
+                campaignDrainageBtns.forEach((item) => item.classList.toggle('is-selected', item === button));
+                trackCampaignCalculatorStart();
+                trackCampaignCalculatorEvent('calculator_step_select', { step: 'drainage', value });
+                if (drainageSelect) {
+                    drainageSelect.value = value;
+                    drainageSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+        });
+
+        campaignLocationBtns.forEach((button) => {
+            button.addEventListener('click', () => {
+                const value = button.dataset.locationOption || '';
+                campaignLocationBtns.forEach((item) => item.classList.toggle('is-selected', item === button));
+                trackCampaignCalculatorStart();
+
+                if (value === 'other') {
+                    setCampaignLocation('');
+                    if (campaignCustomLocationWrap) campaignCustomLocationWrap.hidden = false;
+                    if (campaignCustomLocationInput) campaignCustomLocationInput.focus();
+                    trackCampaignCalculatorEvent('calculator_step_select', { step: 'location', value: 'other' });
+                    return;
+                }
+
+                if (campaignCustomLocationWrap) campaignCustomLocationWrap.hidden = true;
+                setCampaignLocation(value);
+                trackCampaignCalculatorEvent('calculator_step_select', { step: 'location', value });
+                advanceConfiguratorChoice('cost');
+            });
+        });
+
+        if (campaignCustomLocationContinue) {
+            campaignCustomLocationContinue.addEventListener('click', () => {
+                const value = String(campaignCustomLocationInput?.value || '').trim();
+                if (!value) {
+                    campaignCustomLocationInput?.focus();
+                    return;
+                }
+                setCampaignLocation(value);
+                trackCampaignCalculatorStart();
+                trackCampaignCalculatorEvent('calculator_step_select', { step: 'location', value: 'custom' });
+                advanceConfiguratorChoice('cost');
+            });
+        }
+
+        if (campaignWizardBackBtn) {
+            campaignWizardBackBtn.addEventListener('click', () => {
+                if (campaignAdvanceTimer) {
+                    window.clearTimeout(campaignAdvanceTimer);
+                    campaignAdvanceTimer = null;
+                }
+                const activeIndex = Math.max(0, campaignWizardKeys.indexOf(activeMobilePanelKey));
+                const previousKey = campaignWizardKeys[Math.max(0, activeIndex - 1)];
+                openPanel(previousKey, false);
+            });
+        }
+
+        updateCampaignWizardUI('shape');
+    }
+
     function updateMobileStepperUI() {
         if (!mobileStepperEl) return;
         mobileStepperEl.querySelectorAll('[data-mobile-panel]').forEach((button) => {
@@ -854,7 +1023,7 @@
     }
 
     function ensureMobileStepper() {
-        if (!panelEl || mobileStepperEl) return;
+        if (!panelEl || mobileStepperEl || isCampaignWizard) return;
 
         mobileStepperEl = document.createElement('div');
         mobileStepperEl.className = 'cfg__mobile-steps';
@@ -904,6 +1073,10 @@
         const section = getPanelSection(key);
         if (!section) return;
         activeMobilePanelKey = key;
+        if (isCampaignWizard) {
+            updateCampaignWizardUI(key);
+            return;
+        }
         if (guidedDesktop) {
             collapseDesktopGuidedPanels(section);
         } else {
@@ -943,6 +1116,17 @@
     function advanceConfiguratorChoice(key, options = {}) {
         if (!key) return;
         clearDimensionAdvance();
+
+        if (isCampaignWizard) {
+            if (campaignAdvanceTimer) {
+                window.clearTimeout(campaignAdvanceTimer);
+            }
+            campaignAdvanceTimer = window.setTimeout(() => {
+                campaignAdvanceTimer = null;
+                openPanel(key, true);
+            }, 300);
+            return;
+        }
 
         if (isDesktopConfiguratorViewport()) {
             enableDesktopGuidedPanelFlow();
@@ -3954,6 +4138,8 @@
             });
         }
 
+        applyCampaignCameraFraming();
+
         ambientLight = new THREE.AmbientLight(0xffffff, 0.56);
         scene.add(ambientLight);
 
@@ -5072,6 +5258,7 @@
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
+        applyCampaignCameraFraming();
     }
 
     panelToggleBtns.forEach((btn) => {
@@ -5110,6 +5297,11 @@
 
             updatePanelSummaries();
             refreshGeometry(true);
+            trackCampaignCalculatorStart();
+            trackCampaignCalculatorEvent('calculator_step_select', {
+                step: 'shape',
+                value: `${currentShapeType}:${currentRoofType}`
+            });
             advanceConfiguratorChoice('dims');
         });
     });
@@ -5131,6 +5323,11 @@
             triggerConfiguratorFeedback();
             updatePanelSummaries();
             updateCost();
+            trackCampaignCalculatorStart();
+            trackCampaignCalculatorEvent('calculator_step_select', {
+                step: 'material',
+                value: currentMaterialType
+            });
             advanceConfiguratorChoice('drainage');
         });
     });
@@ -5164,6 +5361,15 @@
     if (dimsContinueBtn) {
         dimsContinueBtn.addEventListener('click', () => {
             clearDimensionAdvance();
+            trackCampaignCalculatorStart();
+            trackCampaignCalculatorEvent('calculator_step_select', {
+                step: 'dims',
+                value: 'confirmed'
+            });
+            if (isCampaignWizard) {
+                advanceConfiguratorChoice('material');
+                return;
+            }
             enableDesktopGuidedPanelFlow();
             if (isDesktopConfiguratorViewport()) {
                 advanceGuidedPanelFlow('material');
@@ -5193,7 +5399,7 @@
             const plan = getShapePlan(currentShapeType);
             const drainageEstimate = buildDrainageEstimate(plan);
             startDrainagePreview(plan, drainageEstimate);
-            advanceConfiguratorChoice('cost', { complete: true });
+            advanceConfiguratorChoice(isCampaignWizard ? 'location' : 'cost', { complete: !isCampaignWizard });
         });
     }
 
@@ -5209,6 +5415,7 @@
     Object.keys(roofReferenceSources).forEach((materialType) => ensureRoofReferenceLoaded(materialType));
 
     ensureMobileStepper();
+    initializeCampaignWizard();
     syncAutoColor(currentMaterialType);
     updateQualityOptions(currentMaterialType, currentQualityKey);
     setRoofColor();

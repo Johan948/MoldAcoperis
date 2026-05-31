@@ -2630,6 +2630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactDefaultSubmitLabel = contactSubmitButton ? contactSubmitButton.textContent : '';
     const hasConfiguratorLeadForm = Boolean(configuratorLeadForm && configuratorLeadSubmit);
     const hasConfiguratorLeadModal = Boolean(configuratorLeadModal);
+    const isCampaignConfiguratorLead = configuratorLeadForm?.dataset.offerSource === 'configurator-campaign-landing';
     const hasCorrugatedLeadForm = Boolean(corrugatedLeadForm && corrugatedLeadSubmit);
     const hasProductLeadForm = Boolean(productLeadForm && productLeadSubmit);
     const hasContactLeadForm = Boolean(contactForm && contactSubmitButton);
@@ -2737,6 +2738,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function trackCalculatorCampaignLeadEvent(eventName, params) {
+        if (!isCampaignConfiguratorLead) return;
+        const eventParams = Object.assign({
+            event_category: 'calculator_campaign',
+            calculator_source: 'configurator-campaign-landing'
+        }, params || {});
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, eventParams);
+        }
+        if (typeof window.clarity === 'function') {
+            window.clarity('event', eventName);
+        }
+    }
+
     function buildConfiguratorLeadSummary(formData, configState) {
         const labels = isRussianPage
             ? {
@@ -2802,7 +2817,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 mesaj: String(formData.get('mesaj') || '').trim()
             };
 
-            if (!leadData.nume || !leadData.telefon) {
+            const phoneDigits = leadData.telefon.replace(/\D/g, '');
+            if (!leadData.nume || !leadData.telefon || (isCampaignConfiguratorLead && phoneDigits.length < 8)) {
                 setConfiguratorLeadStatus('error', uiText.configuratorLeadRequired);
                 return;
             }
@@ -2822,10 +2838,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 has_location: Boolean(leadData.localitate),
                 work_type: leadData.lucrare || 'not_selected'
             });
+            trackCalculatorCampaignLeadEvent('calculator_lead_submit', {
+                has_configurator_state: Boolean(configuratorState),
+                has_location: Boolean(leadData.localitate)
+            });
 
             try {
+                const configuratorLeadSource = configuratorLeadForm.dataset.offerSource || 'configurator-lead-test';
+
                 await submitOfferRequest({
-                    source: 'configurator-lead-test',
+                    source: configuratorLeadSource,
                     language: isRussianPage ? 'ru' : 'ro',
                     pageUrl: window.location.href,
                     pagePath: window.location.pathname,
@@ -2854,10 +2876,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 trackConfiguratorLeadEvent('configurator_lead_success', {
                     work_type: leadData.lucrare || 'not_selected'
                 });
-                redirectToThankYouPage('configurator-lead-test');
+                trackCalculatorCampaignLeadEvent('calculator_lead_success');
+                redirectToThankYouPage(configuratorLeadSource);
             } catch (error) {
                 setConfiguratorLeadStatus('error', uiText.configuratorLeadError);
                 trackConfiguratorLeadEvent('configurator_lead_error');
+                trackCalculatorCampaignLeadEvent('calculator_lead_error');
                 console.error('Configurator lead form webhook error:', error);
             } finally {
                 if (configuratorLeadSubmit) {

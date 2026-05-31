@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K94SD3M5');
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Configurator online pentru acoperiș | MoldAcoperiș</title>
+    <meta name="description" content="Configurează acoperișul în câteva click-uri și solicită o estimare personalizată de la specialistul MoldAcoperiș.">
+    <link rel="canonical" href="https://moldacoperis.md/configurator-acoperis">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light only">
+    <meta property="og:title" content="Află cât te poate costa acoperișul tău | MoldAcoperiș">
+    <meta property="og:description" content="Alege forma, dimensiunile, materialul și opțiunile necesare. Specialistul îți pregătește estimarea.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://moldacoperis.md/configurator-acoperis">
+    <meta property="og:image" content="https://moldacoperis.md/images/tigla-metalica-modulara.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=20260517f">
+    <link rel="stylesheet" href="/css/configurator-landing.css?v=20260531f">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSEQ3ENXE5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BSEQ3ENXE5');
+      window.MA_ENABLE_FLOATING_MESSENGERS = false;
+      window.MA_ENABLE_SITE_CHATBOT = false;
+    </script>
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wjalxplur1");
+    </script>
+</head>
+<body class="homepage configurator-landing-page" data-configurator-mode="wizard">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K94SD3M5"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <header class="calculator-header">
+        <div class="calculator-header__inner">
+            <a class="calculator-header__logo" href="/" aria-label="MoldAcoperiș - pagina principală">
+                <img src="/images/logo-light.png" alt="MoldAcoperiș" width="1025" height="436" decoding="async">
+            </a>
+            <a class="calculator-header__phone" href="tel:+37379360360">
+                <i class="fas fa-phone" aria-hidden="true"></i>
+                <span>+373 79 360 360</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="calculator-main">
+        <section class="calculator-intro">
+            <div class="calculator-intro__inner">
+                <span class="calculator-intro__eyebrow">Calculator online MoldAcoperiș</span>
+                <h1>Află cât te poate costa acoperișul tău</h1>
+                <p>Alege câteva detalii despre proiect, iar specialistul îți pregătește estimarea potrivită.</p>
+            </div>
+        </section>
+
+        <section class="cfg cfg--lead-hybrid calculator-configurator" id="configurator" aria-label="Configurator acoperiș">
+            <div class="container">
+                <div class="calculator-wizard__progress" aria-live="polite">
+                    <div class="calculator-wizard__progress-head">
+                        <strong id="cfgWizardStepText">Pasul 1 din 6</strong>
+                        <span id="cfgWizardStepLabel">Forma acoperișului</span>
+                    </div>
+                    <div class="calculator-wizard__dots" aria-hidden="true">
+                        <span class="is-active"></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="cfg__wrapper">
+                    <div class="cfg__canvas-wrap" id="cfgCanvasWrap">
+                        <div class="cfg__canvas-badges">
+                            <span><i class="fas fa-cube" aria-hidden="true"></i> Model 3D interactiv</span>
+                        </div>
+                        <canvas id="cfgCanvas"></canvas>
+                        <div class="cfg__canvas-hint" id="cfgCanvasHint">
+                            <i class="fas fa-arrows-rotate" aria-hidden="true"></i> Trage pentru rotire
+                        </div>
+                    </div>
+
+                    <div class="cfg__panel">
+                        <div class="cfg__panel-section is-wizard-active" data-panel-key="shape">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 1</span>
+                                    <h2 class="cfg__panel-title">Ce formă are casa?</h2>
+                                    <p class="cfg__panel-summary" id="cfgShapeSummary">Selectează varianta cea mai apropiată de proiectul tău.</p>
+                                </div>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <div class="cfg__house-types" id="cfgShapeTypes">
+                                    <button class="cfg__house-type-btn cfg__shape-btn" type="button" data-shape-type="rect" data-shape-label="Casă simplă" data-shape-complexity="1" data-roof-type="gable" data-roof-label="2 pante" data-roof-complexity="1">
+                                        <i class="fas fa-house" aria-hidden="true"></i>
+                                        <span><strong>Casă simplă - 2 pante</strong><small>Formă compactă, cu coamă simplă</small></span>
+                                    </button>
+                                    <button class="cfg__house-type-btn cfg__shape-btn" type="button" data-shape-type="rect" data-shape-label="Casă simplă" data-shape-complexity="1" data-roof-type="hip" data-roof-label="4 pante" data-roof-complexity="1.08">
+                                        <i class="fas fa-house-chimney" aria-hidden="true"></i>
+                                        <span><strong>Casă simplă - 4 pante</strong><small>Acoperiș compact, cu 4 ape</small></span>
+                                    </button>
+                                    <button class="cfg__house-type-btn cfg__shape-btn" type="button" data-shape-type="l-shape" data-shape-label="Casă în L" data-shape-complexity="1.16" data-roof-type="hip" data-roof-label="4 pante" data-roof-complexity="1.08">
+                                        <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+                                        <span><strong>Casă în L</strong><small>Formă compusă, cu aripă secundară</small></span>
+                                    </button>
+                                    <button class="cfg__house-type-btn cfg__shape-btn" type="button" data-shape-type="t-shape" data-shape-label="Casă în T" data-shape-complexity="1.22" data-roof-type="hip" data-roof-label="4 pante" data-roof-complexity="1.08">
+                                        <i class="fas fa-vector-square" aria-hidden="true"></i>
+                                        <span><strong>Casă în T</strong><small>Formă compusă, cu corp transversal</small></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg__panel-section is-collapsed" data-panel-key="dims">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 2</span>
+                                    <h2 class="cfg__panel-title">Ajustează dimensiunile</h2>
+                                    <p class="cfg__panel-summary" id="cfgDimsSummary">8.6 x 5.0 m - streașină 0.48 m</p>
+                                </div>
+                                <button class="cfg-test-reset" id="cfgDimsReset" type="button">Revino la preset</button>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <div class="cfg-test-dim-grid" id="cfgDimsGrid">
+                                    <label class="cfg-test-dim-field">
+                                        <span class="cfg-test-dim-title"><span>Lățime corp principal</span><strong class="cfg-test-dim-value" id="cfgMainWidthValue">8.6 m</strong></span>
+                                        <input class="cfg-test-dim-range" id="cfgMainWidth" type="range" min="6" max="16" step="0.1" value="8.6" data-dim-key="mainWidth">
+                                    </label>
+                                    <label class="cfg-test-dim-field">
+                                        <span class="cfg-test-dim-title"><span>Adâncime corp principal</span><strong class="cfg-test-dim-value" id="cfgMainDepthValue">5.0 m</strong></span>
+                                        <input class="cfg-test-dim-range" id="cfgMainDepth" type="range" min="4" max="12" step="0.1" value="5" data-dim-key="mainDepth">
+                                    </label>
+                                    <label class="cfg-test-dim-field" data-wing-field>
+                                        <span class="cfg-test-dim-title"><span>Lățime aripă secundară</span><strong class="cfg-test-dim-value" id="cfgWingWidthValue">4.2 m</strong></span>
+                                        <input class="cfg-test-dim-range" id="cfgWingWidth" type="range" min="2.8" max="8" step="0.1" value="4.2" data-dim-key="wingWidth">
+                                    </label>
+                                    <label class="cfg-test-dim-field" data-wing-field>
+                                        <span class="cfg-test-dim-title"><span>Lungime aripă secundară</span><strong class="cfg-test-dim-value" id="cfgWingDepthValue">8.2 m</strong></span>
+                                        <input class="cfg-test-dim-range" id="cfgWingDepth" type="range" min="5.5" max="15" step="0.1" value="8.2" data-dim-key="wingDepth">
+                                    </label>
+                                    <label class="cfg-test-dim-field">
+                                        <span class="cfg-test-dim-title"><span>Streașina acoperișului</span><strong class="cfg-test-dim-value" id="cfgEaveOverhangValue">0.48 m</strong></span>
+                                        <input class="cfg-test-dim-range" id="cfgEaveOverhang" type="range" min="0.2" max="1.2" step="0.02" value="0.48">
+                                    </label>
+                                </div>
+                                <p class="cfg-test-dim-note" id="cfgDimsNote">Pentru formele în L și T activăm automat aripa secundară.</p>
+                                <button class="cfg-wizard__primary" id="cfgDimsContinue" type="button">Continuă</button>
+                            </div>
+                        </div>
+
+                        <div class="cfg__panel-section is-collapsed" data-panel-key="material">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 3</span>
+                                    <h2 class="cfg__panel-title">Alege materialul</h2>
+                                    <p class="cfg__panel-summary" id="cfgMaterialSummary">Selectează finisajul potrivit pentru acoperiș.</p>
+                                </div>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <div class="cfg__colors cfg-wizard__materials" id="cfgColors">
+                                    <button class="cfg__color-btn cfg-wizard__material-card cfg-wizard__material-card--featured" type="button" data-hex="#383E42" data-price="159" data-manopera="120" data-material-type="metal-modular">
+                                        <img class="cfg-wizard__material-image--horizontal" src="/images/products/tigla_modualra/Parma-arcelor-8017-optimized.jpg" alt="Țiglă metalică modulară" loading="lazy" decoding="async">
+                                        <span class="cfg__color-info">
+                                            <span class="cfg-wizard__material-title"><strong>Țiglă metalică modulară</strong><b>NOU</b></span>
+                                            <small>Voestalpine, ArcelorMittal și SeAH</small>
+                                        </span>
+                                        <i class="fas fa-check cfg-wizard__check" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="cfg__color-btn cfg-wizard__material-card" type="button" data-hex="#4A4A5A" data-price="350" data-manopera="150" data-material-type="bitumen-shingle">
+                                        <img src="/images/products/sindrila_bituminoasa/sindrila_bituminoasa_cambridge_xtreme.jpg" alt="Șindrilă bituminoasă" loading="lazy" decoding="async">
+                                        <span class="cfg__color-info">
+                                            <span class="cfg-wizard__material-title"><strong>Șindrilă bituminoasă</strong></span>
+                                            <small>IKO Cambridge Xtreme, IKO Cambridge Xpress și Katepal</small>
+                                        </span>
+                                        <i class="fas fa-check cfg-wizard__check" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg__panel-section is-collapsed" data-panel-key="drainage">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 4</span>
+                                    <h2 class="cfg__panel-title">Ce opțiuni dorești?</h2>
+                                    <p class="cfg__panel-summary" id="cfgDrainageSummary">Poți selecta șandrama, scurgerea sau ambele.</p>
+                                </div>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <select id="cfgDrainage" class="cfg-wizard__hidden-select" tabindex="-1" aria-hidden="true">
+                                    <option value="none" selected>Fără șandramă și scurgere</option>
+                                    <option value="sandrama">Șandramă</option>
+                                    <option value="with-drainage">Sistem de scurgere</option>
+                                    <option value="sandrama-drainage">Șandramă + sistem de scurgere</option>
+                                </select>
+                                <div class="cfg-wizard__choice-grid">
+                                    <button class="cfg-wizard__choice" type="button" data-drainage-option="none"><i class="fas fa-ban" aria-hidden="true"></i><span>Fără șandramă și scurgere</span></button>
+                                    <button class="cfg-wizard__choice" type="button" data-drainage-option="sandrama"><i class="fas fa-border-top-left" aria-hidden="true"></i><span>Șandramă</span></button>
+                                    <button class="cfg-wizard__choice" type="button" data-drainage-option="with-drainage"><i class="fas fa-droplet" aria-hidden="true"></i><span>Sistem de scurgere</span></button>
+                                    <button class="cfg-wizard__choice" type="button" data-drainage-option="sandrama-drainage"><i class="fas fa-house-flood-water" aria-hidden="true"></i><span>Șandramă + sistem de scurgere</span></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg__panel-section is-collapsed" data-panel-key="location">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 5</span>
+                                    <h2 class="cfg__panel-title">Unde se află obiectul?</h2>
+                                    <p class="cfg__panel-summary">Selectează localitatea.</p>
+                                </div>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <div class="cfg-wizard__location-grid">
+                                    <button type="button" data-location-option="Chișinău">Chișinău</button>
+                                    <button type="button" data-location-option="Bălți">Bălți</button>
+                                    <button type="button" data-location-option="Tiraspol">Tiraspol</button>
+                                    <button type="button" data-location-option="Bender">Bender</button>
+                                    <button type="button" data-location-option="Cahul">Cahul</button>
+                                    <button type="button" data-location-option="Ungheni">Ungheni</button>
+                                    <button type="button" data-location-option="Soroca">Soroca</button>
+                                    <button type="button" data-location-option="Orhei">Orhei</button>
+                                    <button type="button" data-location-option="Dubăsari">Dubăsari</button>
+                                    <button type="button" data-location-option="Comrat">Comrat</button>
+                                    <button type="button" data-location-option="Edineț">Edineț</button>
+                                    <button type="button" data-location-option="Strășeni">Strășeni</button>
+                                    <button type="button" data-location-option="Hîncești">Hîncești</button>
+                                    <button type="button" data-location-option="Florești">Florești</button>
+                                    <button type="button" data-location-option="other">Altă localitate</button>
+                                </div>
+                                <div class="cfg-wizard__custom-location" id="cfgCustomLocationWrap" hidden>
+                                    <label for="cfgCustomLocation">Scrie localitatea</label>
+                                    <input id="cfgCustomLocation" type="text" autocomplete="address-level2" placeholder="Ex: Ialoveni">
+                                    <button class="cfg-wizard__primary" id="cfgCustomLocationContinue" type="button">Continuă</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg__panel-section is-collapsed" data-panel-key="cost">
+                            <div class="cfg__panel-head">
+                                <div class="cfg__panel-heading">
+                                    <span class="cfg-wizard__eyebrow">Pasul 6</span>
+                                    <h2 class="cfg__panel-title">Primește estimarea</h2>
+                                    <p class="cfg__panel-summary" id="cfgCostSummary">Lasă-ne datele, iar specialistul te contactează în scurt timp.</p>
+                                </div>
+                            </div>
+                            <div class="cfg__panel-body">
+                                <input id="cfgArea" type="hidden" value="51.6">
+                                <div class="cfg__offers cfg__offers--hidden" id="cfgQualityOffers" aria-hidden="true"></div>
+                                <form class="cfg-estimate-form cfg-wizard__lead-form" id="configuratorLeadForm" data-offer-mode="lead-test" data-offer-source="configurator-campaign-landing">
+                                    <input id="cfgLeadLocation" name="localitate" type="hidden">
+                                    <div class="cfg-lead__grid">
+                                        <label class="cfg-lead__field" for="cfgLeadName">
+                                            <span>Nume</span>
+                                            <input id="cfgLeadName" name="nume" type="text" autocomplete="name" placeholder="Ion Popescu" required>
+                                        </label>
+                                        <label class="cfg-lead__field" for="cfgLeadPhone">
+                                            <span>Număr de telefon</span>
+                                            <input id="cfgLeadPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="07xx xxx xxx" minlength="8" pattern="[+0-9 ()-]{8,}" required>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn--primary btn--lg cfg-lead__submit">
+                                        <i class="fas fa-paper-plane" aria-hidden="true"></i> Primește estimarea
+                                    </button>
+                                    <p class="cfg-lead__privacy">Folosim datele doar pentru estimarea proiectului tău.</p>
+                                    <p class="cfg-lead__status" id="configuratorLeadStatus" aria-live="polite"></p>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="cfg-wizard__back-wrap">
+                            <button class="cfg-wizard__back" id="cfgWizardBack" type="button" hidden>
+                                <i class="fas fa-arrow-left" aria-hidden="true"></i> Înapoi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="calculator-rating" aria-label="Evaluările clienților MoldAcoperiș">
+            <div class="calculator-rating__inner">
+                <div class="calculator-rating__score">
+                    <strong>4.9</strong>
+                    <div>
+                        <div class="calculator-rating__stars" aria-label="4.9 stele din 5">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <span>Evaluarea clienților MoldAcoperiș</span>
+                    </div>
+                </div>
+                <p>Experiență verificată prin recenziile clienților care au ales materialele și serviciile noastre pentru acoperiș.</p>
+                <div class="calculator-rating__platforms">
+                    <span><i class="fab fa-google" aria-hidden="true"></i> Google Reviews</span>
+                    <span><i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook Reviews</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a class="calculator-mobile-call" href="tel:+37379360360" aria-label="Sună un specialist MoldAcoperiș">
+        <i class="fas fa-phone" aria-hidden="true"></i>
+        <span>Ai nevoie de ajutor?</span>
+    </a>
+
+    <script src="/js/main.js?v=20260531b" defer></script>
+    <script
+        src="/js/configurator-loader.js"
+        defer
+        data-target="#configurator"
+        data-three="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        data-controls="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
+        data-configurator="/js/configurator-lt-test.js?v=20260531d"></script>
+</body>
+</html>
