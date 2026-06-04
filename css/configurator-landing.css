@@ -376,7 +376,7 @@
 .cfg-wizard__material-image--horizontal {
     object-fit: contain !important;
     background: #fff;
-    transform: rotate(270deg) scale(0.86);
+    transform: rotate(270deg) scale(1.12);
 }
 
 .cfg-wizard__material-card .cfg__color-info {
