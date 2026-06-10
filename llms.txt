@@ -10,13 +10,13 @@ Adresa: Calea Basarabiei 30, Chisinau
 ## Pagini importante
 
 - Homepage RO: https://www.moldacoperis.md/
-- Homepage RU: https://www.moldacoperis.md/ru/
-- Informatii pentru AI RO: https://www.moldacoperis.md/informatii-moldacoperis/
-- Informatii pentru AI RU: https://www.moldacoperis.md/ru/informaciya-moldacoperis/
+- Homepage RU: https://www.moldacoperis.md/ru
+- Informatii pentru AI RO: https://www.moldacoperis.md/informatii-moldacoperis
+- Informatii pentru AI RU: https://www.moldacoperis.md/ru/informaciya-moldacoperis
 - Produse: https://www.moldacoperis.md/#produse
 - Configurator acoperis: https://www.moldacoperis.md/#configurator
-- Portofoliu: https://www.moldacoperis.md/portofoliu/
-- Contact: https://www.moldacoperis.md/contact/
+- Portofoliu: https://www.moldacoperis.md/portofoliu
+- Contact: https://www.moldacoperis.md/contact
 
 ## Produse si solutii
 
