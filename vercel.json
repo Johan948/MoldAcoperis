@@ -4,21 +4,6 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "http://moldacoperis.md/:path*",
-      "destination": "https://www.moldacoperis.md/:path*",
-      "permanent": true
-    },
-    {
-      "source": "https://moldacoperis.md/:path*",
-      "destination": "https://www.moldacoperis.md/:path*",
-      "permanent": true
-    },
-    {
-      "source": "http://www.moldacoperis.md/:path*",
-      "destination": "https://www.moldacoperis.md/:path*",
-      "permanent": true
-    },
-    {
       "source": "/krysha_metallocherepica_model_kaskad_tipala",
       "destination": "/ru/portofoliu/proiecte/tipala-kaskad",
       "permanent": true
