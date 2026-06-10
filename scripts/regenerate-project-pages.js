@@ -85,8 +85,8 @@ const buildSummaryLead = (project, language) => {
 };
 
 const buildAlternateLinks = (project) => {
-    const roHref = `https://moldacoperis.md/portofoliu/proiecte/${project.slug}/`;
-    const ruHref = `https://moldacoperis.md/ru/portofoliu/proiecte/${project.slug}/`;
+    const roHref = `https://www.moldacoperis.md/portofoliu/proiecte/${project.slug}/`;
+    const ruHref = `https://www.moldacoperis.md/ru/portofoliu/proiecte/${project.slug}/`;
 
     return [
         `    <link rel="alternate" hreflang="ro" href="${escapeHtml(roHref)}">`,
@@ -97,8 +97,8 @@ const buildAlternateLinks = (project) => {
 
 const buildStructuredData = (project, language, pageHref) => {
     const isRussianPage = language === 'ru';
-    const homeHref = isRussianPage ? 'https://moldacoperis.md/ru/' : 'https://moldacoperis.md/';
-    const portfolioHref = isRussianPage ? 'https://moldacoperis.md/ru/portofoliu/' : 'https://moldacoperis.md/portofoliu/';
+    const homeHref = isRussianPage ? 'https://www.moldacoperis.md/ru/' : 'https://www.moldacoperis.md/';
+    const portfolioHref = isRussianPage ? 'https://www.moldacoperis.md/ru/portofoliu/' : 'https://www.moldacoperis.md/portofoliu/';
 
     return JSON.stringify({
         '@context': 'https://schema.org',
@@ -298,8 +298,8 @@ const buildProjectShell = (project, language) => {
     const homeHref = isRussianPage ? '/ru/' : '/';
     const portfolioHref = isRussianPage ? '/ru/portofoliu' : '/portofoliu';
     const pageHref = isRussianPage
-        ? `https://moldacoperis.md/ru/portofoliu/proiecte/${project.slug}/`
-        : `https://moldacoperis.md/portofoliu/proiecte/${project.slug}/`;
+        ? `https://www.moldacoperis.md/ru/portofoliu/proiecte/${project.slug}/`
+        : `https://www.moldacoperis.md/portofoliu/proiecte/${project.slug}/`;
     const pageTitle = buildProjectTitle(project, language);
     const pageDescription = buildProjectDescription(project, language);
     const burgerLabel = isRussianPage ? 'Открыть меню' : 'Deschide meniul';

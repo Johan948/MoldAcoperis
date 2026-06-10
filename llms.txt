@@ -2,21 +2,21 @@
 
 MoldAcoperis este o companie din Chisinau, Republica Moldova, specializata in solutii pentru acoperisuri: materiale, accesorii, sisteme de scurgere si recomandari pentru proiecte rezidentiale si tehnice. Compania activeaza in toata Moldova si poate pregati oferte personalizate pe baza proiectului, fotografiilor sau dimensiunilor aproximative.
 
-Site oficial: https://moldacoperis.md/
+Site oficial: https://www.moldacoperis.md/
 Telefon: +373 79 360 360
 Email: moldacoperis@gmail.com
 Adresa: Calea Basarabiei 30, Chisinau
 
 ## Pagini importante
 
-- Homepage RO: https://moldacoperis.md/
-- Homepage RU: https://moldacoperis.md/ru/
-- Informatii pentru AI RO: https://moldacoperis.md/informatii-moldacoperis/
-- Informatii pentru AI RU: https://moldacoperis.md/ru/informaciya-moldacoperis/
-- Produse: https://moldacoperis.md/#produse
-- Configurator acoperis: https://moldacoperis.md/#configurator
-- Portofoliu: https://moldacoperis.md/portofoliu/
-- Contact: https://moldacoperis.md/contact/
+- Homepage RO: https://www.moldacoperis.md/
+- Homepage RU: https://www.moldacoperis.md/ru/
+- Informatii pentru AI RO: https://www.moldacoperis.md/informatii-moldacoperis/
+- Informatii pentru AI RU: https://www.moldacoperis.md/ru/informaciya-moldacoperis/
+- Produse: https://www.moldacoperis.md/#produse
+- Configurator acoperis: https://www.moldacoperis.md/#configurator
+- Portofoliu: https://www.moldacoperis.md/portofoliu/
+- Contact: https://www.moldacoperis.md/contact/
 
 ## Produse si solutii
 

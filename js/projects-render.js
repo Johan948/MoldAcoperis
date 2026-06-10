@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
     const projects = Array.isArray(window.MA_PROJECTS) ? window.MA_PROJECTS.slice() : [];
     const currentPath = window.location.pathname || '/';
     const isRussianPage = /^\/ru(?:\/|$)/.test(currentPath);
@@ -717,10 +717,10 @@
             : `${project.summary} Suprafață ${project.area} m², ${project.roofShape}, ${project.location}.`;
         document.title = projectTitle;
         setMetaContent('meta[name="description"]', projectMetaDescription);
-        setMetaContent('link[rel="canonical"]', `https://moldacoperis.md${projectHref(project)}`, 'href');
+        setMetaContent('link[rel="canonical"]', `https://www.moldacoperis.md${projectHref(project)}`, 'href');
         setMetaContent('meta[property="og:title"]', projectTitle);
         setMetaContent('meta[property="og:description"]', `${localizedSummary(project)} ${project.location}.`);
-        setMetaContent('meta[property="og:url"]', `https://moldacoperis.md${projectHref(project)}`);
+        setMetaContent('meta[property="og:url"]', `https://www.moldacoperis.md${projectHref(project)}`);
 
         const breadcrumb = document.getElementById('projectBreadcrumbCurrent');
         const heroTitle = document.getElementById('projectHeroTitle');
@@ -833,7 +833,7 @@
             '@type': 'Article',
             headline: isRussianPage ? `${uiText.projectLabel} #${project.id} ${localizedProduct(project)} ${project.model} в ${project.locality}` : `Proiectul #${project.id} ${project.product} ${project.model} în ${project.locality}`,
             description: `${localizedSummary(project)} ${project.location}.`,
-            mainEntityOfPage: `https://moldacoperis.md${projectHref(project)}`,
+            mainEntityOfPage: `https://www.moldacoperis.md${projectHref(project)}`,
             author: { '@type': 'Organization', name: 'MoldAcoperis' },
             publisher: { '@type': 'Organization', name: 'MoldAcoperis' }
         });

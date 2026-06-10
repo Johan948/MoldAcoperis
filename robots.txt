@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://moldacoperis.md/sitemap.xml
+Sitemap: https://www.moldacoperis.md/sitemap.xml
