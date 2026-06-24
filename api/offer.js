@@ -80,6 +80,12 @@ function parseRequestBody(req) {
 function normalizeOfferPayload(rawPayload) {
     const payload = rawPayload && typeof rawPayload === 'object' ? rawPayload : {};
     const rawLead = payload.lead && typeof payload.lead === 'object' ? payload.lead : {};
+    const rawMeasurement = payload.measurement && typeof payload.measurement === 'object' ? payload.measurement : {};
+    const rawCampaign = payload.campaign && typeof payload.campaign === 'object' ? payload.campaign : {};
+    const source = firstNonEmpty(payload.source, 'website');
+    const isMeasurementRequest = /masurare-gratuita|measurement/i.test(source)
+        || /measurement/i.test(String(payload.requestType || payload.leadType || ''));
+    const requestType = firstNonEmpty(payload.requestType, payload.leadType, isMeasurementRequest ? 'measurement' : 'offer');
     const leadName = firstNonEmpty(rawLead.name, payload.leadName, payload.name, payload.nume, payload.prenume);
     const leadPhone = firstNonEmpty(rawLead.phone, payload.leadPhone, payload.phone, payload.telefon);
     const leadEmail = firstNonEmpty(rawLead.email, payload.leadEmail, payload.email);
@@ -87,10 +93,23 @@ function normalizeOfferPayload(rawPayload) {
     const leadInterest = firstNonEmpty(rawLead.interest, rawLead.roofType, payload.leadInterest, payload.roofType, payload.product, payload.interest);
     const messageText = cleanMultiline(payload.message || payload.messageText || payload.mesaj || '');
     const estimateSummary = cleanMultiline(payload.estimateSummary || payload.summary || '');
+    const measurementPreferredDate = firstNonEmpty(rawMeasurement.preferredDate, payload.measurementPreferredDate, payload.preferredDate, payload.dataPreferata);
+    const measurementPreferredDateLabel = firstNonEmpty(rawMeasurement.preferredDateLabel, payload.measurementPreferredDateLabel, payload.preferredDateLabel);
+    const measurementPreferredInterval = firstNonEmpty(rawMeasurement.preferredInterval, payload.measurementPreferredInterval, payload.preferredInterval, payload.intervalOrar);
+    const measurementWorkType = firstNonEmpty(rawMeasurement.workType, payload.measurementWorkType, payload.workType, payload.tipLucrare, leadInterest);
+    const measurementApproximateArea = firstNonEmpty(rawMeasurement.approximateArea, payload.measurementApproximateArea, payload.approximateArea, payload.suprafata);
+    const campaignUtmSource = firstNonEmpty(rawCampaign.utmSource, payload.utmSource, payload.utm_source);
+    const campaignUtmMedium = firstNonEmpty(rawCampaign.utmMedium, payload.utmMedium, payload.utm_medium);
+    const campaignUtmCampaign = firstNonEmpty(rawCampaign.utmCampaign, payload.utmCampaign, payload.utm_campaign);
+    const campaignUtmContent = firstNonEmpty(rawCampaign.utmContent, payload.utmContent, payload.utm_content);
+    const campaignUtmTerm = firstNonEmpty(rawCampaign.utmTerm, payload.utmTerm, payload.utm_term);
+    const campaignReferrer = firstNonEmpty(rawCampaign.referrer, payload.referrer);
 
     return {
         ...payload,
-        source: firstNonEmpty(payload.source, 'website'),
+        source,
+        requestType,
+        leadType: firstNonEmpty(payload.leadType, requestType),
         language: firstNonEmpty(payload.language, 'ro'),
         pageUrl: cleanString(payload.pageUrl),
         pagePath: cleanString(payload.pagePath),
@@ -108,6 +127,34 @@ function normalizeOfferPayload(rawPayload) {
         leadEmail,
         leadLocation,
         leadInterest,
+        measurement: {
+            ...rawMeasurement,
+            preferredDate: measurementPreferredDate,
+            preferredDateLabel: measurementPreferredDateLabel,
+            preferredInterval: measurementPreferredInterval,
+            workType: measurementWorkType,
+            approximateArea: measurementApproximateArea
+        },
+        measurementPreferredDate,
+        measurementPreferredDateLabel,
+        measurementPreferredInterval,
+        measurementWorkType,
+        measurementApproximateArea,
+        campaign: {
+            ...rawCampaign,
+            utmSource: campaignUtmSource,
+            utmMedium: campaignUtmMedium,
+            utmCampaign: campaignUtmCampaign,
+            utmContent: campaignUtmContent,
+            utmTerm: campaignUtmTerm,
+            referrer: campaignReferrer
+        },
+        utmSource: campaignUtmSource,
+        utmMedium: campaignUtmMedium,
+        utmCampaign: campaignUtmCampaign,
+        utmContent: campaignUtmContent,
+        utmTerm: campaignUtmTerm,
+        referrer: campaignReferrer,
         messageText,
         estimateSummary
     };
@@ -141,12 +188,17 @@ function buildPlanfixFormPayload(payload) {
     const title = `Lead website - ${payload.leadName || payload.leadPhone || 'client nou'}`;
     const description = [
         `Sursa: ${payload.source || 'website'}`,
+        `Tip cerere: ${payload.requestType || '-'}`,
         `Limba: ${payload.language || '-'}`,
         `Nume: ${payload.leadName || '-'}`,
         `Telefon: ${payload.leadPhone || '-'}`,
         payload.leadEmail ? `Email: ${payload.leadEmail}` : '',
         payload.leadLocation ? `Localitate: ${payload.leadLocation}` : '',
         payload.leadInterest ? `Interes: ${payload.leadInterest}` : '',
+        payload.measurementPreferredDateLabel || payload.measurementPreferredDate ? `Data preferată: ${payload.measurementPreferredDateLabel || payload.measurementPreferredDate}` : '',
+        payload.measurementPreferredInterval ? `Interval orar: ${payload.measurementPreferredInterval}` : '',
+        payload.measurementWorkType ? `Tip lucrare: ${payload.measurementWorkType}` : '',
+        payload.measurementApproximateArea ? `Suprafață aproximativă: ${payload.measurementApproximateArea} m²` : '',
         payload.messageText ? `Mesaj: ${payload.messageText}` : '',
         payload.estimateSummary ? `Detalii: ${payload.estimateSummary}` : '',
         `Pagina: ${payload.pageUrl || payload.pagePath || '-'}`,
@@ -159,6 +211,8 @@ function buildPlanfixFormPayload(payload) {
         title,
         description,
         source: payload.source || 'website',
+        requestType: payload.requestType || '',
+        leadType: payload.leadType || '',
         language: payload.language || '',
         pageUrl: payload.pageUrl || '',
         pagePath: payload.pagePath || '',
@@ -168,6 +222,17 @@ function buildPlanfixFormPayload(payload) {
         leadEmail: payload.leadEmail || '',
         leadLocation: payload.leadLocation || '',
         leadInterest: payload.leadInterest || '',
+        measurementPreferredDate: payload.measurementPreferredDate || '',
+        measurementPreferredDateLabel: payload.measurementPreferredDateLabel || '',
+        measurementPreferredInterval: payload.measurementPreferredInterval || '',
+        measurementWorkType: payload.measurementWorkType || '',
+        measurementApproximateArea: payload.measurementApproximateArea || '',
+        utmSource: payload.utmSource || '',
+        utmMedium: payload.utmMedium || '',
+        utmCampaign: payload.utmCampaign || '',
+        utmContent: payload.utmContent || '',
+        utmTerm: payload.utmTerm || '',
+        referrer: payload.referrer || '',
         messageText: payload.messageText || '',
         estimateSummary: payload.estimateSummary || '',
         payloadJson: JSON.stringify(payload)

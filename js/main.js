@@ -327,8 +327,28 @@ document.addEventListener('DOMContentLoaded', () => {
             productLeadSuccess: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
             productLeadError: 'Не удалось отправить заявку. Попробуйте еще раз или позвоните нам напрямую.',
             productLeadRequired: 'Заполните имя и телефон, чтобы мы могли связаться с вами.',
-            headerOfferLabel: 'Запросить предложение',
+            headerOfferLabel: 'Бесплатный замер',
+            stickyMeasurementLabel: 'Бесплатный замер',
             headerBurgerLabel: 'Открыть меню',
+            measurementTitle: 'Запланировать бесплатный замер',
+            measurementDesc: 'Оставьте удобную дату и интервал. Мы перезвоним, чтобы подтвердить точное время выезда специалиста.',
+            measurementName: 'Имя',
+            measurementPhone: 'Телефон',
+            measurementLocation: 'Населенный пункт',
+            measurementWorkType: 'Тип работы',
+            measurementNewRoof: 'Новая кровля',
+            measurementRenovation: 'Реновация',
+            measurementDate: 'Предпочтительная дата',
+            measurementTime: 'Интервал',
+            measurementMorning: 'Утро (9-13)',
+            measurementAfternoon: 'После обеда (13-18)',
+            measurementArea: 'Примерная площадь',
+            measurementSubmit: 'Отправить заявку',
+            measurementRequiredError: 'Заполните телефон, населенный пункт, дату и интервал.',
+            measurementPhoneError: 'Введите номер телефона в формате Moldova: +373 XX XXX XXX или 0XX XXX XXX.',
+            measurementDateError: 'Выберите рабочий день. Прошедшие даты и воскресенье недоступны.',
+            measurementSuccessTitle: 'Спасибо! Заявка отправлена',
+            measurementSuccessMessage: (date, time) => `Вы запросили замер на ${date}, ${time}. Мы скоро перезвоним, чтобы подтвердить точное время.`,
             areaUnit: 'м²',
             currency: 'лей'
         }
@@ -360,8 +380,28 @@ document.addEventListener('DOMContentLoaded', () => {
             corrugatedSubmitting: 'Se trimite cererea...',
             corrugatedSuccess: 'Cererea a fost trimisa. Revenim in cel mai scurt timp.',
             corrugatedError: 'Cererea nu a putut fi trimisa. Incearca din nou.',
-            headerOfferLabel: 'Solicită Ofertă',
+            headerOfferLabel: 'Măsurare gratuită',
+            stickyMeasurementLabel: 'Măsurare gratuită',
             headerBurgerLabel: 'Deschide meniul',
+            measurementTitle: 'Programează o măsurare gratuită',
+            measurementDesc: 'Alege ziua și intervalul potrivit. Te sunăm rapid ca să confirmăm ora exactă a specialistului.',
+            measurementName: 'Nume',
+            measurementPhone: 'Telefon',
+            measurementLocation: 'Localitate',
+            measurementWorkType: 'Tip lucrare',
+            measurementNewRoof: 'Acoperiș nou',
+            measurementRenovation: 'Renovare',
+            measurementDate: 'Data preferată',
+            measurementTime: 'Interval orar',
+            measurementMorning: 'Dimineață (9-13)',
+            measurementAfternoon: 'După-amiază (13-18)',
+            measurementArea: 'Suprafață aproximativă',
+            measurementSubmit: 'Trimite cererea',
+            measurementRequiredError: 'Completează telefonul, localitatea, data și intervalul orar.',
+            measurementPhoneError: 'Introdu un număr de Moldova: +373 XX XXX XXX sau 0XX XXX XXX.',
+            measurementDateError: 'Alege o zi lucrătoare. Datele din trecut și duminicile nu sunt disponibile.',
+            measurementSuccessTitle: 'Mulțumim! Ai cerut o măsurare',
+            measurementSuccessMessage: (date, time) => `Ai cerut o măsurare pe ${date}, ${time}. Te sunăm în scurt timp să confirmăm ora exactă.`,
             areaUnit: 'm²',
             currency: 'lei'
         };
@@ -370,28 +410,66 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!document.body) return null;
 
         let modalRoot = document.getElementById('ofertaModal');
-        if (modalRoot) return modalRoot;
 
-        modalRoot = document.createElement('div');
+        if (!modalRoot) {
+            modalRoot = document.createElement('div');
+            modalRoot.className = 'modal-overlay';
+            modalRoot.id = 'ofertaModal';
+            document.body.appendChild(modalRoot);
+        }
+
         modalRoot.className = 'modal-overlay';
-        modalRoot.id = 'ofertaModal';
         modalRoot.innerHTML = `
             <div class="modal">
                 <button class="modal__close" id="modalClose" aria-label="${isRussianPage ? 'Закрыть' : 'Închide'}"><i class="fas fa-times"></i></button>
-                <div class="modal__icon"><i class="fas fa-file-invoice"></i></div>
-                <h3 class="modal__title">${isRussianPage ? 'Запросить предложение' : 'Solicită Ofertă'}</h3>
-                <p class="modal__desc">${isRussianPage ? 'Оставьте данные, и мы свяжемся с вами с понятным персональным предложением для вашего проекта.' : 'Completează datele, iar noi revenim cu o ofertă clară și personalizată pentru proiectul tău.'}</p>
+                <div class="modal__icon"><i class="fas fa-ruler-combined"></i></div>
+                <h3 class="modal__title">${uiText.measurementTitle}</h3>
+                <p class="modal__desc">${uiText.measurementDesc}</p>
                 <div class="modal__summary" id="modalSummary"></div>
-                <form class="modal__form" id="ofertaForm">
-                    <div class="modal__field"><label for="ofertaNume"><i class="fas fa-user"></i> ${isRussianPage ? 'Имя и фамилия' : 'Nume și prenume'}</label><input type="text" id="ofertaNume" name="nume" placeholder="Exemplu: Ion Popescu" required></div>
-                    <div class="modal__field"><label for="ofertaTel"><i class="fas fa-phone"></i> ${isRussianPage ? 'Telefon' : 'Telefon'}</label><input type="tel" id="ofertaTel" name="telefon" placeholder="Exemplu: 0712 345 678" required></div>
-                    <button type="submit" class="btn btn--primary btn--lg modal__submit"><i class="fas fa-paper-plane"></i> ${isRussianPage ? 'Отправить заявку' : 'Trimite Cererea'}</button>
+                <form class="modal__form modal__form--measurement" id="ofertaForm" novalidate>
+                    <div class="modal__grid">
+                        <div class="modal__field">
+                            <label for="masurareNume"><i class="fas fa-user"></i> ${uiText.measurementName}</label>
+                            <input type="text" id="masurareNume" name="nume" autocomplete="name" placeholder="${isRussianPage ? 'Например: Андрей Попович' : 'Exemplu: Ion Popescu'}">
+                        </div>
+                        <div class="modal__field">
+                            <label for="masurareTelefon"><i class="fas fa-phone"></i> ${uiText.measurementPhone}</label>
+                            <input type="tel" id="masurareTelefon" name="telefon" inputmode="tel" autocomplete="tel" placeholder="+373 78 752 753" required>
+                        </div>
+                        <div class="modal__field">
+                            <label for="masurareLocalitate"><i class="fas fa-map-marker-alt"></i> ${uiText.measurementLocation}</label>
+                            <input type="text" id="masurareLocalitate" name="localitate" autocomplete="address-level2" placeholder="${isRussianPage ? 'Кишинев' : 'Chișinău'}" required>
+                        </div>
+                        <div class="modal__field">
+                            <label for="masurareTipLucrare"><i class="fas fa-hammer"></i> ${uiText.measurementWorkType}</label>
+                            <select id="masurareTipLucrare" name="tipLucrare">
+                                <option value="${uiText.measurementNewRoof}">${uiText.measurementNewRoof}</option>
+                                <option value="${uiText.measurementRenovation}">${uiText.measurementRenovation}</option>
+                            </select>
+                        </div>
+                        <div class="modal__field">
+                            <label for="masurareData"><i class="fas fa-calendar-alt"></i> ${uiText.measurementDate}</label>
+                            <input type="date" id="masurareData" name="dataPreferata" required>
+                        </div>
+                        <div class="modal__field">
+                            <label for="masurareInterval"><i class="fas fa-clock"></i> ${uiText.measurementTime}</label>
+                            <select id="masurareInterval" name="intervalOrar" required>
+                                <option value="">${isRussianPage ? 'Выберите интервал' : 'Alege intervalul'}</option>
+                                <option value="${uiText.measurementMorning}">${uiText.measurementMorning}</option>
+                                <option value="${uiText.measurementAfternoon}">${uiText.measurementAfternoon}</option>
+                            </select>
+                        </div>
+                        <div class="modal__field modal__field--wide">
+                            <label for="masurareSuprafata"><i class="fas fa-ruler"></i> ${uiText.measurementArea}</label>
+                            <input type="number" id="masurareSuprafata" name="suprafata" min="0" step="1" inputmode="numeric" placeholder="m²">
+                        </div>
+                    </div>
+                    <p class="modal__error" id="modalError" role="alert"></p>
+                    <button type="submit" class="btn btn--primary btn--lg modal__submit"><i class="fas fa-paper-plane"></i> ${uiText.measurementSubmit}</button>
                 </form>
-                <div class="modal__success" id="modalSuccess"><i class="fas fa-check-circle"></i><h4>${uiText.modalSuccessTitle}</h4><p>${uiText.modalSuccessMessage}</p></div>
+                <div class="modal__success" id="modalSuccess"><i class="fas fa-check-circle"></i><h4>${uiText.measurementSuccessTitle}</h4><p>${uiText.modalSuccessMessage}</p></div>
             </div>
         `;
-
-        document.body.appendChild(modalRoot);
         return modalRoot;
     };
 
@@ -408,6 +486,25 @@ document.addEventListener('DOMContentLoaded', () => {
         backToTopButton.innerHTML = '<i class="fas fa-chevron-up"></i>';
         document.body.appendChild(backToTopButton);
         return backToTopButton;
+    };
+
+    const ensureMobileStickyMeasurementCta = () => {
+        if (!document.body) return null;
+
+        let stickyCta = document.getElementById('mobileMeasurementCta');
+        if (stickyCta) return stickyCta;
+
+        stickyCta = document.createElement('button');
+        stickyCta.type = 'button';
+        stickyCta.id = 'mobileMeasurementCta';
+        stickyCta.className = 'mobile-measurement-cta js-open-modal';
+        stickyCta.setAttribute('aria-label', uiText.measurementTitle);
+        stickyCta.innerHTML = `
+            <span class="mobile-measurement-cta__icon"><i class="fas fa-ruler-combined"></i></span>
+            <span class="mobile-measurement-cta__text">${uiText.stickyMeasurementLabel}</span>
+        `;
+        document.body.appendChild(stickyCta);
+        return stickyCta;
     };
 
     ensureOfferModalShell();
@@ -1339,20 +1436,45 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const ensureHeaderOfferButtons = () => {
-        let headerButtons = Array.from(document.querySelectorAll('.header__cta.js-open-modal'));
+        let headerButtons = Array.from(document.querySelectorAll('.header__cta'));
+        const languageSwitcher = headerNavContainer ? headerNavContainer.querySelector('.header__lang-switcher') : null;
+        const buttonAnchor = languageSwitcher || burgerBtn;
 
         if (!headerButtons.length && headerNavContainer) {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'btn btn--primary header__cta js-open-modal';
 
-            if (burgerBtn && burgerBtn.parentNode === headerNavContainer) {
-                headerNavContainer.insertBefore(button, burgerBtn);
+            if (buttonAnchor && buttonAnchor.parentNode === headerNavContainer) {
+                headerNavContainer.insertBefore(button, buttonAnchor);
             } else {
                 headerNavContainer.appendChild(button);
             }
 
             headerButtons = [button];
+        }
+
+        headerButtons.forEach((button) => {
+            button.classList.add('js-open-modal');
+            if (button.tagName === 'A') {
+                button.setAttribute('role', 'button');
+            }
+
+            if (headerNavContainer && buttonAnchor && buttonAnchor.parentNode === headerNavContainer && button.parentNode === headerNavContainer) {
+                headerNavContainer.insertBefore(button, buttonAnchor);
+            }
+        });
+
+        if (navMenu && !navMenu.querySelector('.header__mobile-cta')) {
+            const item = document.createElement('li');
+            item.className = 'header__mobile-cta-item';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn--primary header__mobile-cta js-open-modal';
+            item.appendChild(button);
+            navMenu.appendChild(item);
+            headerButtons.push(button);
         }
 
         return headerButtons;
@@ -1427,6 +1549,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSiteShell();
 
     const backToTop = ensureBackToTopElement();
+    const mobileMeasurementCta = ensureMobileStickyMeasurementCta();
     let lastScrollY = window.scrollY;
     let scrollUiTicking = false;
 
@@ -1454,6 +1577,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (backToTop) {
             backToTop.classList.toggle('visible', currentScrollY > 400);
+        }
+
+        if (mobileMeasurementCta) {
+            const canShowStickyCta = window.innerWidth <= 768 && currentScrollY > 260;
+            mobileMeasurementCta.classList.toggle('visible', canShowStickyCta);
         }
 
         lastScrollY = currentScrollY;
@@ -2343,11 +2471,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalSummary = document.getElementById('modalSummary');
     const modalSuccess = document.getElementById('modalSuccess');
     const modalSubmitButton = modalForm ? modalForm.querySelector('button[type="submit"]') : null;
+    const modalDateInput = modalForm ? modalForm.querySelector('#masurareData') : null;
+    const modalError = document.getElementById('modalError');
     const modalSuccessIcon = modalSuccess ? modalSuccess.querySelector('i') : null;
     const modalSuccessTitle = modalSuccess ? modalSuccess.querySelector('h4') : null;
     const modalSuccessDesc = modalSuccess ? modalSuccess.querySelector('p') : null;
-    const defaultSubmitLabel = modalSubmitButton ? modalSubmitButton.textContent : '';
+    const defaultSubmitLabel = modalSubmitButton ? modalSubmitButton.innerHTML : '';
     const hasOfferModal = Boolean(modal && modalForm && modalSummary && modalSuccess);
+
+    const formatIsoDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const formatDisplayDate = (value) => {
+        if (!value) return isRussianPage ? 'выбранную дату' : 'data aleasă';
+        const [year, month, day] = String(value).split('-').map(Number);
+        if (!year || !month || !day) return value;
+        const date = new Date(year, month - 1, day);
+        return new Intl.DateTimeFormat(isRussianPage ? 'ru-RU' : 'ro-RO', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        }).format(date);
+    };
+
+    const isValidMoldovaPhone = (value) => {
+        const digits = String(value || '').replace(/\D/g, '');
+        if (/^373\d{8}$/.test(digits)) return true;
+        if (/^0\d{8}$/.test(digits)) return true;
+        if (/^[67]\d{7}$/.test(digits)) return true;
+        return false;
+    };
+
+    const isBlockedMeasurementDate = (value) => {
+        if (!value) return true;
+        const [year, month, day] = String(value).split('-').map(Number);
+        if (!year || !month || !day) return true;
+
+        const selectedDate = new Date(year, month - 1, day);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        return selectedDate < today || selectedDate.getDay() === 0;
+    };
+
+    const setModalError = (message) => {
+        if (!modalError) return;
+        modalError.textContent = message || '';
+        modalError.classList.toggle('show', Boolean(message));
+    };
+
+    const updateMeasurementDateMin = () => {
+        if (!modalDateInput) return;
+        modalDateInput.min = formatIsoDate(new Date());
+    };
 
     function openModal(options) {
         if (!hasOfferModal) return;
@@ -2386,15 +2568,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalForm.style.display = '';
         modalForm.reset();
+        updateMeasurementDateMin();
+        setModalError('');
         modalSuccess.classList.remove('show');
         modalSuccess.classList.remove('is-error');
         if (modalSubmitButton) {
             modalSubmitButton.disabled = false;
             modalSubmitButton.classList.remove('is-loading');
-            modalSubmitButton.textContent = defaultSubmitLabel;
+            modalSubmitButton.innerHTML = defaultSubmitLabel;
         }
         modal.classList.add('active');
+        document.body.classList.add('offer-modal-open');
         document.body.style.overflow = 'hidden';
+
+        const firstField = modalForm.querySelector('input, select, textarea');
+        window.setTimeout(() => {
+            if (firstField && typeof firstField.focus === 'function') {
+                firstField.focus({ preventScroll: true });
+            }
+        }, 120);
     }
 
     function showModalFeedback(type, title, message) {
@@ -2455,6 +2647,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submittedAt: String(payload.submittedAt || ''),
             leadName: String((payload.lead && payload.lead.name) || ''),
             leadPhone: String((payload.lead && payload.lead.phone) || ''),
+            leadLocation: String((payload.lead && payload.lead.location) || ''),
+            leadInterest: String((payload.lead && payload.lead.interest) || ''),
+            messageText: String(payload.messageText || ''),
             estimateSummary: String(payload.estimateSummary || ''),
             payloadJson: serializedPayload
         }).toString();
@@ -2512,7 +2707,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModal() {
         if (!modal) return;
         modal.classList.remove('active');
+        document.body.classList.remove('offer-modal-open');
         document.body.style.overflow = '';
+    }
+
+    function closeMobileNavigation() {
+        if (!navMenu || !navMenu.classList.contains('open')) return;
+        navMenu.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        if (burgerBtn) {
+            burgerBtn.classList.remove('active');
+            burgerBtn.setAttribute('aria-expanded', 'false');
+        }
+        const backdrop = document.querySelector('.header__menu-backdrop');
+        if (backdrop) backdrop.classList.remove('visible');
     }
 
     const initOfferModal = () => {
@@ -2522,15 +2730,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (btn.tagName === 'A') e.preventDefault();
 
+            const measurementLandingForm = document.getElementById('measurementLandingForm');
+            if (document.body.classList.contains('measurement-landing-page') && measurementLandingForm) {
+                e.preventDefault();
+                closeMobileNavigation();
+                measurementLandingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                window.setTimeout(() => {
+                    const firstField = measurementLandingForm.querySelector('input, select, textarea');
+                    if (firstField && typeof firstField.focus === 'function') {
+                        firstField.focus({ preventScroll: true });
+                    }
+                }, 420);
+                return;
+            }
+
             var isConfigTrigger = Boolean(
                 btn.closest('#configurator, .cfg, .calc-hero, .calc-layout, .calculator, [data-offer-mode="calculated"]')
             );
 
+            closeMobileNavigation();
             openModal({ showEstimate: isConfigTrigger });
         });
 
         if (modalClose) {
             modalClose.addEventListener('click', closeModal);
+        }
+
+        if (modalDateInput) {
+            modalDateInput.addEventListener('change', () => {
+                if (modalDateInput.value && isBlockedMeasurementDate(modalDateInput.value)) {
+                    setModalError(uiText.measurementDateError);
+                    modalDateInput.value = '';
+                    return;
+                }
+
+                if (modalError && modalError.classList.contains('show')) {
+                    setModalError('');
+                }
+            });
         }
 
         modal.addEventListener('click', function (e) {
@@ -2567,7 +2804,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(modalForm);
             const nume = String(formData.get('nume') || '').trim();
             const telefon = String(formData.get('telefon') || '').trim();
+            const localitate = String(formData.get('localitate') || '').trim();
+            const tipLucrare = String(formData.get('tipLucrare') || '').trim();
+            const dataPreferata = String(formData.get('dataPreferata') || '').trim();
+            const intervalOrar = String(formData.get('intervalOrar') || '').trim();
+            const suprafata = String(formData.get('suprafata') || '').trim();
             const estimateSummary = buildEstimateSummaryList();
+
+            setModalError('');
+
+            if (!telefon || !localitate || !dataPreferata || !intervalOrar) {
+                setModalError(uiText.measurementRequiredError);
+                return;
+            }
+
+            if (!isValidMoldovaPhone(telefon)) {
+                setModalError(uiText.measurementPhoneError);
+                return;
+            }
+
+            if (isBlockedMeasurementDate(dataPreferata)) {
+                setModalError(uiText.measurementDateError);
+                return;
+            }
 
             if (modalSubmitButton) {
                 modalSubmitButton.disabled = true;
@@ -2576,22 +2835,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
+                const measurementSummary = [
+                    `Localitate: ${localitate}`,
+                    `Tip lucrare: ${tipLucrare || '-'}`,
+                    `Data preferată: ${formatDisplayDate(dataPreferata)}`,
+                    `Interval orar: ${intervalOrar}`,
+                    suprafata ? `Suprafață aproximativă: ${suprafata} m²` : '',
+                    estimateSummary ? `Detalii configurator:\n${estimateSummary}` : ''
+                ].filter(Boolean).join('\n');
+
                 await submitOfferRequest({
-                    source: 'oferta-modal',
+                    source: 'masurare-gratuita-navbar',
+                    requestType: 'measurement',
+                    leadType: 'measurement',
                     language: isRussianPage ? 'ru' : 'ro',
                     pageUrl: window.location.href,
                     pagePath: window.location.pathname,
                     submittedAt: new Date().toISOString(),
                     lead: {
                         name: nume,
-                        phone: telefon
+                        phone: telefon,
+                        location: localitate,
+                        interest: tipLucrare || uiText.measurementTitle
                     },
-                    estimateSummary: estimateSummary
+                    measurement: {
+                        preferredDate: dataPreferata,
+                        preferredDateLabel: formatDisplayDate(dataPreferata),
+                        preferredInterval: intervalOrar,
+                        workType: tipLucrare,
+                        approximateArea: suprafata
+                    },
+                    messageText: measurementSummary,
+                    estimateSummary: measurementSummary
                 });
 
                 modalForm.style.display = 'none';
-                showModalFeedback('success', uiText.modalSuccessTitle, uiText.modalSuccessMessage);
-                redirectToThankYouPage('oferta-modal');
+                showModalFeedback(
+                    'success',
+                    uiText.measurementSuccessTitle,
+                    uiText.measurementSuccessMessage(formatDisplayDate(dataPreferata), intervalOrar)
+                );
             } catch (error) {
                 modalForm.style.display = 'none';
                 showModalFeedback('error', uiText.modalErrorTitle, uiText.modalErrorMessage);
@@ -2600,8 +2883,159 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (modalSubmitButton) {
                     modalSubmitButton.disabled = false;
                     modalSubmitButton.classList.remove('is-loading');
-                    modalSubmitButton.textContent = defaultSubmitLabel;
+                    modalSubmitButton.innerHTML = defaultSubmitLabel;
                 }
+            }
+        });
+    }
+
+    const measurementLandingForm = document.getElementById('measurementLandingForm');
+    const measurementLandingStatus = document.getElementById('measurementLandingStatus');
+    const measurementLandingSubmit = measurementLandingForm ? measurementLandingForm.querySelector('button[type="submit"]') : null;
+    const measurementLandingDate = measurementLandingForm ? measurementLandingForm.querySelector('[name="dataPreferata"]') : null;
+    const measurementLandingDefaultSubmit = measurementLandingSubmit ? measurementLandingSubmit.innerHTML : '';
+
+    const setMeasurementLandingStatus = (type, message) => {
+        if (!measurementLandingStatus) return;
+        measurementLandingStatus.textContent = message || '';
+        measurementLandingStatus.classList.remove('is-success', 'is-error', 'show');
+        if (message) {
+            measurementLandingStatus.classList.add('show', type === 'success' ? 'is-success' : 'is-error');
+        }
+    };
+
+    if (measurementLandingDate) {
+        measurementLandingDate.min = formatIsoDate(new Date());
+        measurementLandingDate.addEventListener('change', () => {
+            if (measurementLandingDate.value && isBlockedMeasurementDate(measurementLandingDate.value)) {
+                setMeasurementLandingStatus('error', uiText.measurementDateError);
+                measurementLandingDate.value = '';
+                return;
+            }
+
+            if (measurementLandingStatus && measurementLandingStatus.classList.contains('show')) {
+                setMeasurementLandingStatus('', '');
+            }
+        });
+    }
+
+    if (measurementLandingForm && measurementLandingSubmit) {
+        measurementLandingForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!offerWebhookEndpoint) {
+                setMeasurementLandingStatus('error', uiText.modalMissingWebhook);
+                return;
+            }
+
+            const formData = new FormData(measurementLandingForm);
+            const nume = String(formData.get('nume') || '').trim();
+            const telefon = String(formData.get('telefon') || '').trim();
+            const localitate = String(formData.get('localitate') || '').trim();
+            const tipLucrare = String(formData.get('tipLucrare') || '').trim();
+            const dataPreferata = String(formData.get('dataPreferata') || '').trim();
+            const intervalOrar = String(formData.get('intervalOrar') || '').trim();
+            const suprafata = String(formData.get('suprafata') || '').trim();
+            const searchParams = new URLSearchParams(window.location.search);
+
+            setMeasurementLandingStatus('', '');
+
+            if (!telefon || !localitate || !dataPreferata || !intervalOrar) {
+                setMeasurementLandingStatus('error', uiText.measurementRequiredError);
+                return;
+            }
+
+            if (!isValidMoldovaPhone(telefon)) {
+                setMeasurementLandingStatus('error', uiText.measurementPhoneError);
+                return;
+            }
+
+            if (isBlockedMeasurementDate(dataPreferata)) {
+                setMeasurementLandingStatus('error', uiText.measurementDateError);
+                return;
+            }
+
+            measurementLandingSubmit.disabled = true;
+            measurementLandingSubmit.classList.add('is-loading');
+            measurementLandingSubmit.textContent = uiText.modalSubmitting;
+
+            try {
+                const measurementSummary = [
+                    `Localitate: ${localitate}`,
+                    `Tip lucrare: ${tipLucrare || '-'}`,
+                    `Data preferată: ${formatDisplayDate(dataPreferata)}`,
+                    `Interval orar: ${intervalOrar}`,
+                    suprafata ? `Suprafață aproximativă: ${suprafata} m²` : ''
+                ].filter(Boolean).join('\n');
+
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', 'measurement_landing_submit', {
+                        event_category: 'lead',
+                        event_label: 'masurare-gratuita-landing'
+                    });
+                }
+
+                await submitOfferRequest({
+                    source: measurementLandingForm.dataset.offerSource || 'masurare-gratuita-landing',
+                    requestType: 'measurement',
+                    leadType: 'measurement',
+                    language: isRussianPage ? 'ru' : 'ro',
+                    pageUrl: window.location.href,
+                    pagePath: window.location.pathname,
+                    submittedAt: new Date().toISOString(),
+                    lead: {
+                        name: nume,
+                        phone: telefon,
+                        location: localitate,
+                        interest: tipLucrare || uiText.measurementTitle
+                    },
+                    measurement: {
+                        preferredDate: dataPreferata,
+                        preferredDateLabel: formatDisplayDate(dataPreferata),
+                        preferredInterval: intervalOrar,
+                        workType: tipLucrare,
+                        approximateArea: suprafata
+                    },
+                    campaign: {
+                        utmSource: searchParams.get('utm_source') || '',
+                        utmMedium: searchParams.get('utm_medium') || '',
+                        utmCampaign: searchParams.get('utm_campaign') || '',
+                        utmContent: searchParams.get('utm_content') || '',
+                        utmTerm: searchParams.get('utm_term') || '',
+                        referrer: document.referrer || ''
+                    },
+                    messageText: measurementSummary,
+                    estimateSummary: measurementSummary
+                });
+
+                setMeasurementLandingStatus(
+                    'success',
+                    uiText.measurementSuccessMessage(formatDisplayDate(dataPreferata), intervalOrar)
+                );
+
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', 'measurement_landing_success', {
+                        event_category: 'lead',
+                        event_label: 'masurare-gratuita-landing'
+                    });
+                }
+
+                window.setTimeout(() => {
+                    window.location.href = '/thank-you?source=masurare-gratuita-landing';
+                }, 700);
+            } catch (error) {
+                setMeasurementLandingStatus('error', uiText.modalErrorMessage);
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', 'measurement_landing_error', {
+                        event_category: 'lead',
+                        event_label: 'masurare-gratuita-landing'
+                    });
+                }
+                console.error('Measurement landing webhook error:', error);
+            } finally {
+                measurementLandingSubmit.disabled = false;
+                measurementLandingSubmit.classList.remove('is-loading');
+                measurementLandingSubmit.innerHTML = measurementLandingDefaultSubmit;
             }
         });
     }
